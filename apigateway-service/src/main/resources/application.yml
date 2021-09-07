@@ -32,6 +32,10 @@ spring:
           uri: lb://my-first-service
           predicates:
             - Path=/first-service/**
+        - id: order-service
+          uri: lb://ORDER-SERVICE  #spring: application: name: order-service 여기부분으로 찾아가는 것임
+          predicates:
+            - Path=/order-service/**
           filters:
   #          - AddRequestHeader=first-request, first-requests-header2
   #          - AddResponseHeader=first-response, first-response-header2

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
     private Environment env;
     private UserService userService;
@@ -78,5 +78,12 @@ public class UserController {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteUser(@RequestBody UserDto userDto){
+        String deleteResult = userService.deleteUser(userDto.getUserId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(deleteResult);
     }
 }

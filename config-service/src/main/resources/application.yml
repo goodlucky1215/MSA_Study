@@ -4,8 +4,15 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native
   cloud:
     config:
       server:
+        native:
+          search-locations: file:///${user.home}/native-file-repo
         git:
-          uri: file://C:\msa\git-local-repo
+#         uri: file://C:\msa\git-local-repo
+         uri: https://github.com/goodlucky1215/spring-cloud-config.git
+#         username: [your username] => 만약에 github에서 repository만들 때, private로 만들었다면
+#         password: [your password]    이렇게 아이디와 비번을 적어 줘야 한다.

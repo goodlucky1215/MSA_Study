@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: config-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   profiles:
     active: native
   cloud:
@@ -16,3 +21,8 @@ spring:
          uri: https://github.com/goodlucky1215/spring-cloud-config.git
 #         username: [your username] => 만약에 github에서 repository만들 때, private로 만들었다면
 #         password: [your password]    이렇게 아이디와 비번을 적어 줘야 한다.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

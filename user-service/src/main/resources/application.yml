@@ -15,9 +15,11 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+# 이 값도 이제 config에 등록한 파일에 같이 빼도록 한다.(토큰 정보 받는 곳)
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
+#만약에 db에 아이디와 비밀번호 설정시 다음과 같이 입력
 #   username: sa
 #   password: 1234
 eureka:

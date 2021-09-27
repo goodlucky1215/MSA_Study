@@ -1,2 +1,6 @@
 encrypt:
-  key: avdfsdf123cgdfg54345
+#  key: avdfsdf123cgdfg54345
+  key-store:
+    location: file:///${user.home}/msa/keystore/apiEncryptionKey.jks
+    password: test1234
+    alias: apiEncryptionKey

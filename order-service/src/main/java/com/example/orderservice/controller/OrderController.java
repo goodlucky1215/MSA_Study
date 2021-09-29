@@ -29,14 +29,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/heath_check")
+    @GetMapping("/health_check")
     public String status(){
         return String.format("It's Working in Catalog Service on Port %s",
                 env.getProperty("local.server.port"));
     }
 
     //http://127.0.0.1:0/order-service/{user_id}/orders
-    @PostMapping("/{userId}/users")
+    @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(
             @PathVariable("userId") String userId
             ,@RequestBody RequestOrder orderDetail){
@@ -52,7 +52,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
-    @GetMapping("/{userId}/users")
+    @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable("userId") String userId)
     {
         Iterable<OrderEntity> orderList = orderService.getOrdersByUserId(userId);

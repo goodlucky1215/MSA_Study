@@ -23,7 +23,6 @@ import java.util.List;
 public class UserController {
     private Environment env;
     private UserService userService;
-
     @Autowired
     private Greeting greeting;
 

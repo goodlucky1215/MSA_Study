@@ -6,6 +6,8 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.jpa.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
+import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
     UserRepository userRepository; //어딘가에 우리가 클래스로 만들어둬야  @Autowired로 빈생성이 가능
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -94,7 +97,13 @@ public class UserServiceImpl implements UserService{
 //        List<ResponseOrder> orderList = orderListResponse.getBody();
 
         /* 두번째 방법 : feign client 사용 */
-        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
+        /* feign exception handling -> 즉 오류가 날 때 처리하기 */
+        List<ResponseOrder> orderList = null;
+        try{
+            orderList = orderServiceClient.getOrders(userId);
+        }catch (FeignException ex){
+            log.error(ex.getMessage());
+        }
 
         userDto.setOrders(orderList);
         return userDto;

@@ -58,7 +58,15 @@
             <artifactId>modelmapper</artifactId>
             <version>2.3.8</version>
         </dependency>
+
+        <!-- PgAdmin4 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version>
+        </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

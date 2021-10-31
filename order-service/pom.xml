@@ -65,8 +65,13 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.23</version>
         </dependency>
-    </dependencies>
 
+        <!-- Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>

@@ -18,8 +18,12 @@ spring:
     database: h2
     defer-datasource-initialization: true
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: postgres
+    password: root
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
 #   username: sa
 #   password: 1234
 eureka:

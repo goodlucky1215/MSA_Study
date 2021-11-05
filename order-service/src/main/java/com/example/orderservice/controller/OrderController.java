@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/order-service")
@@ -46,15 +47,21 @@ public class OrderController {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        /* jpa */
         OrderDto orderDto = mapper.map(orderDetail, OrderDto.class);
         orderDto.setUserId(userId);
-        OrderDto createdOrder = orderService.createOrder(orderDto);
+        /* 1. jpa */
+        //OrderDto createdOrder = orderService.createOrder(orderDto);
+        //ResponseOrder responseUser = mapper.map(createdOrder, ResponseOrder.class);
 
-        ResponseOrder responseUser = mapper.map(createdOrder, ResponseOrder.class);
+        /* 2. kafka  --> orderService.createOrder에 있는거 가져온 거임 */
+        orderDto.setOrderId(UUID.randomUUID().toString());
+        orderDto.setTotalPrice(orderDetail.getQty()*orderDetail.getUnitPrice());
 
         /* send this order to the kafka */
         kafkaProducer.send("example-catalog-topic", orderDto);
+
+        /* 2-1. */
+        ResponseOrder responseUser = mapper.map(orderDto, ResponseOrder.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }

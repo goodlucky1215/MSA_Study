@@ -1,0 +1,11 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discoveryservice
+
+eureka:
+  client:
+    register-with-eureka: false #eureka서버에 자기 자신은 등록을 안하는 거임
+    fetch-registry: false #eureka서버로부터 인스터스들의 정보를 주기적으로 가저올 건지 설정하는 속성

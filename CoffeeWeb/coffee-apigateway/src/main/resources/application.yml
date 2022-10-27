@@ -3,8 +3,8 @@ server:
 
 eurkeka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 
@@ -15,10 +15,10 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: http://localhost:9600/
+          uri: lb://USER-SERVICE # lb://eureka에 등록된 어플리케이션 이름으로 사용
           predicates:
             - Path=/user-service/**
         - id: order-service
-          uri: http://localhost:9601/
+          uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**

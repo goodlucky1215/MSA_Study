@@ -1,19 +1,15 @@
 package coffee.userservice.repository;
 
-import coffee.userservice.Entity.Member;
-import org.springframework.stereotype.Repository;
+import coffee.userservice.Entity.MemberEntity;
 
-@Repository
-public class UserRepository implements UserRepositoryImpl{
+public interface UserRepository {
 
-    @Override
-    public Member findById() {
-        return null;
-    }
+    //1. id로 로그인
+    //2. 별명 변경
+    MemberEntity findById(String id);
 
-    @Override
-    public Member findByEmail() {
-        return null;
-    }
+    //1. email로 로그인
+    //2. 별명 변경
+    MemberEntity findByEmail(String email);
 
 }

@@ -1,3 +1,4 @@
+#MSA
 server:
   port: 9600
 
@@ -5,9 +6,17 @@ spring:
   application:
     name: user-service
 
+#DB
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/coffeeApp
+    username: postgres
+    password: root
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+

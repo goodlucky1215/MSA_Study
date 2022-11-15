@@ -1,13 +1,15 @@
 package coffee.userservice.Entity;
 
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
-@Getter
 @Table(name="member")
+@Getter
+@NoArgsConstructor
 public class MemberEntity {
 
     @Id

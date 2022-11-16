@@ -16,7 +16,7 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public MemberEntity findById(String id) {
         MemberEntity memberEntity = em.createQuery("select m from MemberEntity m where m.id=:id",
-                MemberEntity.class).getResultList().get(0);
+                MemberEntity.class).setParameter("id",id).getResultList().get(0);
         return memberEntity;
     }
 

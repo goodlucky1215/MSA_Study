@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -15,15 +16,16 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public MemberEntity findById(String id) {
-        MemberEntity memberEntity = em.createQuery("select m from MemberEntity m where m.id=:id",
-                MemberEntity.class).setParameter("id",id).getResultList().get(0);
-        return memberEntity;
+        List<MemberEntity> memberEntity = em.createQuery("select m from MemberEntity m where m.id=:id", MemberEntity.class)
+                .setParameter("id",id).getResultList();
+        if(memberEntity.isEmpty()) return null;
+        return memberEntity.get(0);
     }
 
     @Override
     public MemberEntity findByEmail(String email) {
         MemberEntity memberEntity = em.createQuery("select m from MemberEntity m where m.email=:email",
-                MemberEntity.class).getResultList().get(0);
+                MemberEntity.class).setParameter("email",email).getResultList().get(0);
         return memberEntity;
     }
 }

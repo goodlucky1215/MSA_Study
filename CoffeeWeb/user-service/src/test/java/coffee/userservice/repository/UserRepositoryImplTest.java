@@ -61,7 +61,7 @@ class UserRepositoryImplTest {
         em.persist(memberEntity);
 
         //when
-        MemberEntity memberInfo = userRepository.findById("email1@aa.com");
+        MemberEntity memberInfo = userRepository.findByEmail("email1@aa.com");
 
         //then
         assertEquals(memberEntity,memberInfo);
@@ -81,15 +81,29 @@ class UserRepositoryImplTest {
         em.persist(memberEntity);
 
         //when
-        MemberEntity memberInfo = userRepository.findById("id11");
+        MemberEntity memberInfo = userRepository.findById("id2");
 
         //then
-        assertEquals(memberEntity,memberInfo);
+        assertEquals(null,memberInfo);
     }
 
     @DisplayName("이메일로_로그인시_정보_없을때")
     @Test
     public void email_login_false(){
-        userRepository.findById("1");
+        //given
+        MemberEntity memberEntity = MemberEntity.builder()
+                .email("email1@aa.com")
+                .nickname("헤르메스")
+                .password("1234")
+                .join_date(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        em.persist(memberEntity);
+
+        //when
+        MemberEntity memberInfo = userRepository.findByEmail("email2@aa.com");
+
+        //then
+        assertEquals(memberEntity,memberInfo);
     }
 }

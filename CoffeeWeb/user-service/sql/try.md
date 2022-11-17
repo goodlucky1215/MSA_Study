@@ -12,8 +12,14 @@ setter는 가급적 사용하지 않는다 어디서든지 값 변경이 되니�
 => @NoArgsConstructor(access = AccessLevel.PROTECTED)를 사용해서
   범위를 막고, @Builder를 사용해서 필요한 값만 받아서 사용할 수 있고, 필드 순서에대한 실수도 방지가 된다.
 
-(2) @DynamicInsert) 과 두번쨰 방법 (@PrePersist)  
-
+(2) 삽입, 수정 시 null인 Entity 필드가 있을 경우
+- @DynamicInsert, @DynamicUpdate를 적용하게 되면 null인 값은 제외하고
+쿼리문을 날려준다.  
+- @PrePersist, @PreUpdate를 적용하게 되면 쿼리 날리기전에,
+null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.  
+  
+=> 나는 DB 테이블에 컬럼 생성 시, default 값을 설정 해뒀기 때문에
+  null인 값 제외를 선택했다.
 
 
    

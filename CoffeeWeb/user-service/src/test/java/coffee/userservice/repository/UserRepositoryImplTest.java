@@ -50,14 +50,41 @@ class UserRepositoryImplTest {
     @DisplayName("이메일로 로그인 시 정보 있을 때")
     @Test
     public void email_login_true(){
-        //MemberEntity memberEntity = new MemberEntity("1","","자라","23",null,1,null);
-        userRepository.findById("1");
+        //given
+        MemberEntity memberEntity = MemberEntity.builder()
+                .email("email1@aa.com")
+                .nickname("헤르메스")
+                .password("1234")
+                .join_date(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        em.persist(memberEntity);
+
+        //when
+        MemberEntity memberInfo = userRepository.findById("email1@aa.com");
+
+        //then
+        assertEquals(memberEntity,memberInfo);
     }
 
     @DisplayName("아이디로_로그인시_정보_없을때")
     @Test
     public void id_login_false(){
-        userRepository.findById("1");
+        //given
+        MemberEntity memberEntity = MemberEntity.builder()
+                .id("id1")
+                .nickname("아프로디테")
+                .password("1234")
+                .join_date(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        em.persist(memberEntity);
+
+        //when
+        MemberEntity memberInfo = userRepository.findById("id11");
+
+        //then
+        assertEquals(memberEntity,memberInfo);
     }
 
     @DisplayName("이메일로_로그인시_정보_없을때")

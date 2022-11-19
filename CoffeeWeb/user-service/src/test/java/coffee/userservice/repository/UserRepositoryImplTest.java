@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRepositoryImplTest {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepositoryImpl userRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -104,6 +104,6 @@ class UserRepositoryImplTest {
         MemberEntity memberInfo = userRepository.findByEmail("email2@aa.com");
 
         //then
-        assertEquals(memberEntity,memberInfo);
+        assertEquals(null,memberInfo);
     }
 }

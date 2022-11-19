@@ -1,31 +1,15 @@
 package coffee.userservice.repository;
 
 import coffee.userservice.Entity.MemberEntity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Optional;
+public interface UserRepositoryImpl {
 
-@RequiredArgsConstructor
-@Repository
-public class UserRepositoryImpl implements UserRepository{
+    //1. id로 로그인
+    //2. 별명 변경
+    MemberEntity findById(String id);
 
-    final private EntityManager em;
+    //1. email로 로그인
+    //2. 별명 변경
+    MemberEntity findByEmail(String email);
 
-    @Override
-    public MemberEntity findById(String id) {
-        List<MemberEntity> memberEntity = em.createQuery("select m from MemberEntity m where m.id=:id", MemberEntity.class)
-                .setParameter("id",id).getResultList();
-        if(memberEntity.isEmpty()) return null;
-        return memberEntity.get(0);
-    }
-
-    @Override
-    public MemberEntity findByEmail(String email) {
-        MemberEntity memberEntity = em.createQuery("select m from MemberEntity m where m.email=:email",
-                MemberEntity.class).setParameter("email",email).getResultList().get(0);
-        return memberEntity;
-    }
 }

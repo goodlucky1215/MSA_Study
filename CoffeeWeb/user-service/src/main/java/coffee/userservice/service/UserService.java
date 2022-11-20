@@ -1,32 +1,17 @@
 package coffee.userservice.service;
 
-import coffee.userservice.Entity.MemberEntity;
 import coffee.userservice.dto.IdLoginDto;
-import coffee.userservice.dto.MemberDto;
 import coffee.userservice.dto.UserInfoDto;
-import coffee.userservice.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import coffee.userservice.dto.UserJoinDto;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements UserServiceImpl{
+public interface UserService{
 
-    final private UserRepository userRepository;
+    public boolean userJoin(UserJoinDto memberJoinDto);
 
-    @Override
-    public MemberDto userLoginId(IdLoginDto idLoginDto) {
-        //MemberEntity userInfo = userRepository.findById();
-        return null;
-    }
+    public UserInfoDto userLoginId(IdLoginDto idLoginDto);
 
-    @Override
-    public MemberDto userLoginEmail() {
-        return null;
-    }
+    //public UserInfoDto userLoginEmail();
 
-    @Override
-    public MemberDto userNicknameChange(UserInfoDto userInfoDto) {
-        return null;
-    }
+    public UserInfoDto userNicknameChange(UserInfoDto memberInfoDto);
+
 }

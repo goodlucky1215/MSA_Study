@@ -1,6 +1,5 @@
 package coffee.userservice.Entity;
 
-import coffee.userservice.dto.MemberDto;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name="member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
-public class MemberEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +38,7 @@ public class MemberEntity {
     private LocalDateTime join_date;
 
     @Builder
-    public MemberEntity(String id,String email,String nickname, String password,LocalDate birth,String grade,LocalDateTime join_date){
+    public UserEntity(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime join_date){
         this.id = id;
         this.email = email;
         this.nickname = nickname;

@@ -21,9 +21,31 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 => 나는 DB 테이블에 컬럼 생성 시, default 값을 설정 해뒀기 때문에
   null인 값 제외를 선택했다.
 
-   
-3. 기능 : 로그인 만들기, 별명 변경  
+(3) spring boot 사용 시, 스프링부트의 SpringPhysicalNamingStrategy가 기본으로 바꿔주는 설정입니다.
+- 카멜 케이스 -> 언더스코어  (memberPoint -> member_point)
+- .(점) -> _(언더스코어)
+- 대문자 -> 소문자
 
-(1) 로그인 아이디, 이메일 없을 때 null처리
+3. 회원가입, 로그인 암호화 방식 사용
 
-4. test해보기(Junit)
+(1) BCryptPasswordEncoder  
+- Bcrypt알고리즘으로 암호화 => 랜덤 salt를 부여하여 여러번 Hash를 적용한 암호화 방식
+- 복호화가 불가능한 단방향 알고리즘이다. 현재 사용되는 해시 알고리즘 중에 가장 강력한 암호화 방식  
+- SHA알고리즘은 동일한 평문일 경우 해시값이 같지만, Bcrypt는 동일한 평문도 해시값이 다름 ex)비번1234를 두번 Bcrypt사용 시 해시값이 다른다.  
+- 해시에 의해 암호화된 데이터를 다이제스트(digest)라고 부른다.
+- 반복횟수와 salt를 이용한 것인데, 반복회수는 new BCryptPasswordEncoder(반복횟수 입력 가능 n) 로 해서,
+암호화된 값을 또 암호화 시키는 것을 의미한다. 즉 n번 암호화해서 만들어낸다. 그러나 반복횟수도 결국 해커가 
+  부르트포스를 사용하면 얻을 수 있다. 소금을 친다는의미로 salt를 부여한다. 즉 임의의 문자열을 추가로 붙인다.
+  그래서 최대한 무력화 시키기 위한 방법인 것이다.
+
+(2) http.csrf().disable();
+
+(3) spring security는 기본적으로 X-Fram-Option Click jacking 공격 막기 설정이 되어있다.
+=> iframe 사용하기 때문에 설정 해주어야한다.  
+a. http.headers().frameOptions().disable(); //X-Frame-OPtions를 비활성화하는 설정이지만 보안이슈가 있다.  
+b. http.headers().frameOptions().sameOrigin(); //이걸 사용하면 된다, 동일 도메인에서 iframe 접근이 가능하도록 X-Frame-OPtions을 sameOrigin 한 것이다.  
+c. properties에서 security.headers.frame=false 로 설정해도 된다.  
+
+4. 기능 : 로그인 만들기, 별명 변경
+
+5. test해보기(Junit)

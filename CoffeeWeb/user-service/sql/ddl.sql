@@ -9,4 +9,6 @@ create table member(
     join_date date
 );
 
+ALTER TABLE MEMBER ADD COLUMN password_encrypt varchar(300) NOT NULL;
+ALTER TABLE MEMBER DROP COLUMN PASSWORD;
 commit;

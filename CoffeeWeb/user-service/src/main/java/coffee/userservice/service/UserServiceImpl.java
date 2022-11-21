@@ -7,6 +7,7 @@ import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.repository.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +18,17 @@ public class UserServiceImpl implements UserService {
 
     final private UserRepositoryImpl userRepository;
 
+    final private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     ModelMapper mapper = new ModelMapper();
 
     @Override
     public boolean userJoin(UserJoinDto memberJoinDto) {
         boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
         if(extistIdTF) return false;
-        userRepository.save(mapper.map(memberJoinDto, UserEntity.class));
+        UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
+        userEntity.builder().passwordEncrypt(bCryptPasswordEncoder.encode(memberJoinDto.getPassword()));
+        userRepository.save(userEntity);
         return true;
     }
 

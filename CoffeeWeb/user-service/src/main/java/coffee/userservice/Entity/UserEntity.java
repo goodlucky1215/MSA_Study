@@ -28,23 +28,23 @@ public class UserEntity {
     private String nickname;
 
     @Column(nullable = false, length = 30)
-    private String password;
+    private String passwordEncrypt;
 
     private LocalDate birth;
 
     @Column(length = 10)
     private String grade;
 
-    private LocalDateTime join_date;
+    private LocalDateTime joinDate;
 
     @Builder
-    public UserEntity(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime join_date){
+    public UserEntity(String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
         this.id = id;
         this.email = email;
         this.nickname = nickname;
-        this.password = password;
+        this.passwordEncrypt = passwordEncrypt;
         this.birth = birth;
         this.grade = grade;
-        this.join_date = join_date;
+        this.joinDate = joinDate;
     }
 }

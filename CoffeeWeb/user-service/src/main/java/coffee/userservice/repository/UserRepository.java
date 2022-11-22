@@ -1,5 +1,6 @@
 package coffee.userservice.repository;
 
+
 import coffee.userservice.Entity.UserEntity;
 
 public interface UserRepository {//extends CrudRepository<MemberEntity, Long> {

@@ -48,4 +48,10 @@ c. properties에서 security.headers.frame=false 로 설정해도 된다.
 
 4. 기능 : 로그인 만들기, 별명 변경
 
-5. test해보기(Junit)
+5. test해보기(Junit)  
+
+(1) @Mock
+- 필드명에 @Mock을 선언해서 에러검증을 쉽게, 해당 필드가 Mock객체임을 명확하게 한다.  
+- Service레이어 테스트시, Repository를 가짜 객체로 만드는 용도로 사용 가능하다.  
+
+

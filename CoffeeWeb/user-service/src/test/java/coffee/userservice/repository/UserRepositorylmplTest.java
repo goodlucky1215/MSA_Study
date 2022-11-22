@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Slf4j
 class UserRepositorylmplTest {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -34,8 +34,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity1 = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         userRepository.save(memberEntity1);
@@ -66,8 +66,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         userRepository.save(memberEntity);
@@ -97,8 +97,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
 
@@ -117,8 +117,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
 
@@ -137,8 +137,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         em.persist(memberEntity);
@@ -157,8 +157,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         em.persist(memberEntity);
@@ -177,8 +177,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         em.persist(memberEntity);
@@ -197,8 +197,8 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
-                .password("1234")
-                .join_date(LocalDateTime.now())
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
         em.persist(memberEntity);

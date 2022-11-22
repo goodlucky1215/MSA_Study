@@ -16,7 +16,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pk_id;
+    private Long pkId;
 
     @Column(unique = true, length = 40)
     private String id;

@@ -50,8 +50,14 @@ c. properties에서 security.headers.frame=false 로 설정해도 된다.
 
 5. test해보기(Junit)  
 
+a. 기초  
 (1) @Mock
 - 필드명에 @Mock을 선언해서 에러검증을 쉽게, 해당 필드가 Mock객체임을 명확하게 한다.  
 - Service레이어 테스트시, Repository를 가짜 객체로 만드는 용도로 사용 가능하다.  
+
+b. 단위테스트  
+(1) Repository
+- @DataJpaTest를 클래스 위에 붙여서 사용하면 됨 => 그러나 spring data JPA를 쓰는 것이 아닌 내가 만든 repository면 @Autowirde가 안된다.    
+- 그러므로 만든 Repository일 경우에, Repository는 어차피 내부에 로직이 거의 없고, 기능 대부분을 EntityManager에 의존하기 때문에, @SpringBootTest를 그냥 사용하면 된다.  
 
 

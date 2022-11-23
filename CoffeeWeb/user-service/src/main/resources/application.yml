@@ -5,7 +5,10 @@ server:
 spring:
   application:
     name: user-service
-
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
 #DB
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/coffeeApp

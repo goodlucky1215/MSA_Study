@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,8 +18,10 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
+@Transactional
 @Slf4j
 class UserRepositorylmplTest {
 
@@ -94,7 +98,7 @@ class UserRepositorylmplTest {
     @Test
     public void id_save_success(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        UserEntity memberEntity1 = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .passwordEncrypt("1234")
@@ -103,11 +107,17 @@ class UserRepositorylmplTest {
                 .build();
 
         //when
-        userRepository.save(memberEntity);
+        userRepository.save(memberEntity1);
+        UserEntity memberEntity = userRepository.findById("id1");
 
         //then
-        assertEquals(memberEntity,em.createQuery("select m from UserEntity m where m.id=:id", UserEntity.class)
+        assertEquals(memberEntity1,em.createQuery("select m from UserEntity m where m.id=:id", UserEntity.class)
                 .setParameter("id","id1").getResultList().get(0));
+        assertEquals("id1",memberEntity.getId());
+        assertEquals(null,memberEntity.getEmail());
+        assertEquals("아프로디테",memberEntity.getNickname());
+        assertEquals(LocalDate.of(1982, 7, 13),memberEntity.getBirth());
+        assertEquals("welcome",memberEntity.getGrade());
     }
 
     @DisplayName("email_회원가입_성공")

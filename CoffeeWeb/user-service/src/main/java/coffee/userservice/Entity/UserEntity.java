@@ -1,7 +1,9 @@
 package coffee.userservice.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name="member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@Getter //test할때만 추가
 public class UserEntity {
 
     @Id
@@ -32,7 +35,6 @@ public class UserEntity {
 
     private LocalDate birth;
 
-    @Column(length = 10)
     private String grade;
 
     private LocalDateTime joinDate;

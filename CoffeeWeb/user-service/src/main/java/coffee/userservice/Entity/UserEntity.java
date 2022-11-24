@@ -10,10 +10,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
+@DynamicInsert
 @Entity
 @Table(name="member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
 @Getter //test할때만 추가
 public class UserEntity {
 

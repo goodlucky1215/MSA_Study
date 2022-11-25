@@ -37,6 +37,7 @@ dependencies {
     //jwt토큰
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.mockito:mockito-junit-jupiter:4.8.0'
 }
 
 dependencyManagement {

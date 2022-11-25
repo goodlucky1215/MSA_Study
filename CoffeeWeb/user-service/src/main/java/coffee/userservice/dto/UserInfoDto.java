@@ -10,10 +10,11 @@ public class UserInfoDto {
     @NotNull
     private Long pkId;
 
-    @Column(nullable = false, length = 20)
+    @NotNull
+    //@Size(min = 2,message="id는 2자 이상이어야 합니다.")
     private String nickname;
 
-    @Column(length = 10)
+    @NotNull
     private String grade;
 
     public Long getPkId() {

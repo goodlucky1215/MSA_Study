@@ -4,7 +4,7 @@ import coffee.userservice.Entity.UserEntity;
 import coffee.userservice.dto.IdLoginDto;
 import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
-import coffee.userservice.repository.UserRepositoryImpl;
+import coffee.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    final private UserRepositoryImpl userRepository;
+    final private UserRepository userRepository;
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 

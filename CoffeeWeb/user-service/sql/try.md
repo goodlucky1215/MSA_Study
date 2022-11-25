@@ -51,9 +51,15 @@ c. properties에서 security.headers.frame=false 로 설정해도 된다.
 5. test해보기(Junit)  
 
 a. 기초  
-(1) @Mock
+(1) @Mock : 스프링빈에 등록이 안되는 객체
 - 필드명에 @Mock을 선언해서 에러검증을 쉽게, 해당 필드가 Mock객체임을 명확하게 한다.  
 - Service레이어 테스트시, Repository를 가짜 객체로 만드는 용도로 사용 가능하다.  
+- 스프링 컨테이너가 DI를 하는 방식이 아니라 객체생성시 생성자 Mock객체를 직접 주입한다.  
+- 생성자 주입을 사용해야 편하게 사용이 가능하다.  
+- 스프링을 띄우지 않으므로 MockBean을 사용할때보다 빠르다.  
+
+(2) @MockBean : 가짜 Bean을 스프링에 등록해달라는 의미
+- 스프링 컨테이너가 기존에 갖고있는 Bean객체는 MockBean객체로 치환되어 DI에 사용된다.
 
 b. 단위테스트  
 (1) Repository

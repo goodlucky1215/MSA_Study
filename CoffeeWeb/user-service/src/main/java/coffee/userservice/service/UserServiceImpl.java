@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDto userLoginId(IdLoginDto idLoginDto) {
         UserEntity userInfoEntity = userRepository.findById(idLoginDto.getId());
         if(userInfoEntity==null) return null;
-
+        //if(idLoginDto.getPassword()
         return null;
     }
 

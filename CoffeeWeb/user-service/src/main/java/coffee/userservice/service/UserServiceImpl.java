@@ -7,9 +7,14 @@ import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +37,6 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
-    public UserInfoDto userLoginId(IdLoginDto idLoginDto) {
-        UserEntity userInfoEntity = userRepository.findById(idLoginDto.getId());
-        if(userInfoEntity==null) return null;
-        //if(idLoginDto.getPassword()
-        return null;
-    }
-
     /*
     @Override
     public UserInfoDto userLoginEmail() {
@@ -49,6 +46,14 @@ public class UserServiceImpl implements UserService {
         return null;
     }
      */
+    @Override
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        UserEntity userInfoEntity = userRepository.findById(id);
+        if(userInfoEntity==null) return null;
+        return new User(userInfoEntity.getId(),userInfoEntity.getPasswordEncrypt(),
+                true, true, true, true,
+                new ArrayList<>());
+    }
 
     @Override
     public UserInfoDto userNicknameChange(UserInfoDto memberInfoDto) {
@@ -57,4 +62,5 @@ public class UserServiceImpl implements UserService {
         UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
         return returnUserInfoDto;
     }
+
 }

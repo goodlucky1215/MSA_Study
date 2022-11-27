@@ -12,10 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -75,6 +78,44 @@ class UserServiceImplTest {
 
         //then
         assertEquals(true,result);
+    }
+
+
+    @DisplayName("id_로그인_실패_id가 존재하지 않는다")
+    @Test
+    public void id_login_fail(){
+        //given
+        when(userRepository.findById("id1")).thenReturn(null);
+
+
+        //when
+        UserDetails result = userService.loadUserByUsername("id1");
+
+        //then
+        assertEquals(null,result);
+    }
+
+    @DisplayName("id_로그인_성공")
+    @Test
+    public void id_login_success(){
+        //given
+        UserEntity memberEntity = UserEntity.builder()
+                .id("id1")
+                .nickname("아프로디테")
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        when(userRepository.findById("id1")).thenReturn(memberEntity);
+
+
+        //when
+        UserDetails result = userService.loadUserByUsername("id1");
+
+        //then
+        assertEquals(new User(memberEntity.getId(),memberEntity.getPasswordEncrypt(),
+                true, true, true, true,
+                new ArrayList<>()),result);
     }
 
 }

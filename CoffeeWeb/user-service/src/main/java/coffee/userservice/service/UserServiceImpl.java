@@ -37,6 +37,13 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public UserInfoDto getUserInfo(String userId) {
+        UserEntity userInfoEntity = userRepository.findById(userId);
+        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
+        return returnUserInfoDto;
+    }
+
     /*
     @Override
     public UserInfoDto userLoginEmail() {
@@ -56,11 +63,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDto userNicknameChange(UserInfoDto memberInfoDto) {
-        UserEntity userInfoEntity = userRepository.findByPkId(memberInfoDto.getPkId());
-        userInfoEntity.builder().nickname(memberInfoDto.getNickname());
-        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
-        return returnUserInfoDto;
+    public UserEntity userNicknameChange(Long pkid,String changeNickname) {
+        UserEntity userInfoEntity = userRepository.findByPkId(pkid);
+        userInfoEntity.builder().nickname(changeNickname);
+        //UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
+        return userInfoEntity;
     }
 
 }

@@ -7,6 +7,15 @@ import java.time.LocalDate;
 
 public class UserInfoDto {
 
+    //test 임의로 생성
+    public UserInfoDto(){}
+    //test 임의로 생성
+    public UserInfoDto(Long pkId,String nickname,String grade){
+        this.pkId = pkId;
+        this.nickname = nickname;
+    }
+
+
     @NotNull
     private Long pkId;
 
@@ -22,5 +31,9 @@ public class UserInfoDto {
     }
     public String getNickname() {
         return nickname;
+    }
+    //test 임의로 생성
+    public String getGrade() {
+        return grade;
     }
 }

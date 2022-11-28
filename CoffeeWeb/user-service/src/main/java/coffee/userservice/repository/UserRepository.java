@@ -17,6 +17,6 @@ public interface UserRepository {//extends CrudRepository<UserEntity, Long> {
     //email로 로그인
     UserEntity findByEmail(String email);
 
-    //
+    //닉네임 변경
     UserEntity findByPkId(Long pkId);
 }

@@ -1,9 +1,7 @@
 package coffee.userservice.Entity;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -40,7 +38,8 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder
-    public UserEntity(String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
+    public UserEntity(Long pkId, String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
+        this.pkId = pkId;
         this.id = id;
         this.email = email;
         this.nickname = nickname;

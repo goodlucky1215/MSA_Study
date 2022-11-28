@@ -1,6 +1,7 @@
 package coffee.userservice.service;
 
 import coffee.userservice.Entity.UserEntity;
+import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -116,6 +117,32 @@ class UserServiceImplTest {
         assertEquals(new User(memberEntity.getId(),memberEntity.getPasswordEncrypt(),
                 true, true, true, true,
                 new ArrayList<>()),result);
+    }
+
+    
+    //mapper왜 안되는지 확인하기
+    @DisplayName("닉네임_변경_성공")
+    @Test
+    public void nickNameChange_success(){
+        //given
+        UserEntity memberEntity = UserEntity.builder()
+                .pkId(1L)
+                .id("id1")
+                .nickname("아프로디테")
+                .passwordEncrypt("1234")
+                .joinDate(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        when(userRepository.findByPkId(1L)).thenReturn(memberEntity);
+
+
+        //when
+        UserEntity returnUserInfoDto = userService.userNicknameChange(1L,"헤라");
+
+        //then
+        System.out.println(returnUserInfoDto.getGrade());
+        //assertEquals("헤라",userInfoDto.getNickname());
+        assertEquals(1L,returnUserInfoDto.getPkId());
     }
 
 }

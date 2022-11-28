@@ -3,6 +3,7 @@ package coffee.userservice.security;
 import coffee.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import javax.servlet.Filter;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final Environment env;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //권한과 관련된 메소드
@@ -30,15 +32,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService,env);
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;
     }
 
-    //인증과 관련되 메소드
+    //인증과 관련된 메소드
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //여기서 로그인시 들어오는 비밀번호를 encrypt한다. 그래서 DB에 저장된 비밀번호랑 비교해준다.
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 }

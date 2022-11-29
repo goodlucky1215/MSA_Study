@@ -1,6 +1,7 @@
 package coffee.userservice.dto;
 
 import com.sun.istack.NotNull;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import java.time.LocalDate;

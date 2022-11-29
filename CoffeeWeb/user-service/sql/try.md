@@ -65,5 +65,10 @@ b. 단위테스트
 (1) Repository
 - @DataJpaTest를 클래스 위에 붙여서 사용하면 됨 => 그러나 spring data JPA를 쓰는 것이 아닌 내가 만든 repository면 @Autowirde가 안된다.    
 - 그러므로 만든 Repository일 경우에, Repository는 어차피 내부에 로직이 거의 없고, 기능 대부분을 EntityManager에 의존하기 때문에, @SpringBootTest를 그냥 사용하면 된다.  
-
+  
+(2) service  
+- 레이어 테스트 시, dto&entity 테스트 방법  
+=> when_thenReturn으로 repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
+=> 그러나 service의 return값은 dto이다.  
+=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when_thenReturn으로 결과값 작성을 해야한다.
 

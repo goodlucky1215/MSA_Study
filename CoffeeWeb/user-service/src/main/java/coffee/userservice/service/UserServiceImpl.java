@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    ModelMapper mapper = new ModelMapper();
+    final private ModelMapper mapper;
 
     @Override
     public boolean userJoin(UserJoinDto memberJoinDto) {
@@ -63,11 +63,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity userNicknameChange(Long pkid,String changeNickname) {
-        UserEntity userInfoEntity = userRepository.findByPkId(pkid);
-        userInfoEntity.builder().nickname(changeNickname);
-        //UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
-        return userInfoEntity;
+    public UserInfoDto userNicknameChange(UserInfoDto userInfoDto) {
+        UserEntity userInfoEntity = userRepository.findByPkId(userInfoDto.getPkId());
+        userInfoEntity.builder().nickname(userInfoDto.getNickname());
+        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
+        return returnUserInfoDto;
     }
 
 }

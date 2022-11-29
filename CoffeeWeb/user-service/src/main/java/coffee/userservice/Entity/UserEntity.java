@@ -38,8 +38,8 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder
-    public UserEntity(Long pkId, String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
-        this.pkId = pkId;
+    public UserEntity(String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
+        //this.pkId = pkId;
         this.id = id;
         this.email = email;
         this.nickname = nickname;

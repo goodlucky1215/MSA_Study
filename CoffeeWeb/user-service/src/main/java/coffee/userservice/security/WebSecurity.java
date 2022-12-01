@@ -25,8 +25,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        //http.authorizeRequests().antMatchers("/users/**").permitAll(); //인중절차없이 리소스 접근 허용
-        http.authorizeRequests().antMatchers("/**");
+        http.authorizeRequests().antMatchers("/users/**").permitAll(); //인중절차없이 리소스 접근 허용
+        //http.authorizeRequests().antMatchers("/**");
         http.addFilter(getAuthenticationFilter());
         http.headers().frameOptions().sameOrigin();
     }

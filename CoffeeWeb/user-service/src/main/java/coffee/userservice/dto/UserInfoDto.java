@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class UserInfoDto {
@@ -21,7 +22,7 @@ public class UserInfoDto {
     private Long pkId;
 
     @NotNull
-    //@Size(min = 2,message="id는 2자 이상이어야 합니다.")
+    @Size(min = 2,max =10,message="닉네임은 2자 이상 10자 이하여야 합니다.")
     private String nickname;
 
     @NotNull
@@ -32,9 +33,5 @@ public class UserInfoDto {
     }
     public String getNickname() {
         return nickname;
-    }
-    //test 임의로 생성
-    public String getGrade() {
-        return grade;
     }
 }

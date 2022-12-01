@@ -62,13 +62,25 @@ a. 기초
 - 스프링 컨테이너가 기존에 갖고있는 Bean객체는 MockBean객체로 치환되어 DI에 사용된다.
 
 b. 단위테스트  
+
 (1) Repository
 - @DataJpaTest를 클래스 위에 붙여서 사용하면 됨 => 그러나 spring data JPA를 쓰는 것이 아닌 내가 만든 repository면 @Autowirde가 안된다.    
 - 그러므로 만든 Repository일 경우에, Repository는 어차피 내부에 로직이 거의 없고, 기능 대부분을 EntityManager에 의존하기 때문에, @SpringBootTest를 그냥 사용하면 된다.  
   
-(2) service  
-- 레이어 테스트 시, dto&entity 테스트 방법  
-=> when_thenReturn으로 repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
+(2) Service  
+- 단위테스트에서는 Repository클래스는 @Mock을 사용한다.
+- 레이어 테스트 시, Dto&Entity 테스트 방법  
+=> when~thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
 => 그러나 service의 return값은 dto이다.  
-=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when_thenReturn으로 결과값 작성을 해야한다.
+=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when~thenReturn으로 결과값 작성을 해야한다.
 
+(3) Controller  
+
+- @WebMvcTest(컨트롤러 클래스.class)를 사용  
+=> 해당 클래스만 실제로 로드하여 테스트를 해준다.  
+=> (컨트롤러 클래스.class)를 넣지 않으면, 모든 Controller어노테이션이 들어간 클래스들이 전부 로드 된다.  
+- MockMvc클래스 사용 => 컨트롤러의 api를 테스트하는 용도이다.  
+- Service클래스는 @MockBean을 사용한다.  
+=>WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.  
+
+(4) when~thenReturn vs given~willReturn

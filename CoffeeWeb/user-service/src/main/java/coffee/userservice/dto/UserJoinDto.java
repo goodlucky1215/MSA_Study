@@ -3,7 +3,7 @@ package coffee.userservice.dto;
 import com.sun.istack.NotNull;
 import lombok.Setter;
 
-import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,23 +14,20 @@ public class UserJoinDto {
         this.join_date = LocalDateTime.now();
     }
 
-    //@NotNull
-    //@Size(min = 2,message="id는 2자 이상이어야 합니다.")
+    @NotNull
+    @Size(min = 2,message="id는 2자 이상이어야 합니다.")
     private String id;
 
-    //@NotNull
-    private String email;
-
     @NotNull
+    @Size(min = 2,max =10,message="닉네임은 2자 이상 10자 이하여야 합니다.")
     private String nickname;
 
     @NotNull
+    @Size(min =4, max = 20, message = "패스워드는 4자 이상 20자 이하여야 합니다")
     private String password;
 
-    @NotNull
     private LocalDate birth;
 
-    @NotNull
     private String grade;
     
     private LocalDateTime join_date;

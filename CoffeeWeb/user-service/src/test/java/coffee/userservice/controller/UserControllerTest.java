@@ -1,21 +1,33 @@
 package coffee.userservice.controller;
 
+import coffee.userservice.Entity.UserEntity;
+import coffee.userservice.dto.IdLoginDto;
+import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.service.UserService;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
 
 import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -23,6 +35,9 @@ class UserControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     MockMvc mockMvc;
+
+   // @Autowired
+    Environment env;
 
     @MockBean
     UserService userService;
@@ -35,21 +50,94 @@ class UserControllerTest {
         userJoinDto.setId("id1");
         userJoinDto.setNickname("병아리");
         userJoinDto.setPassword("123456");
-        Gson gson = new Gson();
         given(userService.userJoin(userJoinDto)).willReturn(false);
 
         //when, then
-        mockMvc.perform(post("/join")
+        mockMvc.perform(post("/user-service/join")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .accept(gson.toJson(userJoinDto)))
-                .andReturn();
-                //.andExpect(content().string("회원가입 실패"));
+                .content(new ObjectMapper().writeValueAsString(userJoinDto)))
+                .andDo(print())
+                .andExpect(content().string("회원가입 실패"));
 
-        boolean a = verify(userService).userJoin(userJoinDto);
-        System.out.println("Sdfsdfsd => "+ a);
+        //이 외로도 BDD 기본 패턴의 then에서 사용되는 Mockito에서 제공하는 verify() 도 then().should() 로 대체될 수 있다.
+        //verify(userService, times(1)).userJoin(userJoinDto);
+        then(userService).should().userJoin(userJoinDto);
+    }
+
+    @DisplayName("회원가입_성공")
+    @Test
+    public void join_success() throws Exception {
+        //given
+        UserJoinDto userJoinDto = new UserJoinDto();
+        userJoinDto.setId("id1");
+        userJoinDto.setNickname("병아리");
+        userJoinDto.setPassword("123456");
+        given(userService.userJoin(userJoinDto)).willReturn(true);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/user-service/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(userJoinDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(content().string("회원가입 성공"));
+        then(userService).should().userJoin(userJoinDto);
     }
 
 
+    @DisplayName("아이디변경_성공")
+    @Test
+    public void nickNameChange_success() throws Exception {
+        //given
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setPkId(1L);
+        userInfoDto.setNickname("병아리");
+        given(userService.userNicknameChange(userInfoDto)).willReturn(userInfoDto);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/user-service/nicknamechange")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(userInfoDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("pkId",is(1)))
+                .andExpect(jsonPath("nickname",is("병아리")));
+        then(userService).should().userNicknameChange(userInfoDto);
+    }
+
+    @DisplayName("로그인_성공")
+    @Test
+    public void login_success() throws Exception {
+        //given
+        IdLoginDto idLoginDto = new IdLoginDto();
+        idLoginDto.setId("id1");
+        idLoginDto.setPassword("1234");
+        UserEntity userInfoEntity = UserEntity.builder()
+                                    .id("id1")
+                                    .passwordEncrypt(new BCryptPasswordEncoder().encode("1234"))
+                                    .build();
+        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(new User(userInfoEntity.getId(),userInfoEntity.getPasswordEncrypt(),
+                true, true, true, true,
+                new ArrayList<>()));
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setPkId(1L);
+        userInfoDto.setNickname("chick");
+        given(userService.getUserInfo("id1")).willReturn(userInfoDto);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType("application/json; charset=UTF-8")
+                .accept("application/json; charset=UTF-8")
+                .content(new ObjectMapper().writeValueAsString(idLoginDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("pkId",is(1)))
+                .andExpect(jsonPath("nickname",is("chick")));
+        then(userService).should().loadUserByUsername(idLoginDto.getId());
+        then(userService).should().getUserInfo("id1");
+    }
 
 }

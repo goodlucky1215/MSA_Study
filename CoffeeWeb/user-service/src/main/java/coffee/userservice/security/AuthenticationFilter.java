@@ -61,6 +61,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader("token",token);
-        response.addHeader("userId",userInfoDto.getPkId().toString());
+        response.getWriter().write(new ObjectMapper().writeValueAsString(userInfoDto));
     }
 }

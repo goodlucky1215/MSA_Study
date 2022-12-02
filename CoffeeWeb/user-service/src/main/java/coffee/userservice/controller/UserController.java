@@ -26,9 +26,9 @@ public class UserController {
 
 
     @PostMapping("/nicknamechange")
-    public String nickNameChange(@RequestBody UserInfoDto userInfoDto){
+    public UserInfoDto nickNameChange(@RequestBody UserInfoDto userInfoDto){
         UserInfoDto changeUserInfoDto = userService.userNicknameChange(userInfoDto);
-        return "정보변경 성공";
+        return changeUserInfoDto;
     }
 
 

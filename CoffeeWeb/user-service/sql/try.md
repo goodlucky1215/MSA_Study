@@ -83,4 +83,7 @@ b. 단위테스트
 - Service클래스는 @MockBean을 사용한다.  
 =>WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.  
 
-(4) when~thenReturn vs given~willReturn
+(4) when~thenReturn(Mockito) vs given~willReturn(BDDMockito)   
+- BDDMockito가 제공하는 기능과 Mockito가 제공하는 기능은 별반 다르지 않다.(BDDMockito의 코드를 살펴보면 Mockito을 상속한 클래스)    
+- BDDMockito의 메소드 명을 보면 given~willReturn에서 볼 수 있듯이 Given, When, Then 구조에 더 잘 맞춰진 것이다. 메소드명으로 Given인지 알아보기가 쉽다.  
+=> when~thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.

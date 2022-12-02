@@ -1,18 +1,22 @@
 package coffee.userservice.dto;
 
 import com.sun.istack.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode
 @Setter //test시에만 개방
+@Getter
 public class UserJoinDto {
 
-    public UserJoinDto(){
-        this.join_date = LocalDateTime.now();
-    }
+    //public UserJoinDto(){
+    //    this.join_date = LocalDateTime.now();
+    //}
 
     @NotNull
     @Size(min = 2,message="id는 2자 이상이어야 합니다.")
@@ -32,11 +36,7 @@ public class UserJoinDto {
     
     private LocalDateTime join_date;
 
-    public String getId() {
-        return id;
-    }
-    public String getPassword() {
-        return password;
-    }
+    //public String getId() {return id;}
+    //public String getPassword() {return password;}
 
 }

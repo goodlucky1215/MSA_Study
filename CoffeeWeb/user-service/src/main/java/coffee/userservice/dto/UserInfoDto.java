@@ -1,12 +1,14 @@
 package coffee.userservice.dto;
 
 import com.sun.istack.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 
+@EqualsAndHashCode
+@Setter
+@Getter
 public class UserInfoDto {
 
     //test 임의로 생성
@@ -25,13 +27,6 @@ public class UserInfoDto {
     @Size(min = 2,max =10,message="닉네임은 2자 이상 10자 이하여야 합니다.")
     private String nickname;
 
-    @NotNull
-    private String grade;
-
-    public Long getPkId() {
-        return pkId;
-    }
-    public String getNickname() {
-        return nickname;
-    }
+    //public Long getPkId() {return pkId;}
+    //public String getNickname() {return nickname;}
 }

@@ -1,6 +1,9 @@
 #MSA
 server:
   port: 9600
+  servlet:
+    encoding:
+      force-response: true
 
 spring:
   application:

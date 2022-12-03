@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import static org.mockito.BDDMockito.*;
@@ -123,21 +124,46 @@ class UserControllerTest {
                 new ArrayList<>()));
         UserInfoDto userInfoDto = new UserInfoDto();
         userInfoDto.setPkId(1L);
-        userInfoDto.setNickname("chick");
+        userInfoDto.setNickname("병아리");
         given(userService.getUserInfo("id1")).willReturn(userInfoDto);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/login")
-                .contentType("application/json; charset=UTF-8")
-                .accept("application/json; charset=UTF-8")
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
                 .content(new ObjectMapper().writeValueAsString(idLoginDto)));
 
         //then
         resultActions.andDo(print())
                 .andExpect(jsonPath("pkId",is(1)))
-                .andExpect(jsonPath("nickname",is("chick")));
+                .andExpect(jsonPath("nickname",is("병아리")));
         then(userService).should().loadUserByUsername(idLoginDto.getId());
         then(userService).should().getUserInfo("id1");
+    }
+
+    @DisplayName("로그인_실패_아이디존재하지않음")
+    @Test
+    public void login_fail_idIsFalse() throws Exception {
+        //given
+        IdLoginDto idLoginDto = new IdLoginDto();
+        idLoginDto.setId("id1");
+        idLoginDto.setPassword("1234");
+        UserEntity userInfoEntity = UserEntity.builder()
+                                    .id("id1")
+                                    .passwordEncrypt(new BCryptPasswordEncoder().encode("1234"))
+                                    .build();
+        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(null);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .content(new ObjectMapper().writeValueAsString(idLoginDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(redirectedUrl("login"));
+        then(userService).should().loadUserByUsername(idLoginDto.getId());
     }
 
 }

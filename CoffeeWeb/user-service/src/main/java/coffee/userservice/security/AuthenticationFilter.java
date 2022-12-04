@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,7 +69,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     //로그인 실패 시 작동 메소드
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException{
-        response.sendRedirect("login");
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+
+        request.setAttribute("loginFailMsg", "로그인에 실패하였습니다.");
+
+        // 로그인 페이지로 다시 포워딩
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
+        dispatcher.forward(request, response);
     }
 }

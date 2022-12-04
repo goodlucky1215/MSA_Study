@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    final private ModelMapper mapper;
+    private ModelMapper mapper = new ModelMapper();
 
     @Override
     public boolean userJoin(UserJoinDto memberJoinDto) {

@@ -13,7 +13,7 @@ public class UserController {
 
     final private UserService userService;
 
-    @GetMapping("hello")
+    @GetMapping("/hello")
     public String hello(){
         return "hello userservice";
     }

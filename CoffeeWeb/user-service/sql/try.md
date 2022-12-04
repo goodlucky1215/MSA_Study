@@ -86,4 +86,7 @@ b. 단위테스트
 (4) when~thenReturn(Mockito) vs given~willReturn(BDDMockito)   
 - BDDMockito가 제공하는 기능과 Mockito가 제공하는 기능은 별반 다르지 않다.(BDDMockito의 코드를 살펴보면 Mockito을 상속한 클래스)    
 - BDDMockito의 메소드 명을 보면 given~willReturn에서 볼 수 있듯이 Given, When, Then 구조에 더 잘 맞춰진 것이다. 메소드명으로 Given인지 알아보기가 쉽다.  
-=> when~thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.
+=> when~thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.  
+- 이 외로도 BDD 기본 패턴의 then에서 사용되는 Mockito에서 제공하는 verify() 도 then().should() 로 대체될 수 있다.  
+
+6. 스프링부트랑 리액트 연결하기

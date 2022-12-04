@@ -162,7 +162,8 @@ class UserControllerTest {
 
         //then
         resultActions.andDo(print())
-                .andExpect(redirectedUrl("login"));
+                .andExpect(forwardedUrl("/login"))
+                .andExpect(request().attribute("loginFailMsg", "로그인에 실패하였습니다."));
         then(userService).should().loadUserByUsername(idLoginDto.getId());
     }
 

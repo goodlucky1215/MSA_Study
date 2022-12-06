@@ -32,10 +32,6 @@ public class UserJoinDto {
 
     private LocalDate birth;
 
-    private String grade;
-    
-    private LocalDateTime join_date;
-
     //public String getId() {return id;}
     //public String getPassword() {return password;}
 

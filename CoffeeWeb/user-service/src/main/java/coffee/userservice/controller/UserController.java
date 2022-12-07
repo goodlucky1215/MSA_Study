@@ -20,8 +20,8 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(@RequestBody UserJoinDto userJoinDto){
-        if(userService.userJoin(userJoinDto)) return "회원가입 성공";
-        return "회원가입 실패";
+        if(userService.userJoin(userJoinDto)) return "true";
+        return "false";
     }
 
 

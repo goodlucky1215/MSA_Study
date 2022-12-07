@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [nickname, setNickname] = useState('');
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log(`submit! ${userId} ${password} ${nickname}`);
-    };
+    const [errorMessage, setErrorMessage] = useState('');
 
     //생일 영역//////////////////////////////////////////////////////////////////////////////
-    const [form, setForm] = useState({
+    const [birth, setBirth] = useState({
         year: new Date().getFullYear(),
         month: "01",
         day: "01",
@@ -34,7 +31,7 @@ function RegisterPage() {
         }
     }
     let days = [];
-    let date = new Date(form.year, form.month, 0).getDate();
+    let date = new Date(birth.year, birth.month, 0).getDate();
     for (let d = 1; d <= date; d += 1) {
         if (d < 10) {
         // 날짜가 2자리로 나타나야 했기 때문에 1자리 일에 0을 붙혀준다
@@ -43,6 +40,40 @@ function RegisterPage() {
         days.push(d.toString());
         }
     }
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      let registerUserData = {
+        id : userId,
+        nickname : nickname,
+        password : password,
+        birth : birth.year+birth.month+birth.day
+      };
+      console.log(registerUserData);
+
+      await fetch('/user-service/join', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registerUserData),
+      })
+        .then(res => {
+          throw Error("Sdfsdfsdfsdfsdfsdd");
+            setErrorMessage("Sdfsdf");
+            //setErrorMessage(res.body);
+            //f(res.body === "true") navigate("/");
+            //else  navigate("/");
+          }
+        )
+        .catch(err => {
+          setErrorMessage(err);
+        })
+      ;
+    };
 
     //화면 영역/////////////////////////////////////////////////////////////////////////////////////
     return (
@@ -73,9 +104,9 @@ function RegisterPage() {
           />
           <div />
           <select
-                value={form.years}
+                value={birth.years}
                 onChange={(e) =>
-                    setForm({ ...form, years: e.target.value })
+                  setBirth({ ...birth, years: e.target.value })
                 }
             >
                 {years.map(item => (
@@ -85,9 +116,9 @@ function RegisterPage() {
                 ))}
             </select>
           <select
-                value={form.month}
+                value={birth.month}
                 onChange={(e) =>
-                    setForm({ ...form, month: e.target.value })
+                  setBirth({ ...birth, month: e.target.value })
                 }
             >
                 {month.map(item => (
@@ -97,9 +128,9 @@ function RegisterPage() {
                 ))}
             </select>
             <select
-                value={form.day}
+                value={birth.day}
                 onChange={(e) =>
-                    setForm({ ...form, day: e.target.value })
+                    setBirth({ ...birth, day: e.target.value })
                 }
             >
                 {days.map(item => (
@@ -109,7 +140,8 @@ function RegisterPage() {
                 ))}
             </select>
           <div />
-          <input type="submit" />
+          <input type="submit" value={"완료"} />
+          {errorMessage.length>0 && <div>{errorMessage}</div>}
         </form>
       </div>
     );

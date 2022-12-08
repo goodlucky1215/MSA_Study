@@ -15,13 +15,23 @@ export function loginUser(dataToSubmit) {
     }
 }
 
-export function registerUser(dataToSubmit) {
+export function registerUser(registerUserData) {
 
-    const request = axios.post('/api/users/register', dataToSubmit)
-        .then(response => response.data)
-
-    return {
-        type: REGISTER_USER,
-        payload: request
-    }
+    axios
+        .post('/user-service/join', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: registerUserData,
+        })
+        .then(
+            //setErrorMessage(res.body);
+            //f(res.body === "true") navigate("/");
+            //else  navigate("/");
+        )
+        .catch(err => {
+            //setErrorMessage(err);
+        })
+    
 }

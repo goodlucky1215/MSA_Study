@@ -15,7 +15,7 @@ export function loginUser(dataToSubmit) {
     }
 }
 
-export function registerUser(registerUserData) {
+export default function registerUser(registerUserData) {
 
     axios
         .post('/user-service/join', {
@@ -25,13 +25,13 @@ export function registerUser(registerUserData) {
             },
             data: registerUserData,
         })
-        .then(
+        .then(function (response){
             //setErrorMessage(res.body);
             //f(res.body === "true") navigate("/");
             //else  navigate("/");
-        )
-        .catch(err => {
-            //setErrorMessage(err);
+            })
+        .catch(function (error){
+         //   setErrorMessage(error);
         })
     
 }

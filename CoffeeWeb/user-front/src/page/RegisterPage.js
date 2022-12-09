@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import registerUser from '../user_action';
 
 function RegisterPage() {
     const [userId, setUserId] = useState('');
@@ -52,7 +53,9 @@ function RegisterPage() {
         birth : birth.year+birth.month+birth.day
       };
       console.log(registerUserData);
-
+      registerUser(registerUserData);
+    }
+/*
       await fetch('/user-service/join', {
         method: 'POST',
         headers: {
@@ -72,8 +75,8 @@ function RegisterPage() {
         .catch(err => {
           setErrorMessage(err);
         })
-      ;
     };
+    */
 
     //화면 영역/////////////////////////////////////////////////////////////////////////////////////
     return (

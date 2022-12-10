@@ -6,6 +6,7 @@ import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     final private UserRepository userRepository;
@@ -29,10 +31,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean userJoin(UserJoinDto memberJoinDto) {
-        boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
-        if(extistIdTF) return false;
+        log.info("memberJoinDto {}",memberJoinDto);
         UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
-        userEntity.builder().passwordEncrypt(bCryptPasswordEncoder.encode(memberJoinDto.getPassword()));
+        boolean extistIdTF = userRepository.existsById(userEntity.getId());
+        if(extistIdTF) return false;
+        userEntity.builder().password(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         userRepository.save(userEntity);
         return true;
     }
@@ -57,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         UserEntity userInfoEntity = userRepository.findById(id);
         if(userInfoEntity==null) return null;
-        return new User(userInfoEntity.getId(),userInfoEntity.getPasswordEncrypt(),
+        return new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>());
     }

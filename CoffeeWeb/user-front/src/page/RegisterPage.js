@@ -43,7 +43,6 @@ function RegisterPage() {
     }
 
     const navigate = useNavigate();
-
     const handleSubmit = async (e) => {
       e.preventDefault();
       let registerUserData = {
@@ -52,8 +51,7 @@ function RegisterPage() {
         password : password,
         birth : birth.year+birth.month+birth.day
       };
-      console.log(registerUserData);
-      registerUser(registerUserData);
+      registerUser(registerUserData,setErrorMessage,navigate);
     }
 /*
       await fetch('/user-service/join', {

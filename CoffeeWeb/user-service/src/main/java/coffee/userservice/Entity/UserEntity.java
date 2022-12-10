@@ -28,8 +28,8 @@ public class UserEntity {
     @Column(nullable = false, length = 20)
     private String nickname;
 
-    @Column(nullable = false, length = 30)
-    private String passwordEncrypt;
+    @Column(nullable = false, length = 30, name = "passwordEncrypt")
+    private String password;
 
     private LocalDate birth;
 
@@ -38,12 +38,12 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder
-    public UserEntity(String id, String email, String nickname, String passwordEncrypt, LocalDate birth, String grade, LocalDateTime joinDate){
+    public UserEntity(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
         //this.pkId = pkId;
         this.id = id;
         this.email = email;
         this.nickname = nickname;
-        this.passwordEncrypt = passwordEncrypt;
+        this.password = password;
         this.birth = birth;
         this.grade = grade;
         this.joinDate = joinDate;

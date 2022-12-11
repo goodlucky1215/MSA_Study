@@ -1,9 +1,12 @@
 package coffee.userservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -30,6 +33,7 @@ public class UserJoinDto {
     @Size(min =4, max = 20, message = "패스워드는 4자 이상 20자 이하여야 합니다")
     private String password;
 
+    @JsonFormat(pattern = "yyyyMMdd")
     private LocalDate birth;
 
     //public String getId() {return id;}

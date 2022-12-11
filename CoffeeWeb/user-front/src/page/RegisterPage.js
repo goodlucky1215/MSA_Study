@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import registerUser from '../user_action';
+import {register} from '../user_action';
 
 function RegisterPage() {
     const [userId, setUserId] = useState('');
@@ -43,7 +43,7 @@ function RegisterPage() {
     }
 
     const navigate = useNavigate();
-    const handleSubmit = async (e) => {
+    const handleSubmit =  (e) => {
       e.preventDefault();
       let registerUserData = {
         id : userId,
@@ -51,31 +51,9 @@ function RegisterPage() {
         password : password,
         birth : birth.year+birth.month+birth.day
       };
-      registerUser(registerUserData,setErrorMessage,navigate);
+      register(registerUserData,setErrorMessage,navigate);
     }
-/*
-      await fetch('/user-service/join', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(registerUserData),
-      })
-        .then(res => {
-          throw Error("Sdfsdfsdfsdfsdfsdd");
-            setErrorMessage("Sdfsdf");
-            //setErrorMessage(res.body);
-            //f(res.body === "true") navigate("/");
-            //else  navigate("/");
-          }
-        )
-        .catch(err => {
-          setErrorMessage(err);
-        })
-    };
-    */
-
+    
     //화면 영역/////////////////////////////////////////////////////////////////////////////////////
     return (
       <div className="App">
@@ -142,7 +120,7 @@ function RegisterPage() {
             </select>
           <div />
           <input type="submit" value={"완료"} />
-          {errorMessage.length>0 && <div>{errorMessage}</div>}
+          {errorMessage!==undefined && errorMessage.length>0 && <div>{errorMessage}</div>}
         </form>
       </div>
     );

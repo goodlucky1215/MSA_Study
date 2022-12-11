@@ -27,15 +27,19 @@ public class UserServiceImpl implements UserService {
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private ModelMapper mapper = new ModelMapper();
+    final private ModelMapper mapper;
 
     @Override
     public boolean userJoin(UserJoinDto memberJoinDto) {
-        log.info("memberJoinDto {}",memberJoinDto);
-        UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
-        boolean extistIdTF = userRepository.existsById(userEntity.getId());
+        boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
         if(extistIdTF) return false;
-        userEntity.builder().password(bCryptPasswordEncoder.encode(userEntity.getPassword()));
+        UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
+        String bCryptPassword = bCryptPasswordEncoder.encode(userEntity.getPassword());
+        userEntity.builder()
+                .nickname("aaa")
+                .password(bCryptPassword).build();
+        log.info("userEntity => {}",userEntity.getNickname());
+        log.info("bCryptPassword => {}",bCryptPassword);
         userRepository.save(userEntity);
         return true;
     }
@@ -59,6 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         UserEntity userInfoEntity = userRepository.findById(id);
+        log.info("userInfoEntity.getId() {},userInfoEntity.getPassword() {}",userInfoEntity.getId(),userInfoEntity.getPassword());
         if(userInfoEntity==null) return null;
         return new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
                 true, true, true, true,

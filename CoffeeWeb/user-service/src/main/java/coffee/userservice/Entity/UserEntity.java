@@ -38,7 +38,17 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder
-    public UserEntity(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+    public UserEntity(UserEntity userEntity,String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+        if (userEntity != null) {
+            this.id=userEntity.getId();
+            email = email == null ? userEntity.getEmail():email;
+            nickname = nickname == null ? userEntity.getNickname():nickname;
+            password = password == null ? userEntity.getPassword():password;
+            birth = birth == null ? userEntity.getBirth():birth;
+            grade = grade == null ? userEntity.getGrade():grade;
+            joinDate = joinDate == null ? userEntity.getJoinDate():joinDate;
+        }
+
         //this.pkId = pkId;
         this.id = id;
         this.email = email;
@@ -48,4 +58,5 @@ public class UserEntity {
         this.grade = grade;
         this.joinDate = joinDate;
     }
+
 }

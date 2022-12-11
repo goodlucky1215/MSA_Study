@@ -26,6 +26,11 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 - .(점) -> _(언더스코어)
 - 대문자 -> 소문자
 
+(4) mapper 사용 시, @setter가 entity에 없다면 변환 안되서 null로 찍히는 문제 발생  
+- 아래와 같이 사용하면 private값에대해서도 @Setter없이도 mapper가 적용된다.  
+.setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
+.setFieldMatchingEnabled(true);
+
 3. 회원가입, 로그인 암호화 방식 사용
 
 (1) BCryptPasswordEncoder  

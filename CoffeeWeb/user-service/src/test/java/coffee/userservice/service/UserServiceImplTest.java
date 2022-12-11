@@ -72,7 +72,15 @@ class UserServiceImplTest {
         userJoinDto1.setPassword("1234");
         userJoinDto1.setNickname("노오란개굴");
         userJoinDto1.setBirth(LocalDate.of(1982, 7, 13));
+        UserEntity userEntity = UserEntity.builder()
+                .id("id1")
+                .nickname("노오란개굴")
+                .password("1234")
+                .joinDate(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
         when(userRepository.existsById("id1")).thenReturn(false);
+        when(mapper.map(any(),any())).thenReturn(userEntity);
 
 
         //when
@@ -104,7 +112,7 @@ class UserServiceImplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -115,7 +123,7 @@ class UserServiceImplTest {
         UserDetails result = userService.loadUserByUsername("id1");
 
         //then
-        assertEquals(new User(memberEntity.getId(),memberEntity.getPasswordEncrypt(),
+        assertEquals(new User(memberEntity.getId(),memberEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>()),result);
     }
@@ -127,7 +135,7 @@ class UserServiceImplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -150,7 +158,7 @@ class UserServiceImplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();

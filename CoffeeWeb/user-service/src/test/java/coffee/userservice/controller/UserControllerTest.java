@@ -117,9 +117,9 @@ class UserControllerTest {
         idLoginDto.setPassword("1234");
         UserEntity userInfoEntity = UserEntity.builder()
                                     .id("id1")
-                                    .passwordEncrypt(new BCryptPasswordEncoder().encode("1234"))
+                                    .password(new BCryptPasswordEncoder().encode("1234"))
                                     .build();
-        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(new User(userInfoEntity.getId(),userInfoEntity.getPasswordEncrypt(),
+        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>()));
         UserInfoDto userInfoDto = new UserInfoDto();
@@ -150,7 +150,7 @@ class UserControllerTest {
         idLoginDto.setPassword("1234");
         UserEntity userInfoEntity = UserEntity.builder()
                                     .id("id1")
-                                    .passwordEncrypt(new BCryptPasswordEncoder().encode("1234"))
+                                    .password(new BCryptPasswordEncoder().encode("1234"))
                                     .build();
         given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(null);
 

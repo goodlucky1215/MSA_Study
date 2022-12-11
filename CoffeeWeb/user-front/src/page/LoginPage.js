@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {login} from '../user_action';
 
 function LoginPage() {
 
     const navigate = useNavigate();
- 
+
     const navigateToRegisterPage = () => {
       navigate("/RegisterPage");
     };
 
     const [userId, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
+    const [errorMessage, setErrorMessage] = useState('');
+
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(`submit! ${userId} ${password}`);
-    };
-
+      let loginUserData = {
+        id : userId,
+        password : password
+      };
+      login(loginUserData,setErrorMessage,navigate);
+    }
     
     return (
         <div className="App">
@@ -36,11 +41,12 @@ function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div>
-              <button type="submit">로그인</button>
-              <button onClick={() =>  navigateToRegisterPage()}>
-                회원가입
-              </button>
+            <input type="submit" value={"로그인"} />
+            <button onClick={() =>  navigateToRegisterPage()}>
+                  회원가입
+            </button>
           </div>
+          {errorMessage!==undefined && errorMessage.length>0 && <div>{errorMessage}</div>}
         </form>
       </div>
     )

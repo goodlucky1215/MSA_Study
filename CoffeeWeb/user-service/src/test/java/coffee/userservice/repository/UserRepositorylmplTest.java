@@ -38,7 +38,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity1 = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -70,7 +70,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -101,7 +101,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity1 = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -127,7 +127,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -147,7 +147,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -167,7 +167,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -187,7 +187,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .id("id1")
                 .nickname("아프로디테")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
@@ -207,7 +207,7 @@ class UserRepositorylmplTest {
         UserEntity memberEntity = UserEntity.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
-                .passwordEncrypt("1234")
+                .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();

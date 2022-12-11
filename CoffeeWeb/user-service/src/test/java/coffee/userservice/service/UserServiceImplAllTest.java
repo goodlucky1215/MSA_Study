@@ -37,6 +37,9 @@ class UserServiceImplAllTest {
     private UserServiceImpl userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ModelMapper mapper;
@@ -49,7 +52,6 @@ class UserServiceImplAllTest {
 
         //when
         String bcPassword = bCryptPasswordEncoder.encode(password);
-        log.info("bcPassword : {}",bcPassword);
 
         //then
         assertEquals(true,bCryptPasswordEncoder.matches(password,bcPassword));
@@ -67,12 +69,11 @@ class UserServiceImplAllTest {
 
         //when
         boolean result = userService.userJoin(userJoinDto1);
-        log.info(userJoinDto1.getPassword());
-        userService.getUserInfo("id11");
+        UserEntity userEntity = userRepository.findById("id11");
 
         //then
         assertEquals(true,result);
-        assertEquals(true,bCryptPasswordEncoder.matches("1234",userJoinDto1.getPassword()));
+        assertEquals(true,bCryptPasswordEncoder.matches("1234",userEntity.getPassword()));
     }
 
     @DisplayName("bulider사용시")
@@ -87,9 +88,13 @@ class UserServiceImplAllTest {
         UserEntity userEntity = mapper.map(userJoinDto1, UserEntity.class);
 
         //when
-        userEntity.builder().nickname("aaa").build();
+        userEntity = userEntity.toBuilder()
+                .nickname("aaa")
+                .build();
 
         //then
+        log.info("nick => {}",userEntity.getNickname());
+        log.info("id => {}",userEntity.getId());
         assertEquals("aaa",userEntity.getNickname());
     }
 

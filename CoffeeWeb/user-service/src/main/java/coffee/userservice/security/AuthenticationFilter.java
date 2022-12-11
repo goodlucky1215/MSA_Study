@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 //login구현
 @RequiredArgsConstructor
@@ -64,7 +66,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader("token",token);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(userInfoDto));
+        Map map = new HashMap();
+        map.put("result",true);
+        map.put("user",userInfoDto);
+        response.getWriter().write(new ObjectMapper().writeValueAsString(map));
     }
 
     //로그인 실패 시 작동 메소드

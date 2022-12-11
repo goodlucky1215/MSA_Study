@@ -6,13 +6,13 @@ export async function login(loginUserData,setErrorMessage,navigate) {
             loginUserData,
         )
         .then(function (response){
-            console.log(loginUserData);
-            if(response.body === "true") navigate("/Main");
-            else setErrorMessage(response.body);
-            //else setErrorMessage("입력 정보가 틀렸습니다.");
+            console.log(response.data.result);
+            
+            if(response.data.result === true) navigate("/MainPage");
+            else setErrorMessage("입력 정보가 틀렸습니다.");
         })
         .catch(function (error){
-            setErrorMessage("asdfsdf");
+            setErrorMessage("로그인을 다시 시도해주세요");
         })
 
 }

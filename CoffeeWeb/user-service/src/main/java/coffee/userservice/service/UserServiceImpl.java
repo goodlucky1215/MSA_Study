@@ -34,12 +34,9 @@ public class UserServiceImpl implements UserService {
         boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
         if(extistIdTF) return false;
         UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
-        String bCryptPassword = bCryptPasswordEncoder.encode(userEntity.getPassword());
-        userEntity.builder()
-                .nickname("aaa")
-                .password(bCryptPassword).build();
-        log.info("userEntity => {}",userEntity.getNickname());
-        log.info("bCryptPassword => {}",bCryptPassword);
+        userEntity = userEntity.toBuilder()
+                               .password(bCryptPasswordEncoder.encode(userEntity.getPassword()))
+                               .build();
         userRepository.save(userEntity);
         return true;
     }

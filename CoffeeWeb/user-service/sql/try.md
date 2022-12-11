@@ -31,6 +31,9 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
 .setFieldMatchingEnabled(true);
 
+(5) builder 패턴 사용하고, JPA Update값(수정)이 있을시 수정이 안되는 문제 발생  
+- 빌더어노테이션 생성시, toBuilder를 true로 바꿔주면 된다. @Builder(toBuilder = true)
+
 3. 회원가입, 로그인 암호화 방식 사용
 
 (1) BCryptPasswordEncoder  

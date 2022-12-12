@@ -8,6 +8,7 @@ import coffee.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -60,8 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         UserEntity userInfoEntity = userRepository.findById(id);
-        log.info("userInfoEntity.getId() {},userInfoEntity.getPassword() {}",userInfoEntity.getId(),userInfoEntity.getPassword());
-        if(userInfoEntity==null) return null;
+        if(userInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요.");
         return new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>());

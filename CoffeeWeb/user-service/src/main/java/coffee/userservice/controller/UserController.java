@@ -4,6 +4,7 @@ import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@RequestBody UserJoinDto userJoinDto){
+    public String join(@Validated @RequestBody UserJoinDto userJoinDto){
         if(userService.userJoin(userJoinDto)) return "true";
         return "false";
     }

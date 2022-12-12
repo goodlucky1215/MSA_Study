@@ -43,6 +43,7 @@ function RegisterPage() {
     }
 
     const navigate = useNavigate();
+
     const handleSubmit =  (e) => {
       e.preventDefault();
       let registerUserData = {

@@ -1,5 +1,6 @@
 package coffee.userservice.security;
 
+import coffee.userservice.controller.ErrorResult;
 import coffee.userservice.dto.IdLoginDto;
 import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.service.UserService;
@@ -7,12 +8,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.bouncycastle.openssl.PasswordException;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
@@ -28,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //login구현
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -36,10 +44,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     //로그인 처리 메소드
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(@Validated HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             IdLoginDto creds = new ObjectMapper().readValue(request.getInputStream(), IdLoginDto.class);
-
+            if(StringUtils.isBlank(creds.getId()) || StringUtils.isBlank(creds.getPassword())) {
+                throw new AuthenticationServiceException("빈 값이 아니어야합니다.");
+            }
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getId(),
@@ -76,10 +86,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
 
-        request.setAttribute("loginFailMsg", "로그인에 실패하였습니다.");
-
+        if(failed.getClass().isAssignableFrom(BadCredentialsException.class)) response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error","회원 정보를 확인해주세요.")));
+        else response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error",failed.getMessage())));
         // 로그인 페이지로 다시 포워딩
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
-        dispatcher.forward(request, response);
+        //RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
+        //dispatcher.forward(request, response);
     }
 }

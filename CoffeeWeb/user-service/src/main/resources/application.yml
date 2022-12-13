@@ -21,10 +21,10 @@ spring:
 
 eureka:
   client:
-    register-with-eureka: false
-    #register-with-eureka: true
-    fetch-registry: false
-    #fetch-registry: true
+  #  register-with-eureka: false #단독실행 시킬 때 사용
+    register-with-eureka: true
+  #  fetch-registry: false #단독실행 시킬 때 사용
+    fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 

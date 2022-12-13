@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.Filter;
 
@@ -23,6 +25,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final Environment env;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     //권한과 관련된 메소드
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,6 +38,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService,env);
+        //authenticationFilter.setFilterProcessesUrl("/user-service/login");
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;

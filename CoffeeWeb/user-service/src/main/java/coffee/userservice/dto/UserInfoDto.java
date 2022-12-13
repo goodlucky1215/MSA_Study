@@ -27,6 +27,6 @@ public class UserInfoDto {
     @Size(min = 2,max =10,message="닉네임은 2자 이상 10자 이하여야 합니다.")
     private String nickname;
 
-    //public Long getPkId() {return pkId;}
-    //public String getNickname() {return nickname;}
+    private String grade;
+
 }

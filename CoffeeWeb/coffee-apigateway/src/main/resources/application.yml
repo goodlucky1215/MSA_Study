@@ -14,10 +14,13 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service
+        - id: user-service #하나의 서비스의 이름
           uri: lb://USER-SERVICE # lb://eureka에 등록된 어플리케이션 이름으로 사용
           predicates:
-            - Path=/user-service/**
+            - Path=/user-service/** # 이 주소로 들어오는 값은 uri로 통신을 보낸다는 의미
+          filters:
+            - RemoveRequestHeader=Cookie # 쿠키값을 헤더에서 제거한다는 의미
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment} #/user-service이 부분을 url에서 생략한다는 의미
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:

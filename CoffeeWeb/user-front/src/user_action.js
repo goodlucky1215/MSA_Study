@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function login(loginUserData,setErrorMessage,navigate) {
     await axios
-        .post('/login',
+        .post('/user-service/login',
             loginUserData,
         )
         .then(function (response){

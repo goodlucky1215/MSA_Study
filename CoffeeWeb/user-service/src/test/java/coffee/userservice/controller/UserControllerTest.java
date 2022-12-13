@@ -149,7 +149,7 @@ class UserControllerTest {
     public void login_success() throws Exception {
         //given
         IdLoginDto idLoginDto = new IdLoginDto();
-        idLoginDto.setId("id1");
+        idLoginDto.setId("id");
         idLoginDto.setPassword("1234");
         UserEntity userInfoEntity = UserEntity.builder()
                                     .id("id1")

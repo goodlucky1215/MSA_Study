@@ -6,6 +6,7 @@ export async function login(loginUserData,setErrorMessage,navigate) {
             loginUserData,
         )
         .then(function (response){
+            console.log(response);
             if(response.data.result === true) navigate("/MainPage");
             else setErrorMessage(response.data.message);
         })
@@ -27,6 +28,20 @@ export async function register(registerUserData,setErrorMessage,navigate) {
             })
         .catch(function (error){
             setErrorMessage("회원가입을 다시 시도해주세요.");
+        })
+    
+}
+
+export async function userInfo(setErrorMessage) {
+    await axios
+        .post('/user-service/userInfo',
+        )
+        .then(function (response){
+            console.log(response);
+        })
+        .catch(function (error){
+            console.log(error);
+            setErrorMessage("재 로그인 해주세요.");
         })
     
 }

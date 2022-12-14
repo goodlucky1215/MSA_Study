@@ -7,6 +7,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import UserInfoPage from "./page/UserInfoPage";
 
 function App(){
   return(
@@ -15,6 +16,7 @@ function App(){
 					<Route path="/" element={<LoginPage />}></Route>
           <Route path="/RegisterPage" element={<RegisterPage />}></Route>
           <Route path="/MainPage" element={<MainPage />}></Route>
+          <Route path="/UserInfoPage" element={<UserInfoPage />}></Route>
         </Routes>
       </BrowserRouter>
   );

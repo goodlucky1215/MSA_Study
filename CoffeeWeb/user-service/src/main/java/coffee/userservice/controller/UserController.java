@@ -4,6 +4,8 @@ import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,11 @@ public class UserController {
         return "false";
     }
 
+    @GetMapping("/userInfo")
+    public UserInfoDto userInfo(ServerHttpRequest request){
+        UserInfoDto userInfoDto = userService.getUserInfo(request.getHeaders().get("pkId").toString());
+        return userInfoDto;
+    }
 
     @PostMapping("/nicknamechange")
     public UserInfoDto nickNameChange(@RequestBody UserInfoDto userInfoDto){

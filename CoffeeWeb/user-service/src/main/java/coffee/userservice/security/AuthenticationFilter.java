@@ -70,13 +70,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserInfoDto userInfoDto = userService.getUserInfo(userId);
 
         String token = Jwts.builder()
-                .setSubject(userInfoDto.getPkId().toString())
+                .setSubject(userId)
                 .setExpiration(new Date(System.currentTimeMillis()+
                         Long.parseLong(env.getProperty("token.expiration_time"))))
                 .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
                 .compact();
 
         response.addHeader("token",token);
+        response.addHeader("userId",userId);
         Map map = new HashMap();
         map.put("result",true);
         map.put("user",userInfoDto);

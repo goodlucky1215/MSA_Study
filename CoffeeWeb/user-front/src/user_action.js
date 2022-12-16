@@ -6,8 +6,10 @@ export async function login(loginUserData,setErrorMessage,navigate) {
             loginUserData,
         )
         .then(function (response){
-            console.log(response);
-            if(response.data.result === true) navigate("/MainPage");
+            if(response.data.result === true) {
+                successfulLoginForJwt(response.headers.token,response.headers.userid);
+                navigate("/MainPage");
+            }
             else setErrorMessage(response.data.message);
         })
         .catch(function (error){
@@ -34,7 +36,7 @@ export async function register(registerUserData,setErrorMessage,navigate) {
 
 export async function userInfo(setErrorMessage) {
     await axios
-        .post('/user-service/userInfo',
+        .get('/user-service/userInfo',
         )
         .then(function (response){
             console.log(response);
@@ -42,6 +44,30 @@ export async function userInfo(setErrorMessage) {
         .catch(function (error){
             console.log(error);
             setErrorMessage("재 로그인 해주세요.");
-        })
+        });
     
-}
+};
+
+function successfulLoginForJwt(token,userId) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+    setupAxiosInterceptors();
+};
+
+function setupAxiosInterceptors() {
+    axios.interceptors.request.use(
+        config => {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            if(token  && userId){
+                config.headers['Authorization'] = 'Bearer' + token;
+                config.headers['userId'] = userId;
+                console.log("ddd2" + config);
+            }
+            return config;
+        },
+        error => {
+            Promise.reject(error);
+        }
+    );
+};

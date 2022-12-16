@@ -4,14 +4,18 @@ import coffee.userservice.dto.UserInfoDto;
 import coffee.userservice.dto.UserJoinDto;
 import coffee.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     final private UserService userService;
@@ -28,8 +32,9 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public UserInfoDto userInfo(ServerHttpRequest request){
-        UserInfoDto userInfoDto = userService.getUserInfo(request.getHeaders().get("pkId").toString());
+    public UserInfoDto userInfo(HttpServletRequest request){
+        log.info("get userId {}",request.getHeader("userId"));
+        UserInfoDto userInfoDto = userService.getUserInfo(request.getHeader("userId"));
         return userInfoDto;
     }
 

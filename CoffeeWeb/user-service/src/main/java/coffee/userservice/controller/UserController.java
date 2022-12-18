@@ -33,13 +33,12 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public UserInfoDto userInfo(HttpServletRequest request){
-        log.info("get userId {}",request.getHeader("userId"));
         UserInfoDto userInfoDto = userService.getUserInfo(request.getHeader("userId"));
         return userInfoDto;
     }
 
     @PostMapping("/nicknamechange")
-    public UserInfoDto nickNameChange(@RequestBody UserInfoDto userInfoDto){
+    public UserInfoDto nickNameChange(@Validated @RequestBody UserInfoDto userInfoDto){
         UserInfoDto changeUserInfoDto = userService.userNicknameChange(userInfoDto);
         return changeUserInfoDto;
     }

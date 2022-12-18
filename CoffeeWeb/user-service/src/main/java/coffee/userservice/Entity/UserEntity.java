@@ -38,7 +38,8 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder(toBuilder = true)
-    public UserEntity(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+    public UserEntity(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+        this.pkId = pkId;
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -46,6 +47,10 @@ public class UserEntity {
         this.birth = birth;
         this.grade = grade;
         this.joinDate = joinDate;
+    }
+
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
     }
 
 }

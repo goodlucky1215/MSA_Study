@@ -32,7 +32,8 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 .setFieldMatchingEnabled(true);
 
 (5) builder 패턴 사용하고, JPA Update값(수정)이 있을시 수정이 안되는 문제 발생  
-- 빌더어노테이션 생성시, toBuilder를 true로 바꿔주면 된다. @Builder(toBuilder = true)
+-  더티체크를 위해서 setter를 사용하지 않고, changeXxx 같은 식으로 사용해도 엔티티 내부의 필드 값을 변경하면, 데티체크가 일어나고, 실제 UPDATE 쿼리를 실행시킬 수 있다.
+-  @Builder(toBuilder = true) 이런식으로 사용하고 save해도 되는데 이는 더티체크가 아닌 새로운 엔티티를 생성하는 것이다.
 
 3. 회원가입, 로그인 암호화 방식 사용
 

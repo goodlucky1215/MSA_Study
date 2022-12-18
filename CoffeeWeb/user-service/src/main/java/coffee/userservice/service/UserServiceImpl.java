@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoDto userNicknameChange(UserInfoDto userInfoDto) {
         UserEntity userInfoEntity = userRepository.findByPkId(userInfoDto.getPkId());
-        userInfoEntity.builder().nickname(userInfoDto.getNickname());
+        userInfoEntity.changeNickname(userInfoDto.getNickname());
         UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
         return returnUserInfoDto;
     }

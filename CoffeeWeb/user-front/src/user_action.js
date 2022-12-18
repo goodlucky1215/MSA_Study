@@ -34,20 +34,39 @@ export async function register(registerUserData,setErrorMessage,navigate) {
     
 }
 
-export async function userInfo(setErrorMessage) {
+export async function userInfo(setPkId,setNickname,setGrade,setErrorMessage) {
     await axios
         .get('/user-service/userInfo',
         )
         .then(function (response){
-            console.log(response);
+            setNickname(response.data.nickname);
+            setGrade(response.data.grade);
+            setPkId(response.data.pkId);
+            setErrorMessage(response.data.message);
         })
         .catch(function (error){
-            console.log(error);
             setErrorMessage("재 로그인 해주세요.");
         });
     
 };
 
+export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
+    await axios
+        .post('/user-service/nicknamechange',
+            UserInfoDto
+        )
+        .then(function (response){
+            console.log(response);
+            setNickname(response.data.nickname);
+            setErrorMessage(response.data.message);
+        })
+        .catch(function (error){
+            setErrorMessage("재 로그인 해주세요.");
+        });
+    
+};
+
+////////////////////////////로그인 시 토큰 정보 가지고 있기///////////////////////////
 function successfulLoginForJwt(token,userId) {
     localStorage.setItem('token', token);
     localStorage.setItem('userId', userId);
@@ -62,7 +81,6 @@ function setupAxiosInterceptors() {
             if(token  && userId){
                 config.headers['Authorization'] = 'Bearer' + token;
                 config.headers['userId'] = userId;
-                console.log("ddd2" + config);
             }
             return config;
         },

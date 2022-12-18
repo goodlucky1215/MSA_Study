@@ -1,0 +1,77 @@
+package fashion.userservice.service;
+
+import fashion.userservice.entity.UserEntity;
+import fashion.userservice.dto.UserInfoDto;
+import fashion.userservice.dto.UserJoinDto;
+import fashion.userservice.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
+public class UserServiceImpl implements UserService {
+
+    final private UserRepository userRepository;
+
+    final private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    final private ModelMapper mapper;
+
+    @Override
+    public boolean userJoin(UserJoinDto memberJoinDto) {
+        boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
+        if(extistIdTF) return false;
+        UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
+        userEntity = userEntity.toBuilder()
+                               .password(bCryptPasswordEncoder.encode(userEntity.getPassword()))
+                               .build();
+        userRepository.save(userEntity);
+        return true;
+    }
+
+    @Override
+    public UserInfoDto getUserInfo(String userId) {
+        UserEntity userInfoEntity = userRepository.findById(userId);
+        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
+        return returnUserInfoDto;
+    }
+
+    /*
+    @Override
+    public UserInfoDto userLoginEmail() {
+        UserEntity userInfoEntity = userRepository.findById(idLoginDto.getId());
+        if(userInfoEntity==null) return null;
+
+        return null;
+    }
+     */
+    @Override
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        UserEntity userInfoEntity = userRepository.findById(id);
+        if(userInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요.");
+        return new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
+                true, true, true, true,
+                new ArrayList<>());
+    }
+
+    @Override
+    public UserInfoDto userNicknameChange(UserInfoDto userInfoDto) {
+        UserEntity userInfoEntity = userRepository.findByPkId(userInfoDto.getPkId());
+        userInfoEntity.changeNickname(userInfoDto.getNickname());
+        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
+        return returnUserInfoDto;
+    }
+
+}

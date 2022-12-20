@@ -1,8 +1,8 @@
 package fashion.userservice.service;
 
-import fashion.userservice.entity.UserEntity;
-import fashion.userservice.dto.UserJoinDto;
-import fashion.userservice.repository.UserRepository;
+import fashion.userservice.entity.Member;
+import fashion.userservice.dto.MemberJoinDto;
+import fashion.userservice.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @Transactional
 @Slf4j
-class UserServiceImplAllTest {
+class MemberServiceImplAllTest {
 
     @Autowired
     private UserServiceImpl userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -51,7 +51,7 @@ class UserServiceImplAllTest {
     @Test
     public void id_join_success(){
         //given
-        UserJoinDto userJoinDto1 = new UserJoinDto();
+        MemberJoinDto userJoinDto1 = new MemberJoinDto();
         userJoinDto1.setId("id11");
         userJoinDto1.setPassword("1234");
         userJoinDto1.setNickname("노오란개굴");
@@ -59,33 +59,33 @@ class UserServiceImplAllTest {
 
         //when
         boolean result = userService.userJoin(userJoinDto1);
-        UserEntity userEntity = userRepository.findById("id11");
+        Member memberEntity = memberRepository.findById("id11");
 
         //then
         assertEquals(true,result);
-        assertEquals(true,bCryptPasswordEncoder.matches("1234",userEntity.getPassword()));
+        assertEquals(true,bCryptPasswordEncoder.matches("1234", memberEntity.getPassword()));
     }
 
     @DisplayName("bulider사용시")
     @Test
     public void builder_mapper(){
         //given
-        UserJoinDto userJoinDto1 = new UserJoinDto();
+        MemberJoinDto userJoinDto1 = new MemberJoinDto();
         userJoinDto1.setId("id11");
         userJoinDto1.setPassword("1234");
         userJoinDto1.setNickname("노오란개굴");
         userJoinDto1.setBirth(LocalDate.of(1982, 7, 13));
-        UserEntity userEntity = mapper.map(userJoinDto1, UserEntity.class);
+        Member memberEntity = mapper.map(userJoinDto1, Member.class);
 
         //when
-        userEntity = userEntity.toBuilder()
+        memberEntity = memberEntity.toBuilder()
                 .nickname("aaa")
                 .build();
 
         //then
-        log.info("nick => {}",userEntity.getNickname());
-        log.info("id => {}",userEntity.getId());
-        assertEquals("aaa",userEntity.getNickname());
+        log.info("nick => {}", memberEntity.getNickname());
+        log.info("id => {}", memberEntity.getId());
+        assertEquals("aaa", memberEntity.getNickname());
     }
 
 }

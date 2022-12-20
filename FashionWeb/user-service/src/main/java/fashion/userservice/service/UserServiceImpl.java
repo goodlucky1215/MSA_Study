@@ -1,14 +1,13 @@
 package fashion.userservice.service;
 
-import fashion.userservice.entity.UserEntity;
-import fashion.userservice.dto.UserInfoDto;
-import fashion.userservice.dto.UserJoinDto;
-import fashion.userservice.repository.UserRepository;
+import fashion.userservice.entity.Member;
+import fashion.userservice.dto.MemberInfoDto;
+import fashion.userservice.dto.MemberJoinDto;
+import fashion.userservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,29 +22,29 @@ import java.util.ArrayList;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    final private UserRepository userRepository;
+    final private MemberRepository memberRepository;
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     final private ModelMapper mapper;
 
     @Override
-    public boolean userJoin(UserJoinDto memberJoinDto) {
-        boolean extistIdTF = userRepository.existsById(memberJoinDto.getId());
+    public boolean userJoin(MemberJoinDto memberJoinDto) {
+        boolean extistIdTF = memberRepository.existsById(memberJoinDto.getId());
         if(extistIdTF) return false;
-        UserEntity userEntity = mapper.map(memberJoinDto, UserEntity.class);
-        userEntity = userEntity.toBuilder()
-                               .password(bCryptPasswordEncoder.encode(userEntity.getPassword()))
+        Member memberEntity = mapper.map(memberJoinDto, Member.class);
+        memberEntity = memberEntity.toBuilder()
+                               .password(bCryptPasswordEncoder.encode(memberEntity.getPassword()))
                                .build();
-        userRepository.save(userEntity);
+        memberRepository.save(memberEntity);
         return true;
     }
 
     @Override
-    public UserInfoDto getUserInfo(String userId) {
-        UserEntity userInfoEntity = userRepository.findById(userId);
-        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
-        return returnUserInfoDto;
+    public MemberInfoDto getUserInfo(String userId) {
+        Member memberInfoEntity = memberRepository.findById(userId);
+        MemberInfoDto returnMemberInfoDto = mapper.map(memberInfoEntity, MemberInfoDto.class);
+        return returnMemberInfoDto;
     }
 
     /*
@@ -59,19 +58,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        UserEntity userInfoEntity = userRepository.findById(id);
-        if(userInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요.");
-        return new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
+        Member memberInfoEntity = memberRepository.findById(id);
+        if(memberInfoEntity ==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요.");
+        return new org.springframework.security.core.userdetails.User(memberInfoEntity.getId(), memberInfoEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>());
     }
 
     @Override
-    public UserInfoDto userNicknameChange(UserInfoDto userInfoDto) {
-        UserEntity userInfoEntity = userRepository.findByPkId(userInfoDto.getPkId());
-        userInfoEntity.changeNickname(userInfoDto.getNickname());
-        UserInfoDto returnUserInfoDto = mapper.map(userInfoEntity,UserInfoDto.class);
-        return returnUserInfoDto;
+    public MemberInfoDto userNicknameChange(MemberInfoDto memberInfoDto) {
+        Member memberInfoEntity = memberRepository.findByPkId(memberInfoDto.getPkId());
+        memberInfoEntity.changeNickname(memberInfoDto.getNickname());
+        MemberInfoDto returnMemberInfoDto = mapper.map(memberInfoEntity, MemberInfoDto.class);
+        return returnMemberInfoDto;
     }
 
 }

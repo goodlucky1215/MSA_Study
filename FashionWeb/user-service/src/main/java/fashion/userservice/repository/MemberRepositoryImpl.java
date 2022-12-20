@@ -1,6 +1,6 @@
 package fashion.userservice.repository;
 
-import fashion.userservice.entity.UserEntity;
+import fashion.userservice.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class MemberRepositoryImpl implements MemberRepository {
 
     final private EntityManager em;
 
@@ -24,28 +24,28 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(UserEntity memberEntity) {
+    public void save(Member memberEntity) {
         em.persist(memberEntity);
     }
 
     @Override
-    public UserEntity findById(String id) {
-        List<UserEntity> memberEntity = em.createQuery("select m from UserEntity m where m.id=:id", UserEntity.class)
+    public Member findById(String id) {
+        List<Member> memberEntity = em.createQuery("select m from Member m where m.id=:id", Member.class)
                 .setParameter("id",id).getResultList();
         if(memberEntity.isEmpty()) return null;
         return memberEntity.get(0);
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        List<UserEntity> memberEntity = em.createQuery("select m from UserEntity m where m.email=:email",
-                UserEntity.class).setParameter("email",email).getResultList();
+    public Member findByEmail(String email) {
+        List<Member> memberEntity = em.createQuery("select m from Member m where m.email=:email",
+                Member.class).setParameter("email",email).getResultList();
         if(memberEntity.isEmpty()) return null;
         return memberEntity.get(0);
     }
 
     @Override
-    public UserEntity findByPkId(Long pkId) {
-        return em.find(UserEntity.class, pkId);
+    public Member findByPkId(Long pkId) {
+        return em.find(Member.class, pkId);
     }
 }

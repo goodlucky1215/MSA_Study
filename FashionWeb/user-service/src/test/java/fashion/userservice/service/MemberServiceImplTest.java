@@ -1,9 +1,9 @@
 package fashion.userservice.service;
 
-import fashion.userservice.entity.UserEntity;
-import fashion.userservice.dto.UserInfoDto;
-import fashion.userservice.dto.UserJoinDto;
-import fashion.userservice.repository.UserRepository;
+import fashion.userservice.entity.Member;
+import fashion.userservice.dto.MemberInfoDto;
+import fashion.userservice.dto.MemberJoinDto;
+import fashion.userservice.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -25,13 +24,13 @@ import static org.mockito.Mockito.when;
 
 //@Mock을 사용_단위테스트를 의미_스프링 컨테이너에 등록하지 않고 가짜 객체 생성
 @ExtendWith(MockitoExtension.class)
-class UserServiceImplTest {
+class MemberServiceImplTest {
 
     @InjectMocks
     private UserServiceImpl userService;
 
     @Mock
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -44,12 +43,12 @@ class UserServiceImplTest {
     @Test
     public void id_join_fail(){
         //given
-        UserJoinDto userJoinDto1 = new UserJoinDto();
+        MemberJoinDto userJoinDto1 = new MemberJoinDto();
         userJoinDto1.setId("id1");
         userJoinDto1.setPassword("1234");
         userJoinDto1.setNickname("노오란개굴");
         userJoinDto1.setBirth(LocalDate.of(1982, 7, 13));
-        when(userRepository.existsById("id1")).thenReturn(true);
+        when(memberRepository.existsById("id1")).thenReturn(true);
 
 
         //when
@@ -63,20 +62,20 @@ class UserServiceImplTest {
     @Test
     public void id_join_success(){
         //given
-        UserJoinDto userJoinDto1 = new UserJoinDto();
+        MemberJoinDto userJoinDto1 = new MemberJoinDto();
         userJoinDto1.setId("id1");
         userJoinDto1.setPassword("1234");
         userJoinDto1.setNickname("노오란개굴");
         userJoinDto1.setBirth(LocalDate.of(1982, 7, 13));
-        UserEntity userEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("노오란개굴")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        when(userRepository.existsById("id1")).thenReturn(false);
-        when(mapper.map(any(),any())).thenReturn(userEntity);
+        when(memberRepository.existsById("id1")).thenReturn(false);
+        when(mapper.map(any(),any())).thenReturn(memberEntity);
 
 
         //when
@@ -91,7 +90,7 @@ class UserServiceImplTest {
     @Test
     public void id_login_fail(){
         //given
-        when(userRepository.findById("id1")).thenReturn(null);
+        when(memberRepository.findById("id1")).thenReturn(null);
 
 
         //when
@@ -105,21 +104,21 @@ class UserServiceImplTest {
     @Test
     public void id_login_success(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        when(userRepository.findById("id1")).thenReturn(memberEntity);
+        when(memberRepository.findById("id1")).thenReturn(memberEntity);
 
 
         //when
         UserDetails result = userService.loadUserByUsername("id1");
 
         //then
-        assertEquals(new User(memberEntity.getId(),memberEntity.getPassword(),
+        assertEquals(new org.springframework.security.core.userdetails.User(memberEntity.getId(),memberEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>()),result);
     }
@@ -128,45 +127,45 @@ class UserServiceImplTest {
     @Test
     public void nickNameChange_success(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        when(userRepository.findByPkId(1L)).thenReturn(memberEntity);
-        UserInfoDto userInfoDto = new UserInfoDto(1L,"헤라",null);
-        when(mapper.map(any(),any())).thenReturn(userInfoDto);
+        when(memberRepository.findByPkId(1L)).thenReturn(memberEntity);
+        MemberInfoDto memberInfoDto = new MemberInfoDto(1L,"헤라",null);
+        when(mapper.map(any(),any())).thenReturn(memberInfoDto);
 
         //when
-        UserInfoDto returnUserInfoDto = userService.userNicknameChange(userInfoDto);
+        MemberInfoDto returnMemberInfoDto = userService.userNicknameChange(memberInfoDto);
 
         //then
-        assertEquals("헤라",returnUserInfoDto.getNickname());
-        assertEquals(1L,returnUserInfoDto.getPkId());
+        assertEquals("헤라", returnMemberInfoDto.getNickname());
+        assertEquals(1L, returnMemberInfoDto.getPkId());
     }
 
     @DisplayName("사용자정보_가져오기_성공")
     @Test
     public void getUserInfo_success(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        when(userRepository.findById("id1")).thenReturn(memberEntity);
-        UserInfoDto userInfoDto = new UserInfoDto(1L,"아프로디테",null);
-        when(mapper.map(any(),any())).thenReturn(userInfoDto);
+        when(memberRepository.findById("id1")).thenReturn(memberEntity);
+        MemberInfoDto memberInfoDto = new MemberInfoDto(1L,"아프로디테",null);
+        when(mapper.map(any(),any())).thenReturn(memberInfoDto);
 
         //whem
-        UserInfoDto returnUserInfoDto = userService.getUserInfo("id1");
+        MemberInfoDto returnMemberInfoDto = userService.getUserInfo("id1");
 
         //then
-        assertEquals("아프로디테",returnUserInfoDto.getNickname());
-        assertEquals(1L,returnUserInfoDto.getPkId());
+        assertEquals("아프로디테", returnMemberInfoDto.getNickname());
+        assertEquals(1L, returnMemberInfoDto.getPkId());
     }
 }

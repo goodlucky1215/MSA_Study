@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @Getter
 @Setter //test시에만 개방
-public class UserJoinDto {
+public class MemberJoinDto {
 
     @NotBlank(message = "빈 값이 아니어야합니다.")
     @Size(min = 2,message="id는 2자 이상이어야 합니다.")

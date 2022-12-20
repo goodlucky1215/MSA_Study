@@ -1,9 +1,9 @@
 package fashion.userservice.controller;
 
-import fashion.userservice.entity.UserEntity;
+import fashion.userservice.entity.Member;
 import fashion.userservice.dto.IdLoginDto;
-import fashion.userservice.dto.UserInfoDto;
-import fashion.userservice.dto.UserJoinDto;
+import fashion.userservice.dto.MemberInfoDto;
+import fashion.userservice.dto.MemberJoinDto;
 import fashion.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -28,8 +27,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(MemberController.class)
+class MemberControllerTest {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -45,7 +44,7 @@ class UserControllerTest {
     @Test
     public void join_false_sameId() throws Exception {
         //given
-        UserJoinDto userJoinDto = new UserJoinDto();
+        MemberJoinDto userJoinDto = new MemberJoinDto();
         userJoinDto.setId("id1");
         userJoinDto.setNickname("병아리");
         userJoinDto.setPassword("123456");
@@ -67,7 +66,7 @@ class UserControllerTest {
     @Test
     public void join_false_IdNull() throws Exception {
         //given
-        UserJoinDto userJoinDto = new UserJoinDto();
+        MemberJoinDto userJoinDto = new MemberJoinDto();
         userJoinDto.setNickname("병아리");
         userJoinDto.setPassword("123456");
 
@@ -84,7 +83,7 @@ class UserControllerTest {
     @Test
     public void join_false_nickname_more() throws Exception {
         //given
-        UserJoinDto userJoinDto = new UserJoinDto();
+        MemberJoinDto userJoinDto = new MemberJoinDto();
         userJoinDto.setId("id1");
         userJoinDto.setNickname("병아리병아리병아리병아리");
         userJoinDto.setPassword("123456");
@@ -102,7 +101,7 @@ class UserControllerTest {
     @Test
     public void join_success() throws Exception {
         //given
-        UserJoinDto userJoinDto = new UserJoinDto();
+        MemberJoinDto userJoinDto = new MemberJoinDto();
         userJoinDto.setId("id1");
         userJoinDto.setNickname("병아리");
         userJoinDto.setPassword("123456");
@@ -124,21 +123,21 @@ class UserControllerTest {
     @Test
     public void nickNameChange_success() throws Exception {
         //given
-        UserInfoDto userInfoDto = new UserInfoDto();
-        userInfoDto.setPkId(1L);
-        userInfoDto.setNickname("병아리");
-        given(userService.userNicknameChange(userInfoDto)).willReturn(userInfoDto);
+        MemberInfoDto memberInfoDto = new MemberInfoDto();
+        memberInfoDto.setPkId(1L);
+        memberInfoDto.setNickname("병아리");
+        given(userService.userNicknameChange(memberInfoDto)).willReturn(memberInfoDto);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/user-service/nicknamechange")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(userInfoDto)));
+                .content(new ObjectMapper().writeValueAsString(memberInfoDto)));
 
         //then
         resultActions.andDo(print())
                 .andExpect(jsonPath("pkId",is(1)))
                 .andExpect(jsonPath("nickname",is("병아리")));
-        then(userService).should().userNicknameChange(userInfoDto);
+        then(userService).should().userNicknameChange(memberInfoDto);
     }
 
     @DisplayName("로그인_성공")
@@ -148,17 +147,17 @@ class UserControllerTest {
         IdLoginDto idLoginDto = new IdLoginDto();
         idLoginDto.setId("id");
         idLoginDto.setPassword("1234");
-        UserEntity userInfoEntity = UserEntity.builder()
+        Member memberInfoEntity = Member.builder()
                                     .id("id1")
                                     .password(new BCryptPasswordEncoder().encode("1234"))
                                     .build();
-        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(new User(userInfoEntity.getId(),userInfoEntity.getPassword(),
+        given(userService.loadUserByUsername(idLoginDto.getId())).willReturn(new org.springframework.security.core.userdetails.User(memberInfoEntity.getId(), memberInfoEntity.getPassword(),
                 true, true, true, true,
                 new ArrayList<>()));
-        UserInfoDto userInfoDto = new UserInfoDto();
-        userInfoDto.setPkId(1L);
-        userInfoDto.setNickname("병아리");
-        given(userService.getUserInfo("id1")).willReturn(userInfoDto);
+        MemberInfoDto memberInfoDto = new MemberInfoDto();
+        memberInfoDto.setPkId(1L);
+        memberInfoDto.setNickname("병아리");
+        given(userService.getUserInfo("id1")).willReturn(memberInfoDto);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/login")
@@ -181,7 +180,7 @@ class UserControllerTest {
         IdLoginDto idLoginDto = new IdLoginDto();
         idLoginDto.setId("id1");
         idLoginDto.setPassword("1234");
-        UserEntity userInfoEntity = UserEntity.builder()
+        Member memberInfoEntity = Member.builder()
                                     .id("id1")
                                     .password(new BCryptPasswordEncoder().encode("1234"))
                                     .build();

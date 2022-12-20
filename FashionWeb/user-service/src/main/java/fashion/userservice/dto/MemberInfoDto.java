@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 @Setter
 @Getter
-public class UserInfoDto {
+public class MemberInfoDto {
 
     @NotNull
     private Long pkId;

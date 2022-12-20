@@ -2,7 +2,7 @@ package fashion.userservice.security;
 
 import fashion.userservice.controller.ErrorResult;
 import fashion.userservice.dto.IdLoginDto;
-import fashion.userservice.dto.UserInfoDto;
+import fashion.userservice.dto.MemberInfoDto;
 import fashion.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -62,7 +62,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String userId = ((User)authResult.getPrincipal()).getUsername();
-        UserInfoDto userInfoDto = userService.getUserInfo(userId);
+        MemberInfoDto memberInfoDto = userService.getUserInfo(userId);
 
         String token = Jwts.builder()
                 .setSubject(userId)
@@ -75,7 +75,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader("userId",userId);
         Map map = new HashMap();
         map.put("result",true);
-        map.put("user",userInfoDto);
+        map.put("user", memberInfoDto);
         response.getWriter().write(new ObjectMapper().writeValueAsString(map));
     }
 

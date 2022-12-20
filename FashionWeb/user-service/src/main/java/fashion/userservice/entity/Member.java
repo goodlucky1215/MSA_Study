@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 
 @DynamicInsert
 @Entity
-@Table(name="member")
+@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter //test할때만 추가
-public class UserEntity {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class UserEntity {
     private LocalDateTime joinDate;
 
     @Builder(toBuilder = true)
-    public UserEntity(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+    public Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
         this.pkId = pkId;
         this.id = id;
         this.email = email;

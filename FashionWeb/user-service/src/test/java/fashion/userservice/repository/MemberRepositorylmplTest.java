@@ -1,6 +1,6 @@
 package fashion.userservice.repository;
 
-import fashion.userservice.entity.UserEntity;
+import fashion.userservice.entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-class UserRepositorylmplTest {
+class MemberRepositorylmplTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -33,17 +33,17 @@ class UserRepositorylmplTest {
     @Test
     public void id_notuniqueId(){
         //given
-        UserEntity memberEntity1 = UserEntity.builder()
+        Member memberEntity1 = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        userRepository.save(memberEntity1);
+        memberRepository.save(memberEntity1);
 
         //when
-        boolean exitstIdFT = userRepository.existsById("id1");
+        boolean exitstIdFT = memberRepository.existsById("id1");
 
         //then
         assertEquals(true,exitstIdFT);
@@ -54,7 +54,7 @@ class UserRepositorylmplTest {
     @Test
     public void id_uniqueId(){
         //when
-        boolean exitstIdFT = userRepository.existsById("id1");
+        boolean exitstIdFT = memberRepository.existsById("id1");
 
         //then
         assertEquals(false,exitstIdFT);
@@ -65,17 +65,17 @@ class UserRepositorylmplTest {
     @Test
     public void email_notuniqueId(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
                 .password("1234")
                 .joinDate(LocalDateTime.now())
                 .birth(LocalDate.of(1982, 7, 13))
                 .build();
-        userRepository.save(memberEntity);
+        memberRepository.save(memberEntity);
 
         //when
-        boolean exitstIdFT = userRepository.existsByEmail("email1@aa.com");
+        boolean exitstIdFT = memberRepository.existsByEmail("email1@aa.com");
 
         //then
         assertEquals(true, exitstIdFT);
@@ -85,7 +85,7 @@ class UserRepositorylmplTest {
     @Test
     public void email_uniqueId(){
         //when
-        boolean exitstIdFT = userRepository.existsByEmail("email1@aa.com");
+        boolean exitstIdFT = memberRepository.existsByEmail("email1@aa.com");
 
         //then
         assertEquals(false, exitstIdFT);
@@ -96,7 +96,7 @@ class UserRepositorylmplTest {
     @Test
     public void id_save_success(){
         //given
-        UserEntity memberEntity1 = UserEntity.builder()
+        Member memberEntity1 = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
@@ -105,11 +105,11 @@ class UserRepositorylmplTest {
                 .build();
 
         //when
-        userRepository.save(memberEntity1);
-        UserEntity memberEntity = userRepository.findById("id1");
+        memberRepository.save(memberEntity1);
+        Member memberEntity = memberRepository.findById("id1");
 
         //then
-        assertEquals(memberEntity1,em.createQuery("select m from UserEntity m where m.id=:id", UserEntity.class)
+        assertEquals(memberEntity1,em.createQuery("select m from Member m where m.id=:id", Member.class)
                 .setParameter("id","id1").getResultList().get(0));
         assertEquals("id1",memberEntity.getId());
         assertEquals(null,memberEntity.getEmail());
@@ -122,7 +122,7 @@ class UserRepositorylmplTest {
     @Test
     public void email_save_success(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .email("email1@aa.com")
                 .nickname("아프로디테")
                 .password("1234")
@@ -131,18 +131,18 @@ class UserRepositorylmplTest {
                 .build();
 
         //when
-        userRepository.save(memberEntity);
+        memberRepository.save(memberEntity);
 
         //then
-        assertEquals(memberEntity,em.createQuery("select m from UserEntity m where m.email=:email",
-                UserEntity.class).setParameter("email","email1@aa.com").getResultList().get(0));
+        assertEquals(memberEntity,em.createQuery("select m from Member m where m.email=:email",
+                Member.class).setParameter("email","email1@aa.com").getResultList().get(0));
     }
 
     @DisplayName("아이디로 로그인 시 정보 있을 때")
     @Test
     public void id_login_true(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
@@ -152,7 +152,7 @@ class UserRepositorylmplTest {
         em.persist(memberEntity);
 
         //when
-        UserEntity memberInfo = userRepository.findById("id1");
+        Member memberInfo = memberRepository.findById("id1");
 
         //then
         assertEquals(memberEntity,memberInfo);
@@ -162,7 +162,7 @@ class UserRepositorylmplTest {
     @Test
     public void email_login_true(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
                 .password("1234")
@@ -172,7 +172,7 @@ class UserRepositorylmplTest {
         em.persist(memberEntity);
 
         //when
-        UserEntity memberInfo = userRepository.findByEmail("email1@aa.com");
+        Member memberInfo = memberRepository.findByEmail("email1@aa.com");
 
         //then
         assertEquals(memberEntity,memberInfo);
@@ -182,7 +182,7 @@ class UserRepositorylmplTest {
     @Test
     public void id_login_false(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .id("id1")
                 .nickname("아프로디테")
                 .password("1234")
@@ -192,7 +192,7 @@ class UserRepositorylmplTest {
         em.persist(memberEntity);
 
         //when
-        UserEntity memberInfo = userRepository.findById("id2");
+        Member memberInfo = memberRepository.findById("id2");
 
         //then
         assertEquals(null,memberInfo);
@@ -202,7 +202,7 @@ class UserRepositorylmplTest {
     @Test
     public void email_login_false(){
         //given
-        UserEntity memberEntity = UserEntity.builder()
+        Member memberEntity = Member.builder()
                 .email("email1@aa.com")
                 .nickname("헤르메스")
                 .password("1234")
@@ -212,7 +212,7 @@ class UserRepositorylmplTest {
         em.persist(memberEntity);
 
         //when
-        UserEntity memberInfo = userRepository.findByEmail("email2@aa.com");
+        Member memberInfo = memberRepository.findByEmail("email2@aa.com");
 
         //then
         assertEquals(null,memberInfo);

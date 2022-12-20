@@ -1,7 +1,7 @@
 package fashion.userservice.controller;
 
-import fashion.userservice.dto.UserInfoDto;
-import fashion.userservice.dto.UserJoinDto;
+import fashion.userservice.dto.MemberInfoDto;
+import fashion.userservice.dto.MemberJoinDto;
 import fashion.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping
 @RequiredArgsConstructor
 @Slf4j
-public class UserController {
+public class MemberController {
 
     final private UserService userService;
 
@@ -24,21 +24,21 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@Validated @RequestBody UserJoinDto userJoinDto){
+    public String join(@Validated @RequestBody MemberJoinDto userJoinDto){
         if(userService.userJoin(userJoinDto)) return "true";
         return "false";
     }
 
     @GetMapping("/userInfo")
-    public UserInfoDto userInfo(HttpServletRequest request){
-        UserInfoDto userInfoDto = userService.getUserInfo(request.getHeader("userId"));
-        return userInfoDto;
+    public MemberInfoDto userInfo(HttpServletRequest request){
+        MemberInfoDto memberInfoDto = userService.getUserInfo(request.getHeader("userId"));
+        return memberInfoDto;
     }
 
     @PostMapping("/nicknamechange")
-    public UserInfoDto nickNameChange(@Validated @RequestBody UserInfoDto userInfoDto){
-        UserInfoDto changeUserInfoDto = userService.userNicknameChange(userInfoDto);
-        return changeUserInfoDto;
+    public MemberInfoDto nickNameChange(@Validated @RequestBody MemberInfoDto memberInfoDto){
+        MemberInfoDto changeMemberInfoDto = userService.userNicknameChange(memberInfoDto);
+        return changeMemberInfoDto;
     }
 
 

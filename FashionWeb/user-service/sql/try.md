@@ -10,6 +10,14 @@ A. user-service
 (4) 닉네임 변경
    
 B. order-service
+(1) 상품 목록
+(2) 상품 주문
+(3) 주문 내역 조회
+
+c. seller-service
+(1) 고객 주문 목록
+(2) 고객 주문 확인
+(3) 상품 등록
 
 
 3. dto, entity 분리

@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@Component
-@Slf4j
-public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
+    @Component
+    @Slf4j
+    public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<fashion.fashionapigateway.filter.AuthorizationHeaderFilter.Config> {
 
     private final Environment env;
 

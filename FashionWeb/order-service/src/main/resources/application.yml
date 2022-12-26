@@ -4,6 +4,10 @@ server:
 spring:
     application:
         name: order-service
+    jpa:
+        properties:
+            hibernate:
+                show_sql: true
 
 eureka:
     client:

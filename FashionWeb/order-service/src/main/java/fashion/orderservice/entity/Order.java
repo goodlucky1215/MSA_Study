@@ -20,14 +20,14 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "PK_ID")
-    Member member;
+    private Member member;
 
     @OneToMany(mappedBy = "ORDERITEM_ID")
-    List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    OrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
-    LocalDateTime orderDate;
+    private LocalDateTime orderDate;
 
 }

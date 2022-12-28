@@ -1,7 +1,7 @@
 package fashion.orderservice.repository;
 
 import fashion.orderservice.entity.Item;
-import fashion.orderservice.entity.Order;
+import fashion.orderservice.entity.Orders;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ public interface OrderRepository {
     List<Item> findAll();
 
     //상품 주문
-    void save(Order order);
+    void save(Orders order);
 
     //주문 목록 조회
-    List<Order> findbyPkId(Long pkId);
+    List<Orders> findbyPkId(Long pkId);
 
 }

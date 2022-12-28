@@ -1,7 +1,7 @@
 package fashion.orderservice.repository;
 
 import fashion.orderservice.entity.Item;
-import fashion.orderservice.entity.Order;
+import fashion.orderservice.entity.Orders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -20,14 +20,14 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void save(Order order) {
+    public void save(Orders order) {
         em.persist(order);
-        em.persist(order.getOrderItems());
+ //       em.persist(order.getOrderItems());
     }
 
     @Override
-    public List<Order> findbyPkId(Long pkId) {
-        return em.createQuery("select o from Order o where o.member.pkId=:pkId",Order.class)
+    public List<Orders> findbyPkId(Long pkId) {
+        return em.createQuery("select o from Orders o where o.member.pkId=:pkId", Orders.class)
                 .setParameter("pkId",pkId).getResultList();
     }
 }

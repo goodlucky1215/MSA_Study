@@ -12,7 +12,7 @@ import java.util.*;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class Order {
     @JoinColumn(name = "PK_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "ORDERITEM_ID")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    //@OneToMany(mappedBy = "ORDERITEM_ID")
+    //private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

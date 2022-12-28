@@ -8,13 +8,18 @@ spring:
         properties:
             hibernate:
                 show_sql: true
+    #DB
+    datasource:
+        url: jdbc:postgresql://127.0.0.1:5432/fashionApp
+        username: postgres
+        password: root
 
 eureka:
     client:
-        #register-with-eureka: false
-        #fetch-registry: false
-        register-with-eureka: true
-        fetch-registry: true
+        register-with-eureka: false
+        fetch-registry: false
+        #register-with-eureka: true
+        #fetch-registry: true
         service-url:
             defaultZone: http://127.0.0.1:8761/eureka
 

@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -18,6 +19,9 @@ public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sellerId;
+
+    @OneToMany(mappedBy = "itemId")
+    private List<Item> items = new ArrayList<>();
 
     @Column(unique = true, length = 40)
     private String id;
@@ -30,9 +34,8 @@ public class Seller {
 
     private LocalDateTime joinDate;
 
-    @Builder(toBuilder = true)
-    public Seller(Long sellerId, String id, String nickname, String passwordEncrypt, LocalDateTime joinDate){
-        this.sellerId = sellerId;
+    @Builder
+    public Seller(String id, String nickname, String passwordEncrypt, LocalDateTime joinDate){
         this.id = id;
         this.nickname = nickname;
         this.passwordEncrypt = passwordEncrypt;

@@ -42,9 +42,8 @@ public class Member {
 
     private LocalDateTime joinDate;
 
-    @Builder(toBuilder = true)
-    public Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
-        this.pkId = pkId;
+    @Builder
+    public Member(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -52,10 +51,6 @@ public class Member {
         this.birth = birth;
         this.grade = grade;
         this.joinDate = joinDate;
-    }
-
-    public void changeNickname(String nickname){
-        this.nickname = nickname;
     }
 
 }

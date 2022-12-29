@@ -22,7 +22,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void save(Orders order) {
         em.persist(order);
- //       em.persist(order.getOrderItems());
+        em.persist(order.getOrderItems());
     }
 
     @Override

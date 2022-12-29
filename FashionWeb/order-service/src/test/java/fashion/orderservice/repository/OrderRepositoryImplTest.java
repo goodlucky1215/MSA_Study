@@ -1,7 +1,10 @@
 package fashion.orderservice.repository;
 
-import fashion.orderservice.entity.Item;
+import fashion.orderservice.entity.*;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +31,25 @@ class OrderRepositoryImplTest {
     @Autowired
     private EntityManager em;
 
+    private Member member;
+
+    @BeforeEach
+    public void sellerUser(){
+        Seller seller =  Seller.builder()
+                .id("seller").nickname("토끼").passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+
+        member = Member.builder()
+                .id("god")
+                .nickname("아프로디테")
+                .password("1234")
+                .joinDate(LocalDateTime.now())
+                .birth(LocalDate.of(1982, 7, 13))
+                .build();
+        em.persist(member);
+    }
+
     @DisplayName("아이템 목록이 없을 경우")
     @Test
     public void itemIsEmpty(){
@@ -33,5 +58,98 @@ class OrderRepositoryImplTest {
 
         //then
         assertEquals(0,items.size());
+        assertEquals(new ArrayList<>(),items);
+
     }
+
+    @DisplayName("아이템 목록 기져오기")
+    @Test
+    public void itemAllList(){
+        //given
+        List<Item> getItems = makeItems();
+        for(Item i : getItems) em.persist(i);
+
+        // when
+        List<Item> items = orderRepository.findAll();
+
+        //then
+        assertEquals(2,items.size());
+        assertEquals(getItems,items);
+    }
+
+    @DisplayName("아이템 주문 중 중간에 실패할 경우")
+    @Test
+    public void itemOrderFail(){
+        //given
+        List<Item> getItems = makeItems();
+        for(Item i : getItems) em.persist(i);
+        List<OrderItem> getOrderItems = makeOrderItems();
+        Orders orders = makeOrders(getOrderItems);
+
+
+        // when
+        orderRepository.save(orders);
+
+        //then
+        assertEquals(orders,em.createQuery("select o from Orders o",Item.class).getResultList().get(0));
+
+    }
+
+    @DisplayName("아이템 주문 성공")
+    @Test
+    public void itemOrderSuccess(){
+        //given
+
+    }
+
+    private List<Item> makeItems(){
+        Seller seller = em.createQuery("select i from Seller i",Seller.class).getResultList().get(0);
+        List<Item> items = new ArrayList<>();
+        Item item1 = Item.builder()
+                .seller(seller)
+                .itemName("S발란스 운동화")
+                .price(112000L)
+                .quantity(15L)
+                .category(Category.shoes)
+                .build();
+        Item item2 = Item.builder()
+                .seller(seller)
+                .itemName("프릴이 달린 니트")
+                .price(58700L)
+                .quantity(32L)
+                .category(Category.top)
+                .build();
+        items.add(item1);
+        items.add(item2);
+        return items;
+    }
+
+    private List<OrderItem> makeOrderItems() {
+        List<Item> items = em.createQuery("select i from Item i",Item.class).getResultList();
+        OrderItem orderItem1 = OrderItem.builder()
+                .item(items.get(0))
+                .orderQuantity(4L)
+                .build();
+        OrderItem orderItem2 = OrderItem.builder()
+                .item(items.get(1))
+                .orderQuantity(10L)
+                .build();
+        List<OrderItem> orderItems = new ArrayList<>();
+        orderItems.add(orderItem1);
+        orderItems.add(orderItem2);
+        return orderItems;
+    }
+
+
+    private Orders makeOrders(List<OrderItem> orderItems){
+        Orders order = Orders.builder()
+                .member(member)
+                .orderItem(orderItems)
+                .orderStatus(OrderStatus.ORDER)
+                .build();
+        System.out.println(orderItems.get(0).getOrder().getOrderId());
+        System.out.println(orderItems.get(1).getOrder().getOrderId());
+        return order;
+    }
+
 }

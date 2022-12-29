@@ -18,8 +18,11 @@ public class Item {
     private Long itemId;
 
     @ManyToOne
-    @JoinColumn(name = "SELLER_ID")
+    @JoinColumn(name = "sellerId")
     private Seller seller;
+
+    @Column(nullable = false,length = 100)
+    private String itemName;
 
     @Column(nullable = false)
     private Long price;
@@ -30,14 +33,15 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Builder(toBuilder = true)
-    public Item(Long itemId, Long price, Long quantity,Category category){
-        this.itemId = itemId;
+    @Builder
+    public Item(Seller seller, String itemName, Long price, Long quantity,Category category){
+        this.seller = seller;
+        this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
+        seller.getItems().add(this);
     }
-
 
 
 }

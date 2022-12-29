@@ -1,6 +1,7 @@
 package fashion.orderservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +18,25 @@ public class OrderItem {
     private Long orderitemId;
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "orderId")
     private Orders order;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_ID")
+    @JoinColumn(name = "itemId")
     private Item item;
 
+    @Column(nullable = false)
+    private Long orderQuantity;
+
+    @Column(nullable = false)
+    private Long orderPrice;
+
+    @Builder
+    public OrderItem(Orders order, Item item, Long orderQuantity){
+        this.order = order;
+        this.item = item;
+        this.orderQuantity = orderQuantity;
+        this.orderPrice = orderQuantity*item.getPrice();
+    }
 
 }

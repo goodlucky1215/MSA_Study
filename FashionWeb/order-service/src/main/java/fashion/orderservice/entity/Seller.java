@@ -35,7 +35,7 @@ public class Seller {
     private LocalDateTime joinDate;
 
     @Builder
-    public Seller(String id, String nickname, String passwordEncrypt, LocalDateTime joinDate){
+    private Seller(String id, String nickname, String passwordEncrypt, LocalDateTime joinDate){
         this.id = id;
         this.nickname = nickname;
         this.passwordEncrypt = passwordEncrypt;

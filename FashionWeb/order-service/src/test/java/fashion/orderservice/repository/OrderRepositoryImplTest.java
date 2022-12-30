@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -83,7 +84,7 @@ class OrderRepositoryImplTest {
         //given
         List<Item> getItems = makeItems();
         for(Item i : getItems) em.persist(i);
-        List<OrderItem> getOrderItems = makeOrderItems();
+        List<Orderitem> getOrderItems = makeOrderItems();
         Orders orders = makeOrders(getOrderItems);
 
 
@@ -91,7 +92,8 @@ class OrderRepositoryImplTest {
         orderRepository.save(orders);
 
         //then
-        assertEquals(orders,em.createQuery("select o from Orders o",Item.class).getResultList().get(0));
+        assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
+
 
     }
 
@@ -99,6 +101,17 @@ class OrderRepositoryImplTest {
     @Test
     public void itemOrderSuccess(){
         //given
+        List<Item> getItems = makeItems();
+        for(Item i : getItems) em.persist(i);
+        List<Orderitem> getOrderItems = makeOrderItems();
+        Orders orders = makeOrders(getOrderItems);
+
+        // when
+        orderRepository.save(orders);
+
+        //then
+        assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
+        assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
 
     }
 
@@ -124,31 +137,19 @@ class OrderRepositoryImplTest {
         return items;
     }
 
-    private List<OrderItem> makeOrderItems() {
+    private List<Orderitem> makeOrderItems() {
         List<Item> items = em.createQuery("select i from Item i",Item.class).getResultList();
-        OrderItem orderItem1 = OrderItem.builder()
-                .item(items.get(0))
-                .orderQuantity(4L)
-                .build();
-        OrderItem orderItem2 = OrderItem.builder()
-                .item(items.get(1))
-                .orderQuantity(10L)
-                .build();
-        List<OrderItem> orderItems = new ArrayList<>();
+        Orderitem orderItem1 = Orderitem.createOrderitem(items.get(0),4L);
+        Orderitem orderItem2 = Orderitem.createOrderitem(items.get(1),14L);
+        List<Orderitem> orderItems = new ArrayList<>();
         orderItems.add(orderItem1);
         orderItems.add(orderItem2);
         return orderItems;
     }
 
 
-    private Orders makeOrders(List<OrderItem> orderItems){
-        Orders order = Orders.builder()
-                .member(member)
-                .orderItem(orderItems)
-                .orderStatus(OrderStatus.ORDER)
-                .build();
-        System.out.println(orderItems.get(0).getOrder().getOrderId());
-        System.out.println(orderItems.get(1).getOrder().getOrderId());
+    private Orders makeOrders(List<Orderitem> orderItems){
+        Orders order = Orders.createOrder(member, orderItems);
         return order;
     }
 

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class OrderItem {
+public class Orderitem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,22 @@ public class OrderItem {
     private Long orderPrice;
 
     @Builder
-    public OrderItem(Orders order, Item item, Long orderQuantity){
+    private Orderitem(Orders order, Item item, Long orderQuantity, Long orderPrice){
         this.order = order;
         this.item = item;
         this.orderQuantity = orderQuantity;
-        this.orderPrice = orderQuantity*item.getPrice();
+        this.orderPrice = orderPrice;
     }
 
+    public void putOrder(Orders order) {
+        this.order = order;
+    }
+
+    public static Orderitem createOrderitem(Item item, Long orderQuantity){
+        return builder()
+                .item(item)
+                .orderQuantity(orderQuantity)
+                .orderPrice(orderQuantity* item.getPrice())
+                .build();
+    }
 }

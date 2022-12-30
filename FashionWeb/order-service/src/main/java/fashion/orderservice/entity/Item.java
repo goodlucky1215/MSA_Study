@@ -34,7 +34,7 @@ public class Item {
     private Category category;
 
     @Builder
-    public Item(Seller seller, String itemName, Long price, Long quantity,Category category){
+    private Item(Seller seller, String itemName, Long price, Long quantity,Category category){
         this.seller = seller;
         this.itemName = itemName;
         this.price = price;

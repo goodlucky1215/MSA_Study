@@ -23,19 +23,31 @@ public class Orders {
     @JoinColumn(name = "pkId")
     private Member member;
 
-    @OneToMany(mappedBy = "orderitemId")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    @OneToMany(mappedBy = "orderitemId", cascade = CascadeType.ALL)
+    private List<Orderitem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     private LocalDateTime orderDate;
 
     @Builder
-    public Orders(Member member, List<OrderItem> orderItem, OrderStatus orderStatus){
+    private Orders(Member member, List<Orderitem> orderItems, OrderStatus status){
         this.member = member;
-        this.orderItems.addAll(orderItem);
-        this.orderStatus = orderStatus;
-        OrderItem.builder().order(this).build();
+        this.orderItems = orderItems;
+        this.status = status;
+        for(Orderitem orderitem : orderItems) {
+            orderitem.putOrder(this);
+        }
     }
+
+    public static Orders createOrder(Member member, List<Orderitem> orderItems){
+        return builder()
+                .member(member)
+                .orderItems(orderItems)
+                .status(OrderStatus.ORDER)
+                .build();
+    }
+
+
 }

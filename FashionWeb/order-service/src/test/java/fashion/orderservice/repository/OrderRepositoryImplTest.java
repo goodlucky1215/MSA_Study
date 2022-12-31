@@ -111,7 +111,17 @@ class OrderRepositoryImplTest {
 
         //then
         assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
-        assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
+    }
+
+    @DisplayName("사용자 주문 목록_성공")
+    @Test
+    public void memberOrderList_success(){
+        //given
+
+
+        // when
+
+        //then
 
     }
 

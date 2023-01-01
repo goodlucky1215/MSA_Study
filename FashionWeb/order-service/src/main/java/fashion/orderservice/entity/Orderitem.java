@@ -39,7 +39,7 @@ public class Orderitem {
         this.orderPrice = orderPrice;
     }
 
-    public void putOrder(Orders order) {
+    public void setOrder(Orders order) {
         this.order = order;
     }
 

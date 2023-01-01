@@ -37,7 +37,7 @@ public class Orders {
         this.orderItems = orderItems;
         this.status = status;
         for(Orderitem orderitem : orderItems) {
-            orderitem.putOrder(this);
+            orderitem.setOrder(this);
         }
     }
 

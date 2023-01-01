@@ -78,25 +78,6 @@ class OrderRepositoryImplTest {
         assertEquals(getItems,items);
     }
 
-    @DisplayName("아이템 주문 중 중간에 실패할 경우")
-    @Test
-    public void itemOrderFail(){
-        //given
-        List<Item> getItems = makeItems();
-        for(Item i : getItems) em.persist(i);
-        List<Orderitem> getOrderItems = makeOrderItems();
-        Orders orders = makeOrders(getOrderItems);
-
-
-        // when
-        orderRepository.save(orders);
-
-        //then
-        assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
-
-
-    }
-
     @DisplayName("아이템 주문 성공")
     @Test
     public void itemOrderSuccess(){
@@ -113,15 +94,38 @@ class OrderRepositoryImplTest {
         assertEquals(orders,em.createQuery("select o from Orders o",Orders.class).getResultList().get(0));
     }
 
-    @DisplayName("사용자 주문 목록_성공")
+    @DisplayName("사용자 주문 목록_없을때_성공")
+    @Test
+    public void memberOrderList_empty_success(){
+        //given
+
+        // when
+        List<Orders> orders = orderRepository.findbyPkId(member.getPkId());
+
+        //then
+        assertEquals(0,orders.size());
+
+    }
+
+    @DisplayName("사용자 주문 목록_있을때_성공")
     @Test
     public void memberOrderList_success(){
         //given
-
+        List<Item> getItems = makeItems();
+        for(Item i : getItems) em.persist(i);
+        List<Orderitem> getOrderItems = makeOrderItems();
+        Orders order = makeOrders(getOrderItems);
+        orderRepository.save(order);
+        getOrderItems = makeOrderItems();
+        order = makeOrders(getOrderItems);
+        orderRepository.save(order);
 
         // when
+        List<Orders> orders = orderRepository.findbyPkId(member.getPkId());
 
         //then
+        assertEquals(2,orders.get(0).getOrderItems().size());
+        assertEquals(2,orders.size());
 
     }
 

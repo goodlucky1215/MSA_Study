@@ -43,7 +43,8 @@ public class Member {
     private LocalDateTime joinDate;
 
     @Builder
-    private Member(String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+    private Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+        this.pkId = pkId;
         this.id = id;
         this.email = email;
         this.nickname = nickname;

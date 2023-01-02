@@ -99,6 +99,12 @@ b. 단위테스트
 => when~thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
 => 그러나 service의 return값은 dto이다.  
 =>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when~thenReturn으로 결과값 작성을 해야한다.
+- ModelMapper의 when~thenReturn 시, return값이 List라면 배열을 나눠서 return해야한다.  
+=> ex)  
+   List<Item>  mi = makeItems();  
+   when(orderRepository.findAll()).thenReturn(mi);  
+   when(mapper.map(eq(mi.get(0)),eq(ItemDto.class))).thenReturn(makeItemsDto().get(0));  
+   when(mapper.map(eq(mi.get(1)),eq(ItemDto.class))).thenReturn(makeItemsDto().get(1));  
 
 (3) Controller  
 

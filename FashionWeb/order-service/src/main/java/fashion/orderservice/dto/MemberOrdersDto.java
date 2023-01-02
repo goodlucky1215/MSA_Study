@@ -1,14 +1,17 @@
 package fashion.orderservice.dto;
 
-import fashion.orderservice.entity.Member;
 import fashion.orderservice.entity.OrderStatus;
-import fashion.orderservice.entity.Orderitem;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@EqualsAndHashCode
 public class MemberOrdersDto {
 
     private Long orderId;

@@ -1,11 +1,11 @@
 package fashion.orderservice.dto;
 
 import com.sun.istack.NotNull;
-import fashion.orderservice.entity.Item;
-import fashion.orderservice.entity.Orders;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
-
+@Getter
+@Setter
 public class OrderitemDto {
 
     @NotNull
@@ -13,8 +13,5 @@ public class OrderitemDto {
 
     @NotNull
     private Long orderQuantity;
-
-    @NotNull
-    private Long orderPrice;
 
 }

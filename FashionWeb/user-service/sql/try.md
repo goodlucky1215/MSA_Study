@@ -9,15 +9,15 @@ A. user-service
 (3) 사용자 정보 보기  
 (4) 닉네임 변경
    
-B. order-service
-(1) 상품 목록
-(2) 상품 주문
-(3) 주문 내역 조회
+B. order-service  
+(1) 상품 목록  
+(2) 상품 주문  
+(3) 주문 내역 조회  
 
-c. seller-service
-(1) 고객 주문 목록
-(2) 고객 주문 확인
-(3) 상품 등록
+c. seller-service  
+(1) 고객 주문 목록  
+(2) 고객 주문 확인  
+(3) 상품 등록  
 
 
 3. dto, entity 분리
@@ -121,4 +121,10 @@ b. 단위테스트
 => when~thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.  
 - 이 외로도 BDD 기본 패턴의 then에서 사용되는 Mockito에서 제공하는 verify() 도 then().should() 로 대체될 수 있다.  
 
-6. 스프링부트랑 리액트 연결하기
+6. JPA
+
+- cascade = CascadeType.ALL  
+=> 상위 엔티티가 하위 엔티티를 가지고 있으면 작업 전파  
+=> ex) 주문(상위 엔티티)하면 주문 아이템(하위 엔티티)도 같이 전부 저장(insert) => 따로 주문 아이템을 insert 안해도 된다.  
+
+7. 스프링부트랑 리액트 연결하기

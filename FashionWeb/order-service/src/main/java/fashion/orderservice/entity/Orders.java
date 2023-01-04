@@ -32,10 +32,10 @@ public class Orders {
     private LocalDateTime orderDate;
 
     @Builder
-    private Orders(Member member, List<Orderitem> orderItems, OrderStatus status){
+    private Orders(Member member, List<Orderitem> orderItems){
         this.member = member;
         this.orderItems = orderItems;
-        this.status = status;
+        this.orderDate = LocalDateTime.now();
         for(Orderitem orderitem : orderItems) {
             orderitem.setOrder(this);
         }
@@ -45,7 +45,6 @@ public class Orders {
         return builder()
                 .member(member)
                 .orderItems(orderItems)
-                .status(OrderStatus.ORDER)
                 .build();
     }
 

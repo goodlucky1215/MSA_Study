@@ -68,7 +68,11 @@ class OrderServiceImplTest {
         assertEquals(makeItemsDto(),ItemDtos);
     }
 
-    //@DisplayName("상품 주문_수량이 없는 경우")
+    @DisplayName("상품 주문_수량이 없는 경우")
+    @Test
+    public void itemIsOutOfStock(){
+    }
+
     //@DisplayName("상품 주문 완료")
 
     @DisplayName("주문 목록_없는 경우")

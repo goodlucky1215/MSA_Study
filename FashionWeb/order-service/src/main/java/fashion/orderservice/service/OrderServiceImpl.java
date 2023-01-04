@@ -2,10 +2,13 @@ package fashion.orderservice.service;
 
 import fashion.orderservice.dto.ItemDto;
 import fashion.orderservice.dto.MemberOrdersDto;
-import fashion.orderservice.dto.OrderDto;
+import fashion.orderservice.dto.OrderitemDto;
 import fashion.orderservice.entity.Item;
 import fashion.orderservice.entity.Member;
+import fashion.orderservice.entity.Orderitem;
 import fashion.orderservice.entity.Orders;
+import fashion.orderservice.repository.ItemRepository;
+import fashion.orderservice.repository.MemberRepository;
 import fashion.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,8 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     final private OrderRepository orderRepository;
+    final private MemberRepository memberRepository;
+    final private ItemRepository itemRepository;
 
     final private ModelMapper mapper;
 
@@ -33,8 +38,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void saveOrderItems(OrderDto orderDto) {
-        Orders order = mapper.map(orderDto, Orders.class);
+    public void saveOrderItems(Long memberPkId, List<OrderitemDto> orderitemDtos) {
+        Member member = memberRepository.findByPkId(memberPkId);
+        List<Orderitem> orderitems = orderitemDtos.stream().map(item -> Orderitem.createOrderitem(itemRepository.findByItemId(item.getItemId()), item.getOrderQuantity())).collect(Collectors.toList());
+        Orders order = Orders.createOrder(member, orderitems);
         orderRepository.save(order);
     }
 

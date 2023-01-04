@@ -44,6 +44,7 @@ public class Orderitem {
     }
 
     public static Orderitem createOrderitem(Item item, Long orderQuantity){
+        item.removeStock(orderQuantity);
         return builder()
                 .item(item)
                 .orderQuantity(orderQuantity)

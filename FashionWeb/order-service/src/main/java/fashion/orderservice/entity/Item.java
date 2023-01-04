@@ -1,5 +1,6 @@
 package fashion.orderservice.entity;
 
+import fashion.orderservice.exception.NotEnoutStockException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,4 +42,9 @@ public class Item {
     }
 
 
+    public void removeStock(Long orderQuantity) {
+        Long restStock = this.quantity - orderQuantity;
+        if(restStock < 0) throw new NotEnoutStockException("재고 수량이 부족합니다.");
+        this.quantity = restStock;
+    }
 }

@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void saveOrderItems(Long memberPkId, List<OrderitemDto> orderitemDtos) {
         Member member = memberRepository.findByPkId(memberPkId);
-        List<Orderitem> orderitems = orderitemDtos.stream().map(item -> Orderitem.createOrderitem(itemRepository.findByItemId(item.getItemId()), item.getOrderQuantity())).collect(Collectors.toList());
+        List<Orderitem> orderitems = new ArrayList<>();
+        for(OrderitemDto orderItemDto : orderitemDtos){
+            Item item = itemRepository.findByItemId(orderItemDto.getItemId());
+            orderitems.add(Orderitem.createOrderitem(item, orderItemDto.getOrderQuantity()));
+        }
         Orders order = Orders.createOrder(member, orderitems);
         orderRepository.save(order);
     }

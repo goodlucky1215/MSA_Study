@@ -30,9 +30,13 @@ class OrderRepositoryImplTest {
     private OrderRepository orderRepository;
 
     @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
     private EntityManager em;
 
     private Member member;
+    private Item item;
 
     @BeforeEach
     public void sellerUser(){
@@ -40,7 +44,14 @@ class OrderRepositoryImplTest {
                 .id("seller").nickname("토끼").passwordEncrypt("1234")
                 .build();
         em.persist(seller);
-
+        item = Item.builder()
+                .seller(seller)
+                .itemName("뉴우우 발란스")
+                .price(100000L)
+                .quantity(14L)
+                .category(Category.shoes)
+                .build();
+        em.persist(item);
         member = Member.builder()
                 .id("god")
                 .nickname("아프로디테")
@@ -167,4 +178,10 @@ class OrderRepositoryImplTest {
         return order;
     }
 
+    @Test
+    public void getItems(){
+        Item returnItem = itemRepository.findByItemId(item.getItemId());
+        System.out.println(returnItem.getQuantity() +" : " +returnItem.getItemName());
+
+    }
 }

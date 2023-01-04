@@ -139,7 +139,7 @@ class MemberServiceImplTest {
         when(mapper.map(any(),any())).thenReturn(memberInfoDto);
 
         //when
-        MemberInfoDto returnMemberInfoDto = userService.userNicknameChange(memberInfoDto);
+        MemberInfoDto returnMemberInfoDto = userService.userNicknameChange(memberInfoDto,1L);
 
         //then
         assertEquals("헤라", returnMemberInfoDto.getNickname());

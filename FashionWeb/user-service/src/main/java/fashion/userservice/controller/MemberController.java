@@ -31,13 +31,13 @@ public class MemberController {
 
     @GetMapping("/userInfo")
     public MemberInfoDto userInfo(HttpServletRequest request){
-        MemberInfoDto memberInfoDto = userService.getUserInfo(request.getHeader("userId"));
+        MemberInfoDto memberInfoDto = userService.getUserInfo(Long.parseLong(request.getHeader("pkId")));
         return memberInfoDto;
     }
 
     @PostMapping("/nicknamechange")
-    public MemberInfoDto nickNameChange(@Validated @RequestBody MemberInfoDto memberInfoDto){
-        MemberInfoDto changeMemberInfoDto = userService.userNicknameChange(memberInfoDto);
+    public MemberInfoDto nickNameChange(@Validated @RequestBody MemberInfoDto memberInfoDto, HttpServletRequest request){
+        MemberInfoDto changeMemberInfoDto = userService.userNicknameChange(memberInfoDto,Long.parseLong(request.getHeader("pkId")));
         return changeMemberInfoDto;
     }
 

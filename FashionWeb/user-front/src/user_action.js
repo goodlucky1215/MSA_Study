@@ -7,7 +7,7 @@ export async function login(loginUserData,setErrorMessage,navigate) {
         )
         .then(function (response){
             if(response.data.result === true) {
-                successfulLoginForJwt(response.headers.token,response.headers.userid);
+                successfulLoginForJwt(response.headers.token,response.headers.pkid);
                 navigate("/MainPage");
             }
             else setErrorMessage(response.data.message);
@@ -25,7 +25,6 @@ export async function register(registerUserData,setErrorMessage,navigate) {
         )
         .then(function (response){
             if(response.data === true) navigate("/");
-            else if(response.data === false) setErrorMessage("이미 존재하는 회원입니다.");
             else setErrorMessage(response.data.message);
             })
         .catch(function (error){
@@ -34,14 +33,13 @@ export async function register(registerUserData,setErrorMessage,navigate) {
     
 }
 
-export async function userInfo(setPkId,setNickname,setGrade,setErrorMessage) {
+export async function userInfo(setNickname,setGrade,setErrorMessage) {
     await axios
         .get('/user-service/userInfo',
         )
         .then(function (response){
             setNickname(response.data.nickname);
             setGrade(response.data.grade);
-            setPkId(response.data.pkId);
             setErrorMessage(response.data.message);
         })
         .catch(function (error){
@@ -56,7 +54,6 @@ export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
             UserInfoDto
         )
         .then(function (response){
-            console.log(response);
             setNickname(response.data.nickname);
             setErrorMessage(response.data.message);
         })
@@ -67,9 +64,9 @@ export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
 };
 
 ////////////////////////////로그인 시 토큰 정보 가지고 있기///////////////////////////
-function successfulLoginForJwt(token,userId) {
+function successfulLoginForJwt(token,pkId) {
     localStorage.setItem('token', token);
-    localStorage.setItem('userId', userId);
+    localStorage.setItem('pkId', pkId);
     setupAxiosInterceptors();
 };
 
@@ -77,10 +74,10 @@ function setupAxiosInterceptors() {
     axios.interceptors.request.use(
         config => {
             const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
-            if(token  && userId){
+            const pkId = localStorage.getItem('pkId');
+            if(token  && pkId){
                 config.headers['Authorization'] = 'Bearer' + token;
-                config.headers['userId'] = userId;
+                config.headers['pkId'] = pkId;
             }
             return config;
         },

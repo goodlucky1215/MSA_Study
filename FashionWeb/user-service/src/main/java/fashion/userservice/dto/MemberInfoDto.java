@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Getter
 public class MemberInfoDto {
 
-    @NotNull
     private Long pkId;
 
     @NotBlank(message="닉네임은 2자 이상으로 입력 해주세요.")

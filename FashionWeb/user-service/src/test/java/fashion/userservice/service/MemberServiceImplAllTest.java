@@ -66,26 +66,4 @@ class MemberServiceImplAllTest {
         assertEquals(true,bCryptPasswordEncoder.matches("1234", memberEntity.getPassword()));
     }
 
-    @DisplayName("bulider사용시")
-    @Test
-    public void builder_mapper(){
-        //given
-        MemberJoinDto userJoinDto1 = new MemberJoinDto();
-        userJoinDto1.setId("id11");
-        userJoinDto1.setPassword("1234");
-        userJoinDto1.setNickname("노오란개굴");
-        userJoinDto1.setBirth(LocalDate.of(1982, 7, 13));
-        Member memberEntity = mapper.map(userJoinDto1, Member.class);
-
-        //when
-        memberEntity = memberEntity.toBuilder()
-                .nickname("aaa")
-                .build();
-
-        //then
-        log.info("nick => {}", memberEntity.getNickname());
-        log.info("id => {}", memberEntity.getId());
-        assertEquals("aaa", memberEntity.getNickname());
-    }
-
 }

@@ -72,23 +72,19 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader("token",token);
-        response.addHeader("userId",userId);
+        response.addHeader("pkId",memberInfoDto.getPkId().toString());
         Map map = new HashMap();
         map.put("result",true);
-        map.put("user", memberInfoDto);
+
         response.getWriter().write(new ObjectMapper().writeValueAsString(map));
     }
 
     //로그인 실패 시 작동 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-
         if(failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
-            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error","회원 정보를 확인해주세요.")));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error","회원 정보를 확인해주세요!")));
         }
         else response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error",failed.getMessage())));
-        // 로그인 페이지로 다시 포워딩
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
-        //dispatcher.forward(request, response);
     }
 }

@@ -15,7 +15,9 @@ public interface UserService extends UserDetailsService {
     //로그인 성공후 사용자 정보 가져오기
     MemberInfoDto getUserInfo(String userId);
 
+    MemberInfoDto getUserInfo(Long pkId);
+
     //닉네임 변경
-    MemberInfoDto userNicknameChange(MemberInfoDto memberInfoDto);
+    MemberInfoDto userNicknameChange(MemberInfoDto memberInfoDto,Long pkId);
 
 }

@@ -6,15 +6,13 @@ function UserInfoPage() {
   const [nickname, setNickname] = useState('');
   const [grade, setGrade] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [pkId, setPkId] = useState('');
 
   useEffect(() => {
-    userInfo(setPkId,setNickname,setGrade,setErrorMessage);
+    userInfo(setNickname,setGrade,setErrorMessage);
   },[]);
 
   const nicknameChangeButton = (e) => {
     let UserInfoDto = {
-      pkId : pkId,
       nickname : nickname
     }
     nicknameChange(UserInfoDto,setNickname,setErrorMessage);

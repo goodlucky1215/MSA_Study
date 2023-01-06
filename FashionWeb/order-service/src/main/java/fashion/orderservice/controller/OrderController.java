@@ -21,26 +21,23 @@ public class OrderController {
 
     final private OrderService orderService;
 
-    @GetMapping("hello")
+    @GetMapping("/hello")
     public String hello(){
         return "hello orderservice";
     }
 
-    @GetMapping("itemList")
+    @GetMapping("/itemList")
     private List<ItemDto> getItemList(){
         return orderService.getItemList();
     }
 
-    //상품 주문
     @PostMapping("order")
     private void saveOrderItems(HttpServletRequest request, List<OrderitemDto> orderItems) {
         orderService.saveOrderItems(Long.parseLong(request.getHeader("pkId")), orderItems);
-        return "redirect"
     }
 
-    //주문 목록 조회
     @GetMapping("orderList")
-    private List<MemberOrdersDto> findMemberOrderList(HttpServletRequest request{
+    private List<MemberOrdersDto> findMemberOrderList(HttpServletRequest request) {
         return orderService.findMemberOrderList(Long.parseLong(request.getHeader("pkId")));
     }
 

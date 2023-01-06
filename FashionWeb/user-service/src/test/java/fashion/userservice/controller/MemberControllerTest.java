@@ -34,9 +34,6 @@ class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-   // @Autowired
-    Environment env;
-
     @MockBean
     UserService userService;
 
@@ -124,9 +121,8 @@ class MemberControllerTest {
     public void nickNameChange_success() throws Exception {
         //given
         MemberInfoDto memberInfoDto = new MemberInfoDto();
-        memberInfoDto.setPkId(1L);
         memberInfoDto.setNickname("병아리");
-        given(userService.userNicknameChange(memberInfoDto)).willReturn(memberInfoDto);
+        given(userService.userNicknameChange(memberInfoDto, 1L)).willReturn(memberInfoDto);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/user-service/nicknamechange")
@@ -137,7 +133,7 @@ class MemberControllerTest {
         resultActions.andDo(print())
                 .andExpect(jsonPath("pkId",is(1)))
                 .andExpect(jsonPath("nickname",is("병아리")));
-        then(userService).should().userNicknameChange(memberInfoDto);
+        then(userService).should().userNicknameChange(memberInfoDto,1L);
     }
 
     @DisplayName("로그인_성공")

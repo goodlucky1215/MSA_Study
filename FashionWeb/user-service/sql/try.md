@@ -113,7 +113,10 @@ b. 단위테스트
 => (컨트롤러 클래스.class)를 넣지 않으면, 모든 Controller어노테이션이 들어간 클래스들이 전부 로드 된다.  
 - MockMvc클래스 사용 => 컨트롤러의 api를 테스트하는 용도이다.  
 - Service클래스는 @MockBean을 사용한다.  
-=>WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.  
+=>WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.
+- service가 void return type일 때, Exception Test 해야할 경우(given 넣는 법)  
+=> willThrow(에러 클래스).given(서비스 객체).void메소드();
+  
 
 (4) when~thenReturn(Mockito) vs given~willReturn(BDDMockito)   
 - BDDMockito가 제공하는 기능과 Mockito가 제공하는 기능은 별반 다르지 않다.(BDDMockito의 코드를 살펴보면 Mockito을 상속한 클래스)    

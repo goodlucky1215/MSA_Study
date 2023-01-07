@@ -1,6 +1,5 @@
 package fashion.orderservice.service;
 
-import com.sun.istack.NotNull;
 import fashion.orderservice.dto.ItemDto;
 import fashion.orderservice.dto.MemberOrderItemsDto;
 import fashion.orderservice.dto.MemberOrdersDto;
@@ -22,10 +21,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 

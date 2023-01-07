@@ -6,10 +6,8 @@ import fashion.orderservice.dto.OrderitemDto;
 import fashion.orderservice.service.OrderService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,18 +19,18 @@ public class OrderController {
 
     final private OrderService orderService;
 
-    @GetMapping("/hello")
+    @GetMapping("hello")
     public String hello(){
         return "hello orderservice";
     }
 
-    @GetMapping("/itemList")
+    @GetMapping("itemList")
     private List<ItemDto> getItemList(){
         return orderService.getItemList();
     }
 
     @PostMapping("order")
-    private void saveOrderItems(HttpServletRequest request, List<OrderitemDto> orderItems) {
+    private void saveOrderItems(HttpServletRequest request,@Validated @RequestBody List<OrderitemDto> orderItems) {
         orderService.saveOrderItems(Long.parseLong(request.getHeader("pkId")), orderItems);
     }
 

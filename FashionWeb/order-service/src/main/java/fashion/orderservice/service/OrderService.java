@@ -12,7 +12,7 @@ public interface OrderService {
     List<ItemDto> getItemList();
 
     //상품 주문
-    void saveOrderItems(Long memberPkId, List<OrderitemDto> orderItems);
+    Long saveOrderItems(Long memberPkId, List<OrderitemDto> orderItems);
 
     //주문 목록 조회
     List<MemberOrdersDto> findMemberOrderList(Long pkId);

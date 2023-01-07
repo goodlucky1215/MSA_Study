@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void saveOrderItems(Long memberPkId, List<OrderitemDto> orderitemDtos) {
+    public Long saveOrderItems(Long memberPkId, List<OrderitemDto> orderitemDtos){
         Member member = memberRepository.findByPkId(memberPkId);
         List<Orderitem> orderitems = new ArrayList<>();
         for(OrderitemDto orderItemDto : orderitemDtos){
@@ -48,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
         }
         Orders order = Orders.createOrder(member, orderitems);
         orderRepository.save(order);
+        Long orderId = order.getOrderId();
+        return orderId;
     }
 
     @Override

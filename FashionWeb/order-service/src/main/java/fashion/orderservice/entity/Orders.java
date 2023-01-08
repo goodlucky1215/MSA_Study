@@ -36,6 +36,7 @@ public class Orders {
         this.member = member;
         this.orderItems = orderItems;
         this.orderDate = LocalDateTime.now();
+        this.status = OrderStatus.ORDER;
         for(Orderitem orderitem : orderItems) {
             orderitem.setOrder(this);
         }

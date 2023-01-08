@@ -13,6 +13,7 @@ import fashion.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     final private OrderRepository orderRepository;
     final private MemberRepository memberRepository;
     final private ItemRepository itemRepository;
-
     final private ModelMapper mapper;
 
     @Override

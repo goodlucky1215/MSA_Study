@@ -240,12 +240,10 @@ class OrderServiceImplTest {
         List<MemberOrderItemsDto> orderItems = new ArrayList<>();
         MemberOrderItemsDto memberOrderItemsDto1 = new MemberOrderItemsDto();
         memberOrderItemsDto1.setItemName("S발란스 운동화");
-        memberOrderItemsDto1.setCategory(Category.shoes);
         memberOrderItemsDto1.setOrderQuantity(4L);
         memberOrderItemsDto1.setOrderPrice(4*112000L);
         MemberOrderItemsDto memberOrderItemsDto2 = new MemberOrderItemsDto();
         memberOrderItemsDto2.setItemName("프릴이 달린 니트");
-        memberOrderItemsDto2.setCategory(Category.top);
         memberOrderItemsDto2.setOrderQuantity(14L);
         memberOrderItemsDto2.setOrderPrice(14*58700L);
         orderItems.add(memberOrderItemsDto1);

@@ -6,23 +6,22 @@ import fashion.orderservice.entity.Seller;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Setter
 @Getter
 @EqualsAndHashCode
+@ToString
 public class MemberOrderItemsDto {
 
     @NotNull
     private Long orderitemId;
 
     @NotNull
-    private Seller seller;
-
-    @NotNull
     private String itemName;
-
-    @NotNull
-    private Category category;
 
     @NotNull
     private Long itemId;

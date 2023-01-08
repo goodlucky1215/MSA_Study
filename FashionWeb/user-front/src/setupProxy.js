@@ -8,4 +8,12 @@ module.exports = function(app) {
             changeOrigin: true,
         })
     );
+
+    app.use( 
+        createProxyMiddleware(['/order-service'],
+        {
+            target: 'http://localhost:9601',// 서버 URL or localhost:설정한포트번호
+            changeOrigin: true,
+        })
+    );
 };

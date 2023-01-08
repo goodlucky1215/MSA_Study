@@ -8,9 +8,9 @@ function MainPage() {
       navigate("/UserInfoPage");
     };
     
-    const navigateToCoffeOrderPage = (e) => {
+    const navigateToOrderPage = (e) => {
       e.preventDefault();
-      navigate("/CoffeOrderPage");
+      navigate("/ItemListPage");
     };
 
     return (
@@ -20,8 +20,8 @@ function MainPage() {
           <button onClick={() =>  navigateToUserInfoPage()}>
             회원 정보 변경
           </button>
-          <button onClick={() =>  navigateToCoffeOrderPage()}>
-            커피 주문
+          <button onClick={() =>  navigateToOrderPage()}>
+            상품 목록
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ import {
   Route,
 } from "react-router-dom";
 import UserInfoPage from "./page/UserInfoPage";
+import ItemListPage from "./page/ItemListPage";
 
 function App(){
   return(
@@ -17,6 +18,7 @@ function App(){
           <Route path="/RegisterPage" element={<RegisterPage />}></Route>
           <Route path="/MainPage" element={<MainPage />}></Route>
           <Route path="/UserInfoPage" element={<UserInfoPage />}></Route>
+          <Route path="/ItemListPage" element={<ItemListPage />}></Route>
         </Routes>
       </BrowserRouter>
   );

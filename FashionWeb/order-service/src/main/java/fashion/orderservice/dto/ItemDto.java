@@ -15,7 +15,7 @@ public class ItemDto {
     @NotNull
     private Long itemId;
     @NotNull
-    private Seller seller;
+    private String companyName;
     @NotNull
     private String itemName;
     @NotNull

@@ -156,7 +156,7 @@ class OrderServiceImplTest {
 
     private List<Item> makeItems(){
         Seller seller =  Seller.builder()
-                .id("seller").nickname("토끼").passwordEncrypt("1234")
+                .id("seller").companyName("토끼").passwordEncrypt("1234")
                 .build();
         List<Item> items = new ArrayList<>();
         Item item1 = Item.builder()
@@ -180,7 +180,7 @@ class OrderServiceImplTest {
 
     private List<Item> makeItemsStockZero(){
         Seller seller =  Seller.builder()
-                .id("seller").nickname("토끼").passwordEncrypt("1234")
+                .id("seller").companyName("토끼").passwordEncrypt("1234")
                 .build();
         List<Item> items = new ArrayList<>();
         Item item1 = Item.builder()

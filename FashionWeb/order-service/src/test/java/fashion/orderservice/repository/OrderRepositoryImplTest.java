@@ -38,7 +38,7 @@ class OrderRepositoryImplTest {
     @BeforeEach
     public void sellerUser(){
         Seller seller =  Seller.builder()
-                .id("seller").nickname("토끼").passwordEncrypt("1234")
+                .id("seller").companyName("토끼").passwordEncrypt("1234")
                 .build();
         em.persist(seller);
         item = Item.builder()

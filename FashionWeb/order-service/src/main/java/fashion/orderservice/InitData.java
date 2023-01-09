@@ -27,7 +27,7 @@ public class InitData {
     public void initData() {
         log.info("test data init");
         Seller seller =  Seller.builder()
-                .id("seller").nickname("토끼").passwordEncrypt("1234")
+                .id("seller").companyName("토끼").passwordEncrypt("1234")
                 .build();
         em.persist(seller);
         List<Item> items = new ArrayList<>();

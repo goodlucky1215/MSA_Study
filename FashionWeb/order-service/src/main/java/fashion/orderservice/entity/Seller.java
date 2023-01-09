@@ -27,7 +27,7 @@ public class Seller {
     private String id;
 
     @Column(nullable = false, length = 20)
-    private String nickname;
+    private String companyName;
 
     @Column(nullable = false, length = 300)
     private String passwordEncrypt;
@@ -35,9 +35,9 @@ public class Seller {
     private LocalDateTime joinDate;
 
     @Builder
-    private Seller(String id, String nickname, String passwordEncrypt, LocalDateTime joinDate){
+    private Seller(String id, String companyName, String passwordEncrypt, LocalDateTime joinDate){
         this.id = id;
-        this.nickname = nickname;
+        this.companyName = companyName;
         this.passwordEncrypt = passwordEncrypt;
         this.joinDate = joinDate;
     }

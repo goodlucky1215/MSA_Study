@@ -1,11 +1,12 @@
-package fashion.userservice.controller;
+package fashion.orderservice.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ErrorResult {
+public class Result<T> {
+    private T data;
     private String code;
     private String message;
 }

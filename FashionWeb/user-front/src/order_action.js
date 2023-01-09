@@ -6,9 +6,11 @@ export async function itemList(setItems, setErrorMessage) {
         )
         .then(function (response){
             console.log(response);
-            let items = response.data;
-            if(items.length === 0) setErrorMessage("상품 목록이 없습니다.");
+            let items = response.data.data;
+            if(response.data.code!=="S") setErrorMessage(response.data.msg);
+            else if(items.length === 0) setErrorMessage("상품 목록이 없습니다.");
             else setItems(items);
+
         })
         .catch(function (error){
             console.log(error);

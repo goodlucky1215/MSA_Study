@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -29,13 +31,14 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @Column(nullable = false, updatable = false,insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime orderDate;
 
     @Builder
     private Orders(Member member, List<Orderitem> orderItems){
         this.member = member;
         this.orderItems = orderItems;
-        this.orderDate = LocalDateTime.now();
         this.status = OrderStatus.ORDER;
         for(Orderitem orderitem : orderItems) {
             orderitem.setOrder(this);

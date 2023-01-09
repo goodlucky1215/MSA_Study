@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,6 +33,8 @@ public class Seller {
     @Column(nullable = false, length = 300)
     private String passwordEncrypt;
 
+    @Column(nullable = false, updatable = false,insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
 
     @Builder

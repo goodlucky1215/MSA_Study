@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -17,7 +18,6 @@ import java.util.List;
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter //test할때만 추가
 public class Member {
 
     @Id
@@ -40,6 +40,8 @@ public class Member {
 
     private String grade;
 
+    @Column(nullable = false, updatable = false,insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
 
     @Builder

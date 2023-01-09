@@ -11,10 +11,29 @@ function ItemListPage() {
   },[]);
 
   const getitemList = () => {
-      console.log("ddd");
       const result = [];
       for(let i = 0 ; i<items.length ; i++){
-        result.push(<div key={i}> {items[i].itemName} </div>)
+        result.push(
+          <div key={i}>
+            <ul style={{ listStyleType: "none" }}>
+              <li>
+                {items[i].itemName}
+              </li>
+              <li>
+                {items[i].price}
+              </li>
+              <li>
+                {items[i].quantity}
+              </li>
+              <li>
+                {items[i].category}
+              </li>
+              <li>
+                {items[i].companyName}
+              </li>
+            </ul>
+          </div>
+        )
       }
       return result;
   }

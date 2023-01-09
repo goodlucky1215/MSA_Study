@@ -35,7 +35,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ItemDto> getItemList() {
         List<Item> items = orderRepository.findAll();
-        return items.stream().map(i -> mapper.map(i,ItemDto.class)).collect(Collectors.toList());
+        return items.stream().map(
+                i -> mapper.map(i,ItemDto.class)
+        ).collect(Collectors.toList());
     }
 
     @Override

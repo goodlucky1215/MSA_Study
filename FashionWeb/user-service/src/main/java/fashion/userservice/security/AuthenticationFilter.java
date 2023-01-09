@@ -1,6 +1,8 @@
 package fashion.userservice.security;
 
-import fashion.userservice.controller.ErrorResult;
+import fashion.userservice.common.ErrorResult;
+import fashion.userservice.common.Result;
+import fashion.userservice.common.ResultCode;
 import fashion.userservice.dto.IdLoginDto;
 import fashion.userservice.dto.MemberInfoDto;
 import fashion.userservice.service.UserService;
@@ -75,16 +77,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader("pkId",memberInfoDto.getPkId().toString());
         Map map = new HashMap();
         map.put("result",true);
+        Result<Map> result = new Result(map,ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
 
-        response.getWriter().write(new ObjectMapper().writeValueAsString(map));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(result));
     }
 
     //로그인 실패 시 작동 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         if(failed.getClass().isAssignableFrom(BadCredentialsException.class)) {
-            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error","회원 정보를 확인해주세요!")));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult(ResultCode.ERROR.getCode(), "회원 정보를 확인해주세요!")));
         }
-        else response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult("error",failed.getMessage())));
+        else response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult(ResultCode.ERROR.getCode(),failed.getMessage())));
     }
 }

@@ -1,6 +1,7 @@
 package fashion.userservice.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -35,10 +36,12 @@ public class Member {
 
     private String grade;
 
+    @Column(nullable = false, updatable = false,insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
 
     @Builder
-    public Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade, LocalDateTime joinDate){
+    public Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade){
         this.pkId = pkId;
         this.id = id;
         this.email = email;
@@ -46,7 +49,6 @@ public class Member {
         this.password = password;
         this.birth = birth;
         this.grade = grade;
-        this.joinDate = joinDate;
     }
 
     public void changeNickname(String nickname){

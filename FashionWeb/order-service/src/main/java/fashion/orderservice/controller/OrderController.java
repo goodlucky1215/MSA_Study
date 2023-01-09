@@ -1,10 +1,11 @@
 package fashion.orderservice.controller;
 
+import fashion.orderservice.common.Result;
+import fashion.orderservice.common.ResultCode;
 import fashion.orderservice.dto.ItemDto;
 import fashion.orderservice.dto.MemberOrdersDto;
 import fashion.orderservice.dto.OrderitemDto;
 import fashion.orderservice.service.OrderService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,14 @@ public class OrderController {
 
     final private OrderService orderService;
 
-    @GetMapping("hello")
-    public String hello(){
-        return "hello orderservice";
+    @GetMapping("/hello")
+    public Result<String> hello(){
+        return new Result("hello userservice", ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
     @GetMapping("itemList")
-    private List<ItemDto> getItemList(){
-        return orderService.getItemList();
+    private Result<List<ItemDto>> getItemList(){
+        return new Result(orderService.getItemList(),ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
     @PostMapping("order")
@@ -35,8 +36,9 @@ public class OrderController {
     }
 
     @GetMapping("orderList")
-    private List<MemberOrdersDto> findMemberOrderList(HttpServletRequest request) {
-        return orderService.findMemberOrderList(Long.parseLong(request.getHeader("pkId")));
+    private Result<List<MemberOrdersDto>> findMemberOrderList(HttpServletRequest request) {
+        return new  Result(orderService.findMemberOrderList(Long.parseLong(request.getHeader("pkId")))
+                , ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
 }

@@ -45,12 +45,20 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 - .(점) -> _(언더스코어)
 - 대문자 -> 소문자
 
-(4) mapper 사용 시, @setter가 entity에 없다면 변환 안되서 null로 찍히는 문제 발생  
+(4) ModelMapper 사용 시, @setter가 entity에 없다면 변환 안되서 null로 찍히는 문제 발생  
 - 아래와 같이 사용하면 private값에대해서도 @Setter없이도 mapper가 적용된다.  
 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
 .setFieldMatchingEnabled(true);
 
-(5) builder 패턴 사용하고, JPA Update값(수정)이 있을시 수정이 안되는 문제 발생  
+(5) ModelMapper를 쓰는 것의 장점과 단점  
+- [장점]  
+  => 간편하다. 코드량이 줄어든다.
+- [단점]  
+  => 모델이 단순하지 않을 경우 오히려 복잡해진다.  
+  => 수동으로는 오류를 잡을 수 없고 무조건 실행야 오류를 발견할 수 있다. (수동으로 만들면 entity <-> dto 변환 시 컴파일 시 오류 발견하기 좋다.)  
+  => ModelMapper는 동시성 성능 이슈가 있다. 수천 TPS의 리엑티브 모델에서는 이 부분이 명확하게 병목으로 나왔다. (수천 TPS가 안되는 상황에서는 상관없음.)
+
+(6) builder 패턴 사용하고, JPA Update값(수정)이 있을시 수정이 안되는 문제 발생  
 -  더티체크를 위해서 setter를 사용하지 않고, changeXxx 같은 식으로 사용해도 엔티티 내부의 필드 값을 변경하면, 데티체크가 일어나고, 실제 UPDATE 쿼리를 실행시킬 수 있다.
 -  @Builder(toBuilder = true) 이런식으로 사용하고 save해도 되는데 이는 더티체크가 아닌 새로운 엔티티를 생성하는 것이다.
 

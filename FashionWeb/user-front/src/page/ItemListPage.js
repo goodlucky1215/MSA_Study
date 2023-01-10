@@ -1,14 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { itemList } from '../order_action';
+import { useNavigate } from 'react-router-dom';
+import { itemList, order } from '../order_action';
 
 function ItemListPage() {
 
   const [items, setItems] = useState('');
+  const [itemCounts, setItemCounts] = useState();
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    itemList(setItems, setErrorMessage);
+    itemList(setItems, setItemCounts, setErrorMessage);
   },[]);
+
+  const navigate = useNavigate();
+  const OrderButton = (i) => {
+    console.log(items[i].itemId, itemCounts[i]);
+    order(setItems,navigate); 
+  };
+
+  const Increase = (i)=>{
+    let counts = [...itemCounts];
+    counts[i] = counts[i]+1;
+    setItemCounts(counts);
+  }
+  const Decrease = (i) =>{
+    let counts = [...itemCounts];
+    counts[i] = counts[i] > 1 ? counts[i]-1 : counts[i];
+    setItemCounts(counts);
+  }
 
   const getitemList = () => {
       const result = [];
@@ -32,9 +51,20 @@ function ItemListPage() {
                 {items[i].companyName}
               </li>
             </ul>
+            {items[i].quantity!==0 &&
+              <>
+                <div>
+                    <button onClick={() => Increase(i)}>+</button>
+                    <span> {itemCounts[i]} </span>
+                    <button onClick={() => Decrease(i)}>-</button>
+                </div>
+                <button onClick={() => OrderButton(i)}> 구매 </button>
+              </>
+            }
           </div>
         )
       }
+
       return result;
   }
 

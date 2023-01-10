@@ -2,6 +2,7 @@ package fashion.orderservice.dto;
 
 import com.sun.istack.NotNull;
 import fashion.orderservice.entity.Category;
+import fashion.orderservice.entity.Item;
 import fashion.orderservice.entity.Seller;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,17 +13,20 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class ItemDto {
 
-    @NotNull
     private Long itemId;
-    @NotNull
     private String companyName;
-    @NotNull
     private String itemName;
-    @NotNull
     private Long price;
-    @NotNull
     private Long quantity;
-    @NotNull
     private Category category;
+
+    public ItemDto(Item item){
+        itemId = item.getItemId();
+        companyName = item.getSeller().getCompanyName();
+        itemName = item.getItemName();
+        price = item.getPrice();
+        quantity = item.getQuantity();
+        category = item.getCategory();
+    }
 
 }

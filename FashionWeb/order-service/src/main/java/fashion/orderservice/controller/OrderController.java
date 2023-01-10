@@ -31,8 +31,9 @@ public class OrderController {
     }
 
     @PostMapping("order")
-    private void saveOrderItems(HttpServletRequest request,@Validated @RequestBody List<OrderitemDto> orderItems) {
+    private Result<String> saveOrderItems(HttpServletRequest request,@Validated @RequestBody List<OrderitemDto> orderItems) {
         orderService.saveOrderItems(Long.parseLong(request.getHeader("pkId")), orderItems);
+        return new Result("주문 성공",ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
     @GetMapping("orderList")

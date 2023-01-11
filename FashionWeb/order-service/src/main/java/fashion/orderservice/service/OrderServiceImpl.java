@@ -57,6 +57,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<MemberOrdersDto> findMemberOrderList(Long pkId) {
         List<Orders> orders = orderRepository.findbyPkId(pkId);
-        return orders.stream().map(o -> mapper.map(o, MemberOrdersDto.class)).collect(Collectors.toList());
+        return orders.stream().map(o -> new MemberOrdersDto(o)).collect(Collectors.toList());
     }
 }

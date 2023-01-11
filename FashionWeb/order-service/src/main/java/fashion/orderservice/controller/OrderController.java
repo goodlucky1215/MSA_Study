@@ -39,7 +39,9 @@ public class OrderController {
 
     @GetMapping("orderList")
     private Result<List<MemberOrdersDto>> findMemberOrderList(HttpServletRequest request) {
-        return new  Result(orderService.findMemberOrderList(Long.parseLong(request.getHeader("pkId")))
+        //return new Result(orderService.findMemberOrderList(Long.parseLong(request.getHeader("pkId")))
+        //        , ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
+        return new Result(orderService.findMemberOrderList(1L)
                 , ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 

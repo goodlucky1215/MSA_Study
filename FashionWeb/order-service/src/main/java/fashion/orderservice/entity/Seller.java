@@ -42,7 +42,6 @@ public class Seller {
         this.id = id;
         this.companyName = companyName;
         this.passwordEncrypt = passwordEncrypt;
-        this.joinDate = joinDate;
     }
 
 }

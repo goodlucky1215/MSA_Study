@@ -15,7 +15,11 @@ function ItemListPage() {
   const navigate = useNavigate();
   const OrderButton = (i) => {
     console.log(items[i].itemId, itemCounts[i]);
-    order(setItems,navigate); 
+    let orderItemDto = [ {
+      itemId : items[i].itemId,
+      orderQuantity : itemCounts[i],
+    } ];
+    order(orderItemDto,navigate); 
   };
 
   const Increase = (i)=>{

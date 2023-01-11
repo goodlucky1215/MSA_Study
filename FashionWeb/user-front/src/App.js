@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import UserInfoPage from "./page/UserInfoPage";
 import ItemListPage from "./page/ItemListPage";
+import OrderListPage from "./page/OrderListpage";
 
 function App(){
   return(
@@ -19,6 +20,7 @@ function App(){
           <Route path="/MainPage" element={<MainPage />}></Route>
           <Route path="/UserInfoPage" element={<UserInfoPage />}></Route>
           <Route path="/ItemListPage" element={<ItemListPage />}></Route>
+          <Route path="/OrderListPage" element={<OrderListPage />}></Route>
         </Routes>
       </BrowserRouter>
   );

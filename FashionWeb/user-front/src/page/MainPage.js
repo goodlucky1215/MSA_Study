@@ -9,7 +9,6 @@ function MainPage() {
     };
     
     const navigateToOrderPage = (e) => {
-      e.preventDefault();
       navigate("/ItemListPage");
     };
 

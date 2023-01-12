@@ -6,7 +6,7 @@ export async function login(loginUserData,setErrorMessage,navigate) {
             loginUserData,
         )
         .then(function (response){
-            if(response.data.result === true) {
+            if(response.data.code === "S") {
                 successfulLoginForJwt(response.headers.token,response.headers.pkid);
                 navigate("/MainPage");
             }
@@ -24,7 +24,7 @@ export async function register(registerUserData,setErrorMessage,navigate) {
             registerUserData,
         )
         .then(function (response){
-            if(response.data === true) navigate("/");
+            if(response.data.code === "S") navigate("/");
             else setErrorMessage(response.data.message);
             })
         .catch(function (error){
@@ -38,9 +38,11 @@ export async function userInfo(setNickname,setGrade,setErrorMessage) {
         .get('/user-service/userInfo',
         )
         .then(function (response){
-            setNickname(response.data.nickname);
-            setGrade(response.data.grade);
-            setErrorMessage(response.data.message);
+            if(response.data.code !== "S")setErrorMessage(response.data.message);
+            else {
+                setNickname(response.data.data.nickname);
+                setGrade(response.data.data.grade);
+            }
         })
         .catch(function (error){
             setErrorMessage("재 로그인 해주세요.");
@@ -54,8 +56,8 @@ export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
             UserInfoDto
         )
         .then(function (response){
-            setNickname(response.data.nickname);
-            setErrorMessage(response.data.message);
+            if(response.data.code !== "S") setErrorMessage(response.data.message);
+            else setNickname(response.data.data.nickname);
         })
         .catch(function (error){
             setErrorMessage("재 로그인 해주세요.");

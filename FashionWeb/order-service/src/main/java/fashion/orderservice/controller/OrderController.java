@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order-service")
+@RequestMapping
 @RequiredArgsConstructor
 public class OrderController {
 

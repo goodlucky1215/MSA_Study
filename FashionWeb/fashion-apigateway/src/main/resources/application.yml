@@ -13,6 +13,17 @@ spring:
     name: fashion-apigateway
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 'http://localhost:3000'
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - GET
+              - POST
       routes:
         - id: user-service #하나의 서비스의 이름
           uri: lb://USER-SERVICE # lb://eureka에 등록된 어플리케이션 이름으로 사용
@@ -41,7 +52,19 @@ spring:
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
+            - Path=/order-service/itemList
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
             - Path=/order-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
 token:
   secret: user-token #이 정보가 토큰 복호화할때 사용 (당연히 암호할때랑 같은 값이어야겠다.)

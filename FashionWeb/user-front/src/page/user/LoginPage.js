@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {login} from '../user_action';
+import {login} from '../../user_action';
 
 function LoginPage() {
 

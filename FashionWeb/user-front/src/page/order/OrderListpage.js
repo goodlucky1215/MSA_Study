@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { orderList } from '../order_action';
+import { orderList } from '../../order_action';
 
 function OrderListPage() {
   const [orders, setOrders] = useState('');

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { nicknameChange, userInfo } from '../user_action';
+import { nicknameChange, userInfo } from '../../user_action';
 
 function UserInfoPage() {
 

@@ -46,10 +46,12 @@ public class OrderServiceImpl implements OrderService {
         List<Orderitem> orderitems = new ArrayList<>();
         for(OrderitemDto orderItemDto : orderitemDtos){
             Item item = itemRepository.findByItemId(orderItemDto.getItemId());
+            log.info("item : {}", item);
             orderitems.add(Orderitem.createOrderitem(item, orderItemDto.getOrderQuantity()));
         }
         Orders order = Orders.createOrder(member, orderitems);
         orderRepository.save(order);
+        log.info("order_service : {}", order);
         Long orderId = order.getOrderId();
         return orderId;
     }

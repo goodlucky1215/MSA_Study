@@ -37,22 +37,22 @@ function ItemListPage() {
       const result = [];
       for(let i = 0 ; i<items.length ; i++){
         result.push(
-          <div key={i}>
+          <div key={i} style={{ border:"1px solid", padding:"10px", width:"15%" ,marginBottom:"10px" }}>
             <ul style={{ listStyleType: "none" }}>
               <li>
-                {items[i].itemName}
+                상품명 : {items[i].itemName}
               </li>
               <li>
-                {items[i].price}
+                가격 : {items[i].price}
               </li>
               <li>
-                {items[i].quantity}
+                수량 : {items[i].quantity}
               </li>
               <li>
-                {items[i].category}
+                카테고리 : {items[i].category}
               </li>
               <li>
-                {items[i].companyName}
+                판매회사 : {items[i].companyName}
               </li>
             </ul>
             {items[i].quantity!==0 &&

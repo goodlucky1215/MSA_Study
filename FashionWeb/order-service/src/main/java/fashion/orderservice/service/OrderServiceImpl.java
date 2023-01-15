@@ -30,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     final private OrderRepository orderRepository;
     final private MemberRepository memberRepository;
     final private ItemRepository itemRepository;
-    final private ModelMapper mapper;
 
     @Override
     public List<ItemDto> getItemList() {
@@ -46,12 +45,12 @@ public class OrderServiceImpl implements OrderService {
         List<Orderitem> orderitems = new ArrayList<>();
         for(OrderitemDto orderItemDto : orderitemDtos){
             Item item = itemRepository.findByItemId(orderItemDto.getItemId());
-            log.info("item : {}", item);
+            log.info("item : 이름 = {} / 가격 = {} / 양 = {} / 번호 = {}", item.getItemName(), item.getPrice(), item.getQuantity(), item.getItemId());
             orderitems.add(Orderitem.createOrderitem(item, orderItemDto.getOrderQuantity()));
         }
         Orders order = Orders.createOrder(member, orderitems);
         orderRepository.save(order);
-        log.info("order_service : {}", order);
+        log.info("order_service :  주문 번호 = {} / 주문 아이템 이름 = {} / 주문 아이템 갯수 = {}", order.getOrderId(), order.getOrderItems().get(0).getItem().getItemName(), order.getOrderItems().size());
         Long orderId = order.getOrderId();
         return orderId;
     }

@@ -34,7 +34,7 @@ public class OrderController {
 
     @PostMapping("order")
     private Result<String> saveOrderItems(HttpServletRequest request,@Validated @RequestBody List<OrderitemDto> orderItems) {
-        log.info("orderITems : {}", orderItems);
+        log.info("orderITems : 아이디 =  {} / 양 = {} ", orderItems.get(0).getItemId(), orderItems.get(0).getOrderQuantity());
         orderService.saveOrderItems(Long.parseLong(request.getHeader("pkId")), orderItems);
         return new Result("주문 성공",ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }

@@ -13,17 +13,6 @@ spring:
     name: fashion-apigateway
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: 'http://localhost:3000'
-            allow-credentials: true
-            allowedHeaders: '*'
-            allowedMethods:
-              - GET
-              - POST
       routes:
         - id: user-service #하나의 서비스의 이름
           uri: lb://USER-SERVICE # lb://eureka에 등록된 어플리케이션 이름으로 사용

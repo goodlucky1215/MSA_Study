@@ -8,8 +8,12 @@ function MainPage() {
       navigate("/UserInfoPage");
     };
     
-    const navigateToOrderPage = (e) => {
+    const navigateToItemListPage = (e) => {
       navigate("/ItemListPage");
+    };
+
+    const navigateToOrderListPage = (e) => {
+      navigate("/OrderListPage");
     };
 
     return (
@@ -19,8 +23,11 @@ function MainPage() {
           <button onClick={() =>  navigateToUserInfoPage()}>
             회원 정보 변경
           </button>
-          <button onClick={() =>  navigateToOrderPage()}>
+          <button onClick={() =>  navigateToItemListPage()}>
             상품 목록
+          </button>
+          <button onClick={() =>  navigateToOrderListPage()}>
+            사용자 주문 정보
           </button>
         </div>
       </div>

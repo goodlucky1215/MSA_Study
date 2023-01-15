@@ -1,15 +1,15 @@
 import React from "react";
-import LoginPage from './page/LoginPage';
-import RegisterPage from './page/RegisterPage';
-import MainPage from './page/MainPage';
+import LoginPage from './page/user/LoginPage';
+import RegisterPage from './page/user/RegisterPage';
+import MainPage from './page/user/MainPage';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import UserInfoPage from "./page/UserInfoPage";
-import ItemListPage from "./page/ItemListPage";
-import OrderListPage from "./page/OrderListpage";
+import UserInfoPage from "./page/user/UserInfoPage";
+import ItemListPage from "./page/order/ItemListPage";
+import OrderListPage from "./page/order/OrderListpage";
 
 function App(){
   return(

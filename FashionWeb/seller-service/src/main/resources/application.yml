@@ -1,0 +1,36 @@
+#MSA
+server:
+  port: 9602
+  servlet:
+    encoding:
+      force-response: true
+
+spring:
+  application:
+    name: seller-service
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+  #DB
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/fashionApp
+    username: postgres
+    password: root
+
+eureka:
+  client:
+    register-with-eureka: false #단독실행 시킬 때 사용
+    #register-with-eureka: true
+    fetch-registry: false #단독실행 시킬 때 사용
+    #fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

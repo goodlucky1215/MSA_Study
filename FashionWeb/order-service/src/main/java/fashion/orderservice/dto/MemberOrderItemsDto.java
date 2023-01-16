@@ -1,15 +1,11 @@
 package fashion.orderservice.dto;
 
 import com.sun.istack.NotNull;
-import fashion.orderservice.entity.Category;
-import fashion.orderservice.entity.Seller;
+import fashion.orderservice.entity.OrderStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Setter
 @Getter
@@ -31,5 +27,8 @@ public class MemberOrderItemsDto {
 
     @NotNull
     private Long orderPrice;
+
+    @NotNull
+    private OrderStatus orderStatus;
 
 }

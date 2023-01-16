@@ -26,10 +26,7 @@ public class Orders {
     private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Orderitem> orderItems = new ArrayList<>();
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private final List<Orderitem> orderItems = new ArrayList<>();
 
     @Column(nullable = false, updatable = false,insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")

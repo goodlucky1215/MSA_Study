@@ -23,7 +23,7 @@ public class InitData {
 
     final private EntityManager em;
 
-   // @EventListener(ApplicationReadyEvent.class)
+   /* @EventListener(ApplicationReadyEvent.class)
     public void initData() {
         log.info("test data init");
         Seller seller =  Seller.builder()
@@ -48,6 +48,6 @@ public class InitData {
         items.add(item1);
         items.add(item2);
         em.persist(items);
-    }
+    }*/
 
 }

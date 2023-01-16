@@ -30,4 +30,7 @@ public class Orderitem {
     @Column(nullable = false)
     private Long orderPrice;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
 }

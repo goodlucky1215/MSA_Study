@@ -21,7 +21,7 @@ public class Seller {
     private Long sellerId;
 
     @OneToMany(mappedBy = "itemId")
-    private List<Item> items = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
 
     @Column(unique = true, length = 40)
     private String id;

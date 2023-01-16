@@ -10,6 +10,6 @@ public enum ResultCode {
     FAIL("F","fail"),
     ERROR("E","error");
 
-    private String code;
-    private String message;
+    private final String code;
+    private final String message;
 }

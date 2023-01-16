@@ -1,7 +1,5 @@
 package fashion.orderservice.dto;
 
-import fashion.orderservice.entity.Item;
-import fashion.orderservice.entity.OrderStatus;
 import fashion.orderservice.entity.Orderitem;
 import fashion.orderservice.entity.Orders;
 import lombok.EqualsAndHashCode;
@@ -21,8 +19,6 @@ public class MemberOrdersDto {
 
     private List<MemberOrderItemsDto> orderItems = new ArrayList<>();
 
-    private OrderStatus status;
-
     private LocalDateTime orderDate;
 
     public MemberOrdersDto(Orders orders){
@@ -34,9 +30,9 @@ public class MemberOrdersDto {
             memberOrderItemsDto.setItemName(item.getItem().getItemName());
             memberOrderItemsDto.setOrderQuantity(item.getOrderQuantity());
             memberOrderItemsDto.setOrderPrice(item.getOrderPrice());
+            memberOrderItemsDto.setOrderStatus(item.getOrderStatus());
             orderItems.add(memberOrderItemsDto);
         }
-        status = orders.getStatus();
         orderDate = orders.getOrderDate();
     }
 }

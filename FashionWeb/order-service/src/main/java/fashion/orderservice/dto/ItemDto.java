@@ -1,9 +1,7 @@
 package fashion.orderservice.dto;
 
-import com.sun.istack.NotNull;
 import fashion.orderservice.entity.Category;
 import fashion.orderservice.entity.Item;
-import fashion.orderservice.entity.Seller;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

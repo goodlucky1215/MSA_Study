@@ -1,9 +1,11 @@
 package fashion.orderservice.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+@DynamicInsert
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,6 +29,9 @@ public class Orderitem {
 
     @Column(nullable = false)
     private Long orderPrice;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @Builder
     private Orderitem(Orders order, Item item, Long orderQuantity, Long orderPrice){

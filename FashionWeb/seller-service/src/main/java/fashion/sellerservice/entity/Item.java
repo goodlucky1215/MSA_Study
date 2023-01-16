@@ -1,6 +1,7 @@
 package fashion.sellerservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,5 +32,14 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Builder
+    private Item(Seller seller, String itemName, Long price, Long quantity, Category category){
+        this.seller = seller;
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+    }
 
 }

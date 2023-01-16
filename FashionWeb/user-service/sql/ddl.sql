@@ -82,3 +82,13 @@ create table orderitem(
 #ALTER TABLE ORDERITEM ADD COLUMN order_quantity integer NOT NULL;
 #ALTER TABLE ORDERITEM ADD COLUMN order_price integer NOT NULL;
 commit;
+
+/* 판매자 관점 : 판매자가 판매하는 상품의 사용자 주문 목록 Query
+    select orderitem.orderitem_id, orderitem.order_quantity, orderitem.order_price, orderitem.order_status,
+    item.item_name, orderInfo.id, orderInfo.order_date
+    from orderitem
+    inner join item on orderitem.item_id = item.item_id
+    inner join (select orders.order_id, orders.order_date, member.id from orders inner join member on orders.pk_id = member.pk_id) orderInfo
+    on orderitem.order_id = orderInfo.order_id
+    where item.seller_id =91(판매자 pkId);
+*/

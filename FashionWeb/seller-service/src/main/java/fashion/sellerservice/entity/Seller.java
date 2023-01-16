@@ -1,6 +1,7 @@
 package fashion.sellerservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -20,7 +21,7 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sellerId;
 
-    @OneToMany(mappedBy = "itemId")
+    @OneToMany(mappedBy = "seller")
     private final List<Item> items = new ArrayList<>();
 
     @Column(unique = true, length = 40)
@@ -35,5 +36,12 @@ public class Seller {
     @Column(nullable = false, updatable = false,insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
+
+    @Builder
+    private Seller(String id, String companyName, String passwordEncrypt){
+        this.id = id;
+        this.companyName = companyName;
+        this.passwordEncrypt = passwordEncrypt;
+    }
 
 }

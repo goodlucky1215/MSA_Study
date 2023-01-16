@@ -40,17 +40,6 @@ public class Member {
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
 
-    @Builder
-    public Member(Long pkId, String id, String email, String nickname, String password, LocalDate birth, String grade){
-        this.pkId = pkId;
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
-        this.birth = birth;
-        this.grade = grade;
-    }
-
     public void changeNickname(String nickname){
         this.nickname = nickname;
     }

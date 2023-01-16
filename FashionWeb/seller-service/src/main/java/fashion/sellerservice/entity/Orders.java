@@ -1,4 +1,5 @@
-package fashion.orderservice.entity;
+package fashion.sellerservice.entity;
+
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,29 +13,26 @@ import java.util.List;
 
 @Entity
 @Table
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Seller {
+@Getter
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
+    private Long orderId;
 
-    @OneToMany(mappedBy = "seller")
-    private List<Item> items = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "pkId")
+    private Member member;
 
-    @Column(unique = true, length = 40)
-    private String id;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<Orderitem> orderItems = new ArrayList<>();
 
-    @Column(nullable = false, length = 20)
-    private String companyName;
-
-    @Column(nullable = false, length = 300)
-    private String passwordEncrypt;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @Column(nullable = false, updatable = false,insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    private LocalDateTime joinDate;
-
+    private LocalDateTime orderDate;
 
 }

@@ -1,7 +1,8 @@
-package fashion.orderservice.entity;
+package fashion.sellerservice.entity;
 
-import fashion.orderservice.exception.NotEnoutStockException;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -31,9 +32,4 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    public void removeStock(Long orderQuantity) {
-        Long restStock = this.quantity - orderQuantity;
-        if(restStock < 0) throw new NotEnoutStockException("재고 수량이 부족합니다.");
-        this.quantity = restStock;
-    }
 }

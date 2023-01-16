@@ -1,4 +1,4 @@
-package fashion.orderservice.entity;
+package fashion.sellerservice.entity;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

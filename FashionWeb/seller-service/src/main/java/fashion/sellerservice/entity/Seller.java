@@ -1,4 +1,4 @@
-package fashion.orderservice.entity;
+package fashion.sellerservice.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sellerId;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "itemId")
     private List<Item> items = new ArrayList<>();
 
     @Column(unique = true, length = 40)
@@ -35,6 +35,5 @@ public class Seller {
     @Column(nullable = false, updatable = false,insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
-
 
 }

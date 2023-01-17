@@ -165,4 +165,66 @@ class SellerRepositoryImplTest {
         assertEquals(Category.outer,result.getCategory());
         assertEquals("원숭이",result.getSeller().getCompanyName());
     }
+
+    @DisplayName("판매자가 판매하는 상품 목록_없음")
+    @Test
+    public void seller_items_empty(){
+        //given
+        Seller seller = Seller.builder()
+                .id("seller1")
+                .companyName("원숭이")
+                .passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+
+        //when
+        List<Item> result = sellerRepository.findBySellerId(seller.getSellerId());
+
+        //then
+        assertEquals(0,result.size());
+    }
+
+    @DisplayName("판매자가 판매하는 상품 목록")
+    @Test
+    public void seller_items(){
+        //given
+        Seller seller = Seller.builder()
+                .id("seller1")
+                .companyName("원숭이")
+                .passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+        Item item1 = Item.builder()
+                .seller(seller)
+                .itemName("알록달록한 명품 겟찌 트위드 자켓")
+                .price(1989900L)
+                .quantity(43L)
+                .category(Category.outer)
+                .build();
+        em.persist(item1);
+        Item item2 = Item.builder()
+                .seller(seller)
+                .itemName("구름같이 가벼운 스니커즈")
+                .price(78900L)
+                .quantity(12L)
+                .category(Category.shoes)
+                .build();
+        em.persist(item2);
+
+        //when
+        List<Item> result = sellerRepository.findBySellerId(seller.getSellerId());
+
+        //then
+        assertEquals(2,result.size());
+        assertEquals("알록달록한 명품 겟찌 트위드 자켓",result.get(0).getItemName());
+        assertEquals("구름같이 가벼운 스니커즈",result.get(1).getItemName());
+        assertEquals(1989900L, result.get(0).getPrice());
+        assertEquals(78900, result.get(1).getPrice());
+        assertEquals(43L, result.get(0).getQuantity());
+        assertEquals(12, result.get(1).getQuantity());
+        assertEquals(Category.outer,result.get(0).getCategory());
+        assertEquals(Category.shoes,result.get(1).getCategory());
+        assertEquals("원숭이",result.get(0).getSeller().getCompanyName());
+        assertEquals("원숭이",result.get(1).getSeller().getCompanyName());
+    }
 }

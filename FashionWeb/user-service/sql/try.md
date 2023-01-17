@@ -20,7 +20,7 @@ c. seller-service
 (3) 고객 주문 목록  
 (4) 고객 주문 확인(ORDER => READY)로 변경  
 (5) 상품 등록  
-
+(6) 판매자가 판매하는 상품 목록  
 
 3. dto, entity 분리
 

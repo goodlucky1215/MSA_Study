@@ -57,4 +57,11 @@ public class SellerRepositoryImpl implements SellerRepository{
         em.persist(item);
     }
 
+    @Override
+    public List<Item> findBySellerId(Long sellerId) {
+        List<Item> items = em.createQuery("select i from Item i where i.seller.sellerId=:sellerId", Item.class)
+                .setParameter("sellerId",sellerId).getResultList();
+        return items;
+    }
+
 }

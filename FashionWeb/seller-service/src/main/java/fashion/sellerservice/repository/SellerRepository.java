@@ -13,7 +13,7 @@ public interface SellerRepository {
     boolean existsById(String id);
     void save(Seller seller);
 
-    //로그인
+    //로그인 성공후 사용자 정보 가져오기
     Seller findById(String id);
 
     //고객 주문 목록
@@ -26,5 +26,7 @@ public interface SellerRepository {
     // 상품 등록
     void save(Item item);
 
+    //판매자가 판매하는 상품 목록
+    List<Item> findBySellerId(Long sellerId);
 
 }

@@ -1,15 +1,17 @@
 package fashion.sellerservice.repository;
 
-import fashion.sellerservice.entity.Category;
-import fashion.sellerservice.entity.Item;
-import fashion.sellerservice.entity.Seller;
+import fashion.sellerservice.entity.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,16 +94,45 @@ class SellerRepositoryImplTest {
     }
 
     @DisplayName("주문 상품 정보 가져오기_성공")
-    @Test
+    //@Test
+    @RepeatedTest(100)
     public void orderitem_info_success(){
         //given
-
+        Seller seller = Seller.builder()
+                .id("seller1")
+                .companyName("원숭이")
+                .passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+        Item item = Item.builder()
+                .seller(seller)
+                .itemName("알록달록한 명품 겟찌 트위드 자켓")
+                .price(1989900L)
+                .quantity(43L)
+                .category(Category.outer)
+                .build();
+        em.persist(item);
+        Member member = Member.builder()
+                .id("member1")
+                .nickname("칸쵸님")
+                .password("1234")
+                .build();
+        em.persist(member);
+        Orderitem orderitem = Orderitem.createOrderitem(item, 4L);
+        List<Orderitem> orderitems = new ArrayList(){{ add(orderitem); }};
+        Orders order = Orders.createOrder(member, orderitems);
+        em.persist(order);
 
 
         //when
-
+        Orderitem result = sellerRepository.findByOrderitemId(orderitem.getOrderitemId());
 
         //then
+        assertEquals("알록달록한 명품 겟찌 트위드 자켓", result.getItem().getItemName());
+        assertEquals("원숭이", result.getItem().getSeller().getCompanyName());
+        assertEquals(39, result.getItem().getQuantity());
+        assertEquals("칸쵸님", result.getOrder().getMember().getNickname());
+        assertEquals(4L, result.getOrderQuantity());
 
     }
 

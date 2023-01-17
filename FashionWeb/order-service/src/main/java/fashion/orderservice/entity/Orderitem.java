@@ -34,8 +34,7 @@ public class Orderitem {
     private OrderStatus orderStatus;
 
     @Builder
-    private Orderitem(Orders order, Item item, Long orderQuantity, Long orderPrice){
-        this.order = order;
+    private Orderitem(Item item, Long orderQuantity, Long orderPrice){
         this.item = item;
         this.orderQuantity = orderQuantity;
         this.orderPrice = orderPrice;

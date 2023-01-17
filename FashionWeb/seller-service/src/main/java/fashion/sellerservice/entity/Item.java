@@ -42,4 +42,9 @@ public class Item {
         this.category = category;
     }
 
+    public void removeStock(Long orderQuantity) {
+        Long restStock = this.quantity - orderQuantity;
+        this.quantity = restStock;
+    }
+
 }

@@ -1,7 +1,10 @@
 package fashion.sellerservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -13,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Member {
 
     @Id
@@ -35,6 +39,15 @@ public class Member {
 
     private String grade;
 
+    @Column(nullable = false, updatable = false,insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private LocalDateTime joinDate;
+
+    @Builder
+    private Member(String id, String nickname, String password){
+        this.id = id;
+        this.nickname = nickname;
+        this.password = password;
+    }
 
 }

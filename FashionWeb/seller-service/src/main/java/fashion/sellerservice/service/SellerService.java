@@ -1,10 +1,10 @@
 package fashion.sellerservice.service;
 
+import fashion.sellerservice.dto.ItemRegisterDto;
 import fashion.sellerservice.dto.SellerInfoDto;
 import fashion.sellerservice.dto.SellerItemListDto;
 import fashion.sellerservice.dto.SellerJoinDto;
 import fashion.sellerservice.entity.Item;
-import fashion.sellerservice.entity.Orderitem;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
 public interface SellerService extends UserDetailsService {
 
     //회원가입
-    boolean sellerJoin(SellerJoinDto sellerJoinDto);
+    boolean joinSeller(SellerJoinDto sellerJoinDto);
 
     // => 아래 메소드는 spring security에서 로그인시 쓰이는 메소드다. UserDetailsService의 메서드로 일반클래스에서 오버라이드해서 받아온다.
     //public UserDetails loadUserByUsername(String id)
@@ -22,13 +22,13 @@ public interface SellerService extends UserDetailsService {
     SellerInfoDto getSellerInfo(String id);
 
     //고객 주문 목록
-    //List<Map> memberOrderList(Long sellerId);
+    List<Map> getMemberOrderList(Long sellerId);
 
     //고객 주문 확인(ORDER => READY)로 변경
-    void memberOrderitemStatusChange(Long orderitemId);
+    void changeMemberOrderitemStatus(Long orderitemId);
 
     //상품 등록
-    void save(Item item);
+    void saveItem(Long sellerId, ItemRegisterDto itemRegisterDto);
 
     //판매자가 판매하는 상품 목록
     List<SellerItemListDto> getSellerItems(Long sellerId);

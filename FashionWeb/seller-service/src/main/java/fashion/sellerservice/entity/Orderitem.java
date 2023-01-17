@@ -55,4 +55,8 @@ public class Orderitem {
                 .orderPrice(orderQuantity*item.getPrice())
                 .build();
     }
+
+    public void readyOrderStatus(){
+        this.orderStatus = OrderStatus.READY;
+    }
 }

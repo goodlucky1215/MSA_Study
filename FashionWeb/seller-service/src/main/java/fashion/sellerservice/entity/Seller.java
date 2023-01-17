@@ -44,4 +44,8 @@ public class Seller {
         this.passwordEncrypt = passwordEncrypt;
     }
 
+    public void changePasswordEncrypt(String passwordEncrypt){
+        this.passwordEncrypt = passwordEncrypt;
+    }
+
 }

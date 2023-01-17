@@ -47,4 +47,9 @@ public class Item {
         this.quantity = restStock;
     }
 
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+
 }

@@ -104,7 +104,8 @@ b. 단위테스트
 - 그러므로 만든 Repository일 경우에, Repository는 어차피 내부에 로직이 거의 없고, 기능 대부분을 EntityManager에 의존하기 때문에, @SpringBootTest를 그냥 사용하면 된다.  
   
 (2) Service  
-- 단위테스트에서는 Repository클래스는 @Mock을 사용한다.
+- 단위테스트에서는 Repository클래스는 @Mock을 사용한다.  
+- @Mock이 붙은 목객체(repository)를 @InjectMocks(service)이 붙은 객체에 주입시킬 수 있다.
 - 레이어 테스트 시, Dto&Entity 테스트 방법  
 => when~thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
 => 그러나 service의 return값은 dto이다.  

@@ -8,6 +8,7 @@ import fashion.sellerservice.entity.Item;
 import fashion.sellerservice.entity.Orderitem;
 import fashion.sellerservice.entity.Seller;
 import fashion.sellerservice.exception.JoinException;
+import fashion.sellerservice.repository.ItemRepository;
 import fashion.sellerservice.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 public class SellerServiceImpl implements SellerService{
 
     final private SellerRepository sellerRepository;
+
+    final private ItemRepository itemRepository;
 
     final private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -52,8 +55,8 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public SellerInfoDto getSellerInfo(String id) {
-        Seller sellerInfoEntity = sellerRepository.findById(id);
+    public SellerInfoDto getSellerInfo(Long id) {
+        Seller sellerInfoEntity = sellerRepository.findBySellerId(id);
         return mapper.map(sellerInfoEntity,SellerInfoDto.class);
     }
 
@@ -64,21 +67,23 @@ public class SellerServiceImpl implements SellerService{
 
     @Override
     public void changeMemberOrderitemStatus(Long orderitemId) {
-        Orderitem orderitem = sellerRepository.findByOrderitemId(orderitemId);
+        Orderitem orderitem = itemRepository.findByOrderitemId(orderitemId);
         orderitem.readyOrderStatus();
     }
 
     @Override
     public void saveItem(Long sellerId, ItemRegisterDto itemRegisterDto) {
         Item item = mapper.map(itemRegisterDto, Item.class);
-        item.setSeller(sellerRepository.findById(sellerId));
-        sellerRepository.save(item);
+        item.setSeller(sellerRepository.findBySellerId(sellerId));
+        itemRepository.save(item);
     }
 
     @Override
     public List<SellerItemListDto> getSellerItems(Long sellerId) {
-        List<Item> items = sellerRepository.findBySellerId(sellerId);
-        return items.stream().map(item -> {mapper.map(item,SellerItemListDto.class)}).collect(Collectors.toList());
+        List<Item> items = itemRepository.findBySellerId(sellerId);
+        return items.stream().map(item ->
+            mapper.map(item,SellerItemListDto.class)
+        ).collect(Collectors.toList());
     }
 
 }

@@ -19,7 +19,7 @@ public interface SellerService extends UserDetailsService {
     //public UserDetails loadUserByUsername(String id)
 
     //로그인 성공후 사용자 정보 가져오기
-    SellerInfoDto getSellerInfo(String id);
+    SellerInfoDto getSellerInfo(Long id);
 
     //고객 주문 목록
     List<Map> getMemberOrderList(Long sellerId);

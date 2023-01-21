@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,10 +33,23 @@ class SellerServiceImplTest {
     @Mock
     private ItemRepository itemRepository;
 
+    @Mock
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Mock
+    private ModelMapper mapper;
+
     @DisplayName("회원가입_이미 있는 아이디")
     @Test
     public void join_id_not_unique(){
-        System.out.println("sdf");
+        SellerJoinDto sellerJoinDto = new SellerJoinDto();
+        sellerJoinDto.setId("바나나");
+        sellerJoinDto.setCompanyName("곰도링회사");
+        sellerJoinDto.setPasswordEncrypt("1234");
+        when(sellerRepository.existsById(sellerJoinDto.getId())).thenReturn(true);
+        assertThrows(JoinException.class, () -> {
+            sellerService.joinSeller(sellerJoinDto);
+        });
     }
 
     @DisplayName("회원가입_이미 있는 상호명")
@@ -53,7 +68,25 @@ class SellerServiceImplTest {
     @DisplayName("회원가입_성공")
     @Test
     public void join_success(){
+        //given
+        SellerJoinDto sellerJoinDto = new SellerJoinDto();
+        sellerJoinDto.setId("바나나");
+        sellerJoinDto.setCompanyName("곰도링회사");
+        sellerJoinDto.setPasswordEncrypt("1234");
+        when(sellerRepository.existsById(sellerJoinDto.getId())).thenReturn(false);
+        Seller seller = Seller.builder()
+                .id("바나나")
+                .companyName("곰도링회사")
+                .passwordEncrypt("1234")
+                .build();
+        when(mapper.map(any(),any())).thenReturn(seller);
+        when(bCryptPasswordEncoder.encode(seller.getPasswordEncrypt())).thenReturn("1234");
 
+        //when
+        boolean result = sellerService.joinSeller(sellerJoinDto);
+
+        //then
+        assertEquals(true,result);
     }
     /*
     //회원가입

@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -88,19 +90,52 @@ class SellerServiceImplTest {
         //then
         assertEquals(true,result);
     }
-    /*
-    //회원가입
-    boolean joinSeller(SellerJoinDto sellerJoinDto){
-        boolean extistIdTF = sellerRepository.existsById(sellerJoinDto.getId());
-        if(extistIdTF) throw new JoinException("해당 아이디가 이미 존재합니다.");
-        Seller seller = mapper.map(sellerJoinDto, Seller.class);
-        seller.changePasswordEncrypt(bCryptPasswordEncoder.encode(seller.getPasswordEncrypt()));
-        sellerRepository.save(seller);
-        return true;
+
+
+    @DisplayName("로그인_id 존재 X_실패")
+    @Test
+    public void sellerIdnotExist(){
+        //given
+        when(sellerRepository.findById("lucky")).thenReturn(null);
+
+        //when
+        //then
+        assertThrows(AuthenticationServiceException.class,
+                () -> {
+                    sellerService.loadUserByUsername("lucky");
+                });
     }
+
+    @DisplayName("로그인_성공")
+    @Test
+    public void sellerIdExist(){
+        //given
+        Seller seller = Seller.builder()
+                .id("lucky")
+                .companyName("블랙토끼회사")
+                .passwordEncrypt("1234")
+                .build();
+        when(sellerRepository.findById("lucky")).thenReturn(seller);
+
+        //when
+        UserDetails userDetails = sellerService.loadUserByUsername("lucky");
+
+        //then
+        assertEquals("lucky",userDetails.getUsername());
+        assertEquals("1234",userDetails.getPassword());
+    }
+
+
+    /*
 
     // => 아래 메소드는 spring security에서 로그인시 쓰이는 메소드다. UserDetailsService의 메서드로 일반클래스에서 오버라이드해서 받아온다.
     //public UserDetails loadUserByUsername(String id)
+            Seller sellerInfoEntity = sellerRepository.findById(id);
+        if(sellerInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요..");
+        return new org.springframework.security.core.userdetails.User(sellerInfoEntity.getId(), sellerInfoEntity.getPasswordEncrypt(),
+                true, true, true, true,
+                new ArrayList<>());
+
 
     //로그인 성공후 사용자 정보 가져오기
     SellerInfoDto getSellerInfo(Long id);

@@ -13,6 +13,7 @@ import fashion.sellerservice.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,7 +50,7 @@ public class SellerServiceImpl implements SellerService{
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Seller sellerInfoEntity = sellerRepository.findById(id);
         if(sellerInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요..");
-        return new org.springframework.security.core.userdetails.User(sellerInfoEntity.getId(), sellerInfoEntity.getPasswordEncrypt(),
+        return new User(sellerInfoEntity.getId(), sellerInfoEntity.getPasswordEncrypt(),
                 true, true, true, true,
                 new ArrayList<>());
     }

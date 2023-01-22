@@ -82,6 +82,7 @@ public class SellerServiceImpl implements SellerService{
     @Override
     public List<SellerItemListDto> getSellerItems(Long sellerId) {
         List<Item> items = itemRepository.findBySellerId(sellerId);
+        if(items == null) return null;
         return items.stream().map(item ->
             mapper.map(item,SellerItemListDto.class)
         ).collect(Collectors.toList());

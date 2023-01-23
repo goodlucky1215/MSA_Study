@@ -34,3 +34,7 @@ logging:
         type:
           descriptor:
             sql: trace
+
+token:
+  expiration_time: 86400000 #토큰 유효기간(하루짜리)
+  secret: user-token #이 정보가 토큰 만들어질때 사용

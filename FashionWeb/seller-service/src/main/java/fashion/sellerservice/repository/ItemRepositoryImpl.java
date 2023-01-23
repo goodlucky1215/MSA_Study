@@ -16,7 +16,7 @@ public class ItemRepositoryImpl implements ItemRepository{
     private final EntityManager em;
 
     @Override
-    public List<Map> memberOrderList(Long sellerId) {
+    public List<Map> checkOrderDetails(Long sellerId) {
         /*
             select orderitem.orderitem_id, orderitem.order_quantity, orderitem.order_price, orderitem.order_status,
             item.item_name, orderInfo.id, orderInfo.order_date

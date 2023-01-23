@@ -24,7 +24,7 @@ public interface SellerService extends UserDetailsService {
     SellerInfoDto getSellerInfo(Long sellerId);
 
     //고객 주문 목록
-    List<Map> getMemberOrderList(Long sellerId);
+    List<Map> checkOrderDetails(Long sellerId);
 
     //고객 주문 확인(ORDER => READY)로 변경
     void changeMemberOrderitemStatus(Long orderitemId);

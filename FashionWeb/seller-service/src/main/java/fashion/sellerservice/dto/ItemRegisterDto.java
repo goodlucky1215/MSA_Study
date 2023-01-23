@@ -5,10 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Setter
 @Getter
@@ -19,17 +16,17 @@ public class ItemRegisterDto {
     @Size(min =4, max = 50, message = "상품명은 4자 이상 50자 이하여야 합니다.")
     private String itemName;
 
-    @NotBlank(message = "빈 값이 아니어야합니다.")
+    @NotNull(message = "빈 값이 아니어야합니다.")
     @Max(value = 999999999, message = "9,999,999,999원 이하만 가능합니다.")
     @Min(value = 100, message = "100원 이상만 가능합니다.")
     private Long price;
 
-    @NotBlank(message = "빈 값이 아니어야합니다.")
+    @NotNull(message = "빈 값이 아니어야합니다.")
     @Max(value = 999, message = "999개 이하만 가능합니다.")
     @Min(value = 1, message = "1개 이상만 가능합니다.")
     private Long quantity;
 
-    @NotBlank(message = "카테고리를 선택해주세요.")
+    @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
 
 }

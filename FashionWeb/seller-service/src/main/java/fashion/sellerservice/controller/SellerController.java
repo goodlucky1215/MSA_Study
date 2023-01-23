@@ -8,10 +8,7 @@ import fashion.sellerservice.dto.SellerJoinDto;
 import fashion.sellerservice.service.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("seller-service")
 public class SellerController {
 
     final private SellerService sellerService;
@@ -34,9 +32,9 @@ public class SellerController {
         return new Result(result, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
-    @GetMapping("memberOrderList")
+    @GetMapping("checkOrderDetails")
     public Result<Map> memberOrderList(HttpServletRequest request) {
-        List<Map> result = sellerService.getMemberOrderList(Long.parseLong(request.getHeader("pkId")));
+        List<Map> result = sellerService.checkOrderDetails(Long.parseLong(request.getHeader("pkId")));
         return new Result(result, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 

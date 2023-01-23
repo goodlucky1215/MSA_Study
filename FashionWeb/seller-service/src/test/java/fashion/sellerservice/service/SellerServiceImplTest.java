@@ -206,13 +206,13 @@ class SellerServiceImplTest {
     @Test
     public void sellerItemList_empty(){
         //given
-        when(itemRepository.findBySellerId(14L)).thenReturn(null);
+        when(itemRepository.findBySellerId(14L)).thenReturn(new ArrayList<>());
 
         //when
         List<SellerItemListDto> result = sellerService.getSellerItems(14L);
 
         //then
-        assertEquals(null, result);
+        assertEquals(new ArrayList<>(), result);
 
     }
 

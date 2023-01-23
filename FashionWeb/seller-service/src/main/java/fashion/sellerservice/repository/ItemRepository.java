@@ -10,7 +10,7 @@ import java.util.Map;
 public interface ItemRepository {
 
     //고객 주문 목록
-    List<Map> memberOrderList(Long sellerId);
+    List<Map> checkOrderDetails(Long sellerId);
 
 
     //고객 주문 확인(ORDER => READY)로 변경

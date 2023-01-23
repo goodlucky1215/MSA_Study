@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SellerServiceImpl implements SellerService{
 
     final private SellerRepository sellerRepository;
@@ -68,7 +70,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public List<Map> getMemberOrderList(Long sellerId) {
+    public List<Map> checkOrderDetails(Long sellerId) {
         return null;
     }
 
@@ -88,7 +90,6 @@ public class SellerServiceImpl implements SellerService{
     @Override
     public List<SellerItemListDto> getSellerItems(Long sellerId) {
         List<Item> items = itemRepository.findBySellerId(sellerId);
-        if(items == null) return null;
         return items.stream().map(item ->
             mapper.map(item,SellerItemListDto.class)
         ).collect(Collectors.toList());

@@ -4,7 +4,6 @@ import fashion.sellerservice.dto.ItemRegisterDto;
 import fashion.sellerservice.dto.SellerInfoDto;
 import fashion.sellerservice.dto.SellerItemListDto;
 import fashion.sellerservice.dto.SellerJoinDto;
-import fashion.sellerservice.entity.Item;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -19,7 +18,10 @@ public interface SellerService extends UserDetailsService {
     //public UserDetails loadUserByUsername(String id)
 
     //로그인 성공후 사용자 정보 가져오기
-    SellerInfoDto getSellerInfo(Long id);
+    SellerInfoDto getSellerInfo(String id);
+
+    //로그인 성공후 사용자 정보 가져오기
+    SellerInfoDto getSellerInfo(Long sellerId);
 
     //고객 주문 목록
     List<Map> getMemberOrderList(Long sellerId);

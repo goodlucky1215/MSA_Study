@@ -8,6 +8,8 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class SellerInfoDto {
 
+    private Long sellerId;
+
     private String id;
 
     private String companyName;

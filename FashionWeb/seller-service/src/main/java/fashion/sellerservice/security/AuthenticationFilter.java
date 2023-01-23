@@ -1,6 +1,11 @@
 package fashion.sellerservice.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fashion.sellerservice.common.ErrorResult;
+import fashion.sellerservice.common.Result;
+import fashion.sellerservice.common.ResultCode;
+import fashion.sellerservice.dto.IdLoginDto;
+import fashion.sellerservice.dto.SellerInfoDto;
 import fashion.sellerservice.service.SellerService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,7 +39,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final SellerService sellerService;
     private final Environment env;
-/*
+
     //로그인 처리 메소드
     @Override
     public Authentication attemptAuthentication(@Validated HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -59,7 +64,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String userId = ((User)authResult.getPrincipal()).getUsername();
-        MemberInfoDto memberInfoDto = userService.getUserInfo(userId);
+        SellerInfoDto sellerInfoDto = sellerService.getSellerInfo(userId);
 
         String token = Jwts.builder()
                 .setSubject(userId)
@@ -69,10 +74,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader("token",token);
-        response.addHeader("pkId",memberInfoDto.getPkId().toString());
+        response.addHeader("sellerId",sellerInfoDto.getSellerId().toString());
         Map map = new HashMap();
         map.put("result",true);
-        Result<Map> result = new Result(map,ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
+        Result<Map> result = new Result(map, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(result));
     }
@@ -86,5 +91,4 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         else response.getWriter().write(new ObjectMapper().writeValueAsString(new ErrorResult(ResultCode.ERROR.getCode(),failed.getMessage())));
     }
 
- */
 }

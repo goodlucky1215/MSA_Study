@@ -47,6 +47,12 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
+    public SellerInfoDto getSellerInfo(String id) {
+        Seller sellerInfoEntity = sellerRepository.findById(id);
+        return mapper.map(sellerInfoEntity,SellerInfoDto.class);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Seller sellerInfoEntity = sellerRepository.findById(id);
         if(sellerInfoEntity==null) throw new AuthenticationServiceException("회원 정보를 확인해주세요..");

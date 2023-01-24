@@ -3,10 +3,9 @@ package fashion.sellerservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fashion.sellerservice.common.ErrorResult;
 import fashion.sellerservice.common.ResultCode;
-import fashion.sellerservice.dto.ItemRegisterDto;
-import fashion.sellerservice.dto.SellerItemListDto;
-import fashion.sellerservice.dto.SellerJoinDto;
+import fashion.sellerservice.dto.*;
 import fashion.sellerservice.entity.Category;
+import fashion.sellerservice.entity.Seller;
 import fashion.sellerservice.exception.JoinException;
 import fashion.sellerservice.service.SellerService;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +15,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -107,6 +108,80 @@ class SellerControllerTest {
                 .andExpect(jsonPath("code",is(ResultCode.SUCCESS.getCode())))
                 .andExpect(jsonPath("message",is(ResultCode.SUCCESS.getMessage())));
     }
+
+    @DisplayName("로그인 실패_idIsNull")
+    @Test
+    public void sellerLogin_IdNull_fail() throws Exception {
+        //given
+        IdLoginDto idLoginDto = new IdLoginDto();
+        idLoginDto.setId("id");
+        idLoginDto.setPassword("1234");
+        given(sellerService.loadUserByUsername("id")).willThrow(new AuthenticationServiceException("회원 정보를 확인해주세요.."));
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(idLoginDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("code",is(ResultCode.ERROR.getCode())))
+                .andExpect(jsonPath("message",is("회원 정보를 확인해주세요..")));
+    }
+
+    @DisplayName("로그인 실패_패스워드 빈 값")
+    @Test
+    public void sellerLogin_PasswordEmpty_fail() throws Exception {
+        //given
+        IdLoginDto idLoginDto = new IdLoginDto();
+        idLoginDto.setId("i");
+        idLoginDto.setPassword("");
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(idLoginDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("code",is(ResultCode.ERROR.getCode())))
+                .andExpect(jsonPath("message",is("빈 값이 아니어야합니다.")));
+    }
+
+    @DisplayName("로그인 성공")
+    @Test
+    public void sellerLogin_success() throws Exception {
+        //given
+        IdLoginDto idLoginDto = new IdLoginDto();
+        idLoginDto.setId("seller");
+        idLoginDto.setPassword("1234");
+        Seller sellerInfoEntity = Seller.builder()
+                                    .id("seller")
+                                    .passwordEncrypt(new BCryptPasswordEncoder().encode("1234"))
+                                    .build();
+        given(sellerService.loadUserByUsername("seller")).willReturn(new User(sellerInfoEntity.getId(), sellerInfoEntity.getPasswordEncrypt(),
+                true, true, true, true,
+                new ArrayList<>()));
+        SellerInfoDto sellerInfoDto = new SellerInfoDto();
+        sellerInfoDto.setSellerId(12L);
+        sellerInfoDto.setId("seller");
+        sellerInfoDto.setCompanyName("구름같은세상");
+        given(sellerService.getSellerInfo("seller")).willReturn(sellerInfoDto);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(idLoginDto)));
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("data.result",is(true)))
+                .andExpect(jsonPath("code",is(ResultCode.SUCCESS.getCode())))
+                .andExpect(jsonPath("message",is(ResultCode.SUCCESS.getMessage())));
+        then(sellerService).should().loadUserByUsername("seller");
+        then(sellerService).should().getSellerInfo("seller");
+    }
+
 
     @DisplayName("고객 주문 확인 변경")
     @Test

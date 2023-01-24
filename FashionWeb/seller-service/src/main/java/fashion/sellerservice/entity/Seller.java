@@ -1,9 +1,6 @@
 package fashion.sellerservice.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import java.util.List;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class Seller {
 
     @Id

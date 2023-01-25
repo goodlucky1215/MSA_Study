@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {login} from '../../user_action';
+import {login} from '../../seller_action';
 
-function LoginPage() {
+function SellerLoginPage() {
 
     const navigate = useNavigate();
 
     const navigateToRegisterPage = () => {
-      navigate("/RegisterPage");
+      navigate("/SellerRegisterPage");
     };
 
-    const [userId, setEmail] = useState('');
+    const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,13 +25,13 @@ function LoginPage() {
     
     return (
         <div className="App">
-        <h1>사용자 로그인 화면</h1>
+        <h1>판매자 로그인 화면</h1>
         <form onSubmit={handleSubmit}>
           <input
             name="userId"
             value={userId}
             placeholder="아이디"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUserId(e.target.value)}
           />
           <input
             type="password"
@@ -52,4 +52,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default SellerLoginPage;

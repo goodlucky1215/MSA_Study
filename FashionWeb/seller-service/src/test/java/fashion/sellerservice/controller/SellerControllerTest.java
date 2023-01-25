@@ -189,7 +189,7 @@ class SellerControllerTest {
         //given
         //when
         ResultActions resultActions = mockMvc.perform(post("/seller-service/memberOrderitemStatus")
-                                                    .header("pkId",11L)
+                                                    .header("sellerId",11L)
         );
 
         //then
@@ -213,7 +213,7 @@ class SellerControllerTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/seller-service/saveItem")
-                .header("pkId",11L)
+                .header("sellerId",11L)
                 .content(new ObjectMapper().writeValueAsString(itemRegisterDto))
                 .contentType(MediaType.APPLICATION_JSON)
         );
@@ -237,7 +237,7 @@ class SellerControllerTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/seller-service/saveItem")
-                .header("pkId",11L)
+                .header("sellerId",11L)
                 .content(new ObjectMapper().writeValueAsString(itemRegisterDto))
                 .contentType(MediaType.APPLICATION_JSON)
         );
@@ -259,7 +259,7 @@ class SellerControllerTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(get("/seller-service/sellerItems")
-                .header("pkId",11L)
+                .header("sellerId",11L)
                 .contentType(MediaType.APPLICATION_JSON)
         );
 
@@ -293,7 +293,7 @@ class SellerControllerTest {
 
         //when
         ResultActions resultActions = mockMvc.perform(get("/seller-service/sellerItems")
-                .header("pkId",11L)
+                .header("sellerId",11L)
                 .contentType(MediaType.APPLICATION_JSON)
         );
 

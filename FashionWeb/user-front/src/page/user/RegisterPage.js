@@ -58,7 +58,7 @@ function RegisterPage() {
     //화면 영역/////////////////////////////////////////////////////////////////////////////////////
     return (
       <div className="App">
-        <h1>회원가입</h1>
+        <h1>사용자 회원가입</h1>
         <form onSubmit={handleSubmit}>
           <input
             name="userId"

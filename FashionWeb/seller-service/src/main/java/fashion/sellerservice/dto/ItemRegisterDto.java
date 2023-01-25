@@ -17,13 +17,13 @@ public class ItemRegisterDto {
     private String itemName;
 
     @NotNull(message = "빈 값이 아니어야합니다.")
-    @Max(value = 999999999, message = "9,999,999,999원 이하만 가능합니다.")
-    @Min(value = 100, message = "100원 이상만 가능합니다.")
+    @Max(value = 999999999, message = "가격은 9,999,999,999원 이하만 가능합니다.")
+    @Min(value = 100, message = "가격은 100원 이상만 가능합니다.")
     private Long price;
 
     @NotNull(message = "빈 값이 아니어야합니다.")
-    @Max(value = 999, message = "999개 이하만 가능합니다.")
-    @Min(value = 1, message = "1개 이상만 가능합니다.")
+    @Max(value = 999, message = "재고는 999개 이하만 가능합니다.")
+    @Min(value = 1, message = "재고는 1개 이상부터 가능합니다.")
     private Long quantity;
 
     @NotNull(message = "카테고리를 선택해주세요.")

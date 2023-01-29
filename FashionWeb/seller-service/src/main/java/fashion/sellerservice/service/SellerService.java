@@ -1,9 +1,6 @@
 package fashion.sellerservice.service;
 
-import fashion.sellerservice.dto.ItemRegisterDto;
-import fashion.sellerservice.dto.SellerInfoDto;
-import fashion.sellerservice.dto.SellerItemListDto;
-import fashion.sellerservice.dto.SellerJoinDto;
+import fashion.sellerservice.dto.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -24,7 +21,7 @@ public interface SellerService extends UserDetailsService {
     SellerInfoDto getSellerInfo(Long sellerId);
 
     //고객 주문 목록
-    List<Map> checkOrderDetails(Long sellerId);
+    List<OrderDetailsDto> checkOrderDetails(Long sellerId);
 
     //고객 주문 확인(ORDER => READY)로 변경
     void changeMemberOrderitemStatus(Long orderitemId);

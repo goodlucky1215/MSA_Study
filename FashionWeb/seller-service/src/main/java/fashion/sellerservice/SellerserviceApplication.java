@@ -1,17 +1,25 @@
 package fashion.sellerservice;
 
+import com.netflix.discovery.converters.Auto;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.persistence.EntityManager;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class SellerserviceApplication {
+
+    public SellerserviceApplication() {
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SellerserviceApplication.class, args);
@@ -30,5 +38,13 @@ public class SellerserviceApplication {
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
                 .setFieldMatchingEnabled(true);
         return modelMapper;
+    }
+
+    @Autowired
+    EntityManager em;
+
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(){
+        return new JPAQueryFactory(em);
     }
 }

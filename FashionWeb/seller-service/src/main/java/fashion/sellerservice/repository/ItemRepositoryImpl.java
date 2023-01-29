@@ -1,7 +1,10 @@
 package fashion.sellerservice.repository;
 
-import fashion.sellerservice.entity.Item;
-import fashion.sellerservice.entity.Orderitem;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import fashion.sellerservice.dto.OrderDetailsDto;
+import fashion.sellerservice.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +18,28 @@ public class ItemRepositoryImpl implements ItemRepository{
 
     private final EntityManager em;
 
+    private final JPAQueryFactory query;
+
     @Override
-    public List<Map> checkOrderDetails(Long sellerId) {
-        /*
-            select orderitem.orderitem_id, orderitem.order_quantity, orderitem.order_price, orderitem.order_status,
-            item.item_name, orderInfo.id, orderInfo.order_date
-            from orderitem
-            inner join item on orderitem.item_id = item.item_id
-            inner join (select orders.order_id, orders.order_date, member.id from orders inner join member on orders.pk_id = member.pk_id) orderInfo
-            on orderitem.order_id = orderInfo.order_id
-            where item.seller_id =91;
-        */
-        return null;
+    public List<OrderDetailsDto> checkOrderDetails(Long sellerId) {
+        QOrderitem qOrderitem = QOrderitem.orderitem;
+        QItem qItem = QItem.item;
+        QOrders qOrders = QOrders.orders;
+        List<OrderDetailsDto> orderitems = query
+                .select(Projections.bean(OrderDetailsDto.class,
+                        qOrderitem.orderitemId,qOrderitem.orderQuantity,qOrderitem.orderPrice, qOrderitem.orderStatus
+                        ,qItem.itemName,qOrders.orderDate, qOrders.member.id))
+                .from(qOrderitem)
+                .leftJoin(qOrderitem.item, qItem)
+                .leftJoin(qOrderitem.order, qOrders)
+                .where(likeItemSellerId(91L))
+                .fetch();
+        return orderitems;
+    }
+
+    private BooleanExpression likeItemSellerId(Long sellerId){
+        QItem qItem = QItem.item;
+        return qItem.seller.sellerId.eq(sellerId);
     }
 
     @Override

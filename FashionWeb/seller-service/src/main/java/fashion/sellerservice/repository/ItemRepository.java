@@ -1,5 +1,6 @@
 package fashion.sellerservice.repository;
 
+import fashion.sellerservice.dto.OrderDetailsDto;
 import fashion.sellerservice.entity.Item;
 import fashion.sellerservice.entity.Orderitem;
 import fashion.sellerservice.entity.Seller;
@@ -10,7 +11,7 @@ import java.util.Map;
 public interface ItemRepository {
 
     //고객 주문 목록
-    List<Map> checkOrderDetails(Long sellerId);
+    List<OrderDetailsDto> checkOrderDetails(Long sellerId);
 
 
     //고객 주문 확인(ORDER => READY)로 변경

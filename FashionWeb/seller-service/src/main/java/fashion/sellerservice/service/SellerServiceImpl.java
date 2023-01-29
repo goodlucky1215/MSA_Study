@@ -1,9 +1,6 @@
 package fashion.sellerservice.service;
 
-import fashion.sellerservice.dto.ItemRegisterDto;
-import fashion.sellerservice.dto.SellerInfoDto;
-import fashion.sellerservice.dto.SellerItemListDto;
-import fashion.sellerservice.dto.SellerJoinDto;
+import fashion.sellerservice.dto.*;
 import fashion.sellerservice.entity.Item;
 import fashion.sellerservice.entity.Orderitem;
 import fashion.sellerservice.entity.Seller;
@@ -70,8 +67,8 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public List<Map> checkOrderDetails(Long sellerId) {
-        return null;
+    public List<OrderDetailsDto> checkOrderDetails(Long sellerId) {
+        return itemRepository.checkOrderDetails(sellerId);
     }
 
     @Override

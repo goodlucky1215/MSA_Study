@@ -3,6 +3,7 @@ package fashion.sellerservice.controller;
 import fashion.sellerservice.common.Result;
 import fashion.sellerservice.common.ResultCode;
 import fashion.sellerservice.dto.ItemRegisterDto;
+import fashion.sellerservice.dto.OrderDetailsDto;
 import fashion.sellerservice.dto.SellerItemListDto;
 import fashion.sellerservice.dto.SellerJoinDto;
 import fashion.sellerservice.service.SellerService;
@@ -36,8 +37,8 @@ public class SellerController {
     }
 
     @GetMapping("checkOrderDetails")
-    public Result<Map> memberOrderList(HttpServletRequest request) {
-        List<Map> result = sellerService.checkOrderDetails(Long.parseLong(request.getHeader("sellerId")));
+    public Result<OrderDetailsDto> memberOrderList(HttpServletRequest request) {
+        List<OrderDetailsDto> result = sellerService.checkOrderDetails(Long.parseLong(request.getHeader("sellerId")));
         return new Result(result, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 

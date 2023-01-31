@@ -9,7 +9,7 @@ function OrderDetailsPage() {
     checkOrderDetails(setOrders,setErrorMessage);
   },[]);
 
-  const orderStatusButton = (orderitemId,index) => {
+  const orderStatusButton = (orderitemId) => {
     memberOrderitemStatus(orderitemId,setErrorMessage);
   };
 
@@ -29,8 +29,8 @@ function OrderDetailsPage() {
               <td width ="200">주문 확인</td>
             </tr>
             {
-              orders.map((value,index) => (
-                <tr align = "center">
+              orders.map((value) => (
+                <tr key={value.orderitemId} align = "center">
                   <td width ="600">{value.itemName}</td>
                   <td width ="200">{value.id}</td>
                   <td width ="100">{value.orderQuantity}</td>
@@ -38,7 +38,9 @@ function OrderDetailsPage() {
                   <td width ="600">{value.orderDate}</td>
                   <td width ="100">{value.orderStatus}</td>
                   {value.orderStatus==="ORDER" &&
-                    <button onClick={() => orderStatusButton(value.orderitemId,index)}>확인</button>
+                  <td>
+                    <button onClick={() => orderStatusButton(value.orderitemId)}>확인</button>
+                  </td>
                   }
                 </tr>
               ))

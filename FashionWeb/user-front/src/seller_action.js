@@ -81,9 +81,12 @@ export async function checkOrderDetails(setOrders,setErrorMessage) {
 };
 
 export async function memberOrderitemStatus(orderitemId,setErrorMessage) {
+    let loginUserData = {
+        orderitemId : orderitemId
+      };
     await axios
         .post('/seller-service/memberOrderitemStatus',
-        {'orderitemId' : orderitemId},
+        loginUserData
         )
         .then(function (response){
             console.log(response);

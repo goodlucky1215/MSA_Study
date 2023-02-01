@@ -26,12 +26,12 @@ public class SellerserviceApplication {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
@@ -40,11 +40,14 @@ public class SellerserviceApplication {
         return modelMapper;
     }
 
-    @Autowired
-    EntityManager em;
-
+    //@Autowired
+    //EntityManager em;
+/*
     @Bean
-    public JPAQueryFactory jpaQueryFactory(){
+    public JPAQueryFactory jpaQueryFactory(EntityManager em){
         return new JPAQueryFactory(em);
     }
+
+
+ */
 }

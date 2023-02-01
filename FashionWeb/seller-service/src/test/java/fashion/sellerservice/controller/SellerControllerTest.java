@@ -5,6 +5,7 @@ import fashion.sellerservice.common.ErrorResult;
 import fashion.sellerservice.common.ResultCode;
 import fashion.sellerservice.dto.*;
 import fashion.sellerservice.entity.Category;
+import fashion.sellerservice.entity.OrderStatus;
 import fashion.sellerservice.entity.Seller;
 import fashion.sellerservice.exception.JoinException;
 import fashion.sellerservice.service.SellerService;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,6 +201,58 @@ class SellerControllerTest {
                 .andExpect(jsonPath("message",is(ResultCode.SUCCESS.getMessage())));
         then(sellerService).should().changeMemberOrderitemStatus(11L);
 
+    }
+
+    @DisplayName("판매자 상품-사용자 주문 목록_0개")
+    @Test
+    public void checkOrderDetails_empty() throws Exception{
+        //given
+        List<OrderDetailsDto> result = new ArrayList<>();
+        given(sellerService.checkOrderDetails(11L)).willReturn(result);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/seller-service/checkOrderDetails")
+                .header("sellerId",11L)
+        );
+
+        //then
+        resultActions.andDo(print())
+                .andExpect(jsonPath("data",is(new ArrayList())))
+                .andExpect(jsonPath("code",is(ResultCode.SUCCESS.getCode())))
+                .andExpect(jsonPath("message",is(ResultCode.SUCCESS.getMessage())));
+        then(sellerService).should().checkOrderDetails(11L);
+    }
+
+    @DisplayName("판매자 상품-사용자 주문 목록_success")
+    @Test
+    public void checkOrderDetails_success() throws Exception{
+        //given
+        List<OrderDetailsDto> result = new ArrayList<>();
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
+        orderDetailsDto.setOrderitemId(1111L);
+        orderDetailsDto.setOrderPrice(1210000L);
+        orderDetailsDto.setOrderStatus(OrderStatus.ORDER);
+        orderDetailsDto.setItemName("구름달린 옷");
+        orderDetailsDto.setId("good12132");
+        result.add(orderDetailsDto);
+        given(sellerService.checkOrderDetails(11L)).willReturn(result);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/seller-service/checkOrderDetails")
+                .header("sellerId",11L)
+        );
+
+        //then
+        String expectId = "$..data[?(@.id == '%s')]";
+        String expectByItemName    = "$..data[?(@.itemName == '%s')]";
+        String expectByOrderitemId    = "$..data[?(@.orderitemId == '%s')]";
+        resultActions.andDo(print())
+                .andExpect(jsonPath(expectByItemName,"구름달린 옷").exists())
+                .andExpect(jsonPath(expectId,"good12132").exists())
+                .andExpect(jsonPath(expectByOrderitemId,1111L).exists())
+                .andExpect(jsonPath("code",is(ResultCode.SUCCESS.getCode())))
+                .andExpect(jsonPath("message",is(ResultCode.SUCCESS.getMessage())));
+        then(sellerService).should().checkOrderDetails(11L);
     }
 
     @DisplayName("상품 등록_상품명길이짧음")

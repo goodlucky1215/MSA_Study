@@ -42,8 +42,8 @@ public class SellerController {
         return new Result(result, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
-    @PostMapping("memberOrderitemStatus")
-    public Result<String> memberOrderitemStatus(Long orderitemId) {
+    @PostMapping("memberOrderitemStatus/{orderitemId}")
+    public Result<String> memberOrderitemStatus(@PathVariable("orderitemId") Long orderitemId) {
         log.info("orderitemId {}",orderitemId);
         sellerService.changeMemberOrderitemStatus(orderitemId);
         return new Result("고객 주문 확인 변경", ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());

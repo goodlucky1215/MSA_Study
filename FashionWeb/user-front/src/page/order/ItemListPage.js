@@ -14,7 +14,6 @@ function ItemListPage() {
 
   const navigate = useNavigate();
   const OrderButton = (i) => {
-    console.log(items[i].itemId, itemCounts[i]);
     let orderItemDto = [ {
       itemId : items[i].itemId,
       orderQuantity : itemCounts[i],

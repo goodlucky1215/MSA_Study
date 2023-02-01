@@ -81,17 +81,11 @@ export async function checkOrderDetails(setOrders,setErrorMessage) {
 };
 
 export async function memberOrderitemStatus(orderitemId,setErrorMessage) {
-    let loginUserData = {
-        orderitemId : orderitemId
-      };
     await axios
-        .post('/seller-service/memberOrderitemStatus',
-        loginUserData
-        )
+        .post('/seller-service/memberOrderitemStatus/'+orderitemId)
         .then(function (response){
             console.log(response);
             if(response.data.code!=="S") alert(response.data.message);
-            //else setOrders(response.data.data);
         })
         .catch(function (error){
             alert("다시 시도해주세요.");

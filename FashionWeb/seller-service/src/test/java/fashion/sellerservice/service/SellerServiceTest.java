@@ -1,9 +1,6 @@
 package fashion.sellerservice.service;
 
-import fashion.sellerservice.dto.ItemRegisterDto;
-import fashion.sellerservice.dto.SellerInfoDto;
-import fashion.sellerservice.dto.SellerItemListDto;
-import fashion.sellerservice.dto.SellerJoinDto;
+import fashion.sellerservice.dto.*;
 import fashion.sellerservice.entity.*;
 import fashion.sellerservice.exception.JoinException;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
@@ -252,4 +250,43 @@ class SellerServiceTest {
 
     }
 
+    @DisplayName("고객들이 주문한 목록")
+    @Test
+    public void getMemberOrderList(){
+        //given
+        Seller seller = Seller.builder()
+                .id("lucky")
+                .companyName("블랙토끼회사")
+                .passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+        Item item = Item.builder()
+                .seller(seller)
+                .itemName("컵이 그려진 후드티")
+                .price(1212121L)
+                .quantity(100L)
+                .category(Category.top)
+                .build();
+        em.persist(item);
+        Member member = Member.builder()
+                .nickname("gaga")
+                .id("member")
+                .password("1234")
+                .build();
+        em.persist(member);
+        Orderitem orderitem = Orderitem.createOrderitem(item,10L);
+        List<Orderitem> orderitems = new ArrayList<>();
+        orderitems.add(orderitem);
+        Orders orders = Orders.createOrder(member, orderitems);
+        em.persist(orders);
+
+        //when
+        List<OrderDetailsDto> result = sellerService.checkOrderDetails(seller.getSellerId());
+
+        //then
+        assertEquals("컵이 그려진 후드티", result.get(0).getItemName());
+        assertEquals(10, result.get(0).getOrderQuantity());
+        assertEquals("member", result.get(0).getId());
+        assertEquals(1, result.size());
+    }
 }

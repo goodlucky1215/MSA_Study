@@ -40,14 +40,12 @@ public class SellerserviceApplication {
         return modelMapper;
     }
 
-    //@Autowired
-    //EntityManager em;
-/*
+    @Autowired
+    EntityManager em;
+
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager em){
         return new JPAQueryFactory(em);
     }
 
-
- */
 }

@@ -1,9 +1,6 @@
 package fashion.sellerservice.service;
 
-import fashion.sellerservice.dto.ItemRegisterDto;
-import fashion.sellerservice.dto.SellerInfoDto;
-import fashion.sellerservice.dto.SellerItemListDto;
-import fashion.sellerservice.dto.SellerJoinDto;
+import fashion.sellerservice.dto.*;
 import fashion.sellerservice.entity.Item;
 import fashion.sellerservice.entity.OrderStatus;
 import fashion.sellerservice.entity.Orderitem;
@@ -259,10 +256,28 @@ class SellerServiceImplTest {
 
     }
 
-    /*
+    @DisplayName("고객들이 주문한 목록")
+    @Test
+    public void getMemberOrderList(){
+        //given
+        List<OrderDetailsDto> orderDetailsDtos = new ArrayList<>();
+        OrderDetailsDto orderDetailsDto = new OrderDetailsDto();
+        orderDetailsDto.setId("consumer");
+        orderDetailsDto.setItemName("예쁜 꽃 원피스");
+        orderDetailsDto.setOrderPrice(200000L);
+        orderDetailsDto.setOrderQuantity(4L);
+        orderDetailsDto.setOrderStatus(OrderStatus.ORDER);
+        orderDetailsDto.setOrderitemId(20L);
+        orderDetailsDtos.add(orderDetailsDto);
+        when(itemRepository.checkOrderDetails(11L)).thenReturn(orderDetailsDtos);
 
-    //고객 주문 목록
-    List<Map> getMemberOrderList(Long sellerId);
+        //when
+        List<OrderDetailsDto> result = sellerService.checkOrderDetails(11L);
 
-     */
+        //then
+        assertEquals("예쁜 꽃 원피스", result.get(0).getItemName());
+        assertEquals(4, result.get(0).getOrderQuantity());
+        assertEquals("consumer", result.get(0).getId());
+        assertEquals(1, result.size());
+    }
 }

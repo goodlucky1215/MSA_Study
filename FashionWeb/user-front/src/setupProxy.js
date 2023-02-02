@@ -11,6 +11,7 @@ module.exports = function(app) {
 
 };
 
+
 module.exports = function(app) {
     app.use( 
         createProxyMiddleware(['/seller-service','/login'],

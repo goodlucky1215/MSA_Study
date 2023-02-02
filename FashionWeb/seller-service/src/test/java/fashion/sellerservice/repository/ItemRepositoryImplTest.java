@@ -1,5 +1,6 @@
 package fashion.sellerservice.repository;
 
+import fashion.sellerservice.dto.OrderDetailsDto;
 import fashion.sellerservice.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -26,7 +27,7 @@ class ItemRepositoryImplTest {
     EntityManager em;
 
     @DisplayName("주문 상품 정보 가져오기_성공")
-    //@Test
+    @Test
     @RepeatedTest(100)
     public void orderitem_info_success(){
         //given
@@ -159,4 +160,45 @@ class ItemRepositoryImplTest {
         assertEquals("원숭이",result.get(0).getSeller().getCompanyName());
         assertEquals("원숭이",result.get(1).getSeller().getCompanyName());
     }
+
+    @DisplayName("고객들이 주문한 목록")
+    @Test
+    public void checkOrderDetails(){
+        //given
+        Seller seller = Seller.builder()
+                .id("seller10")
+                .companyName("원숭이")
+                .passwordEncrypt("1234")
+                .build();
+        em.persist(seller);
+        Item item = Item.builder()
+                .seller(seller)
+                .itemName("알록달록한 명품 겟찌 트위드 자켓")
+                .price(1989900L)
+                .quantity(43L)
+                .category(Category.outer)
+                .build();
+        em.persist(item);
+        Member member = Member.builder()
+                .id("member1")
+                .nickname("칸쵸님")
+                .password("1234")
+                .build();
+        em.persist(member);
+        Orderitem orderitem = Orderitem.createOrderitem(item, 4L);
+        List<Orderitem> orderitems = new ArrayList(){{ add(orderitem); }};
+        Orders order = Orders.createOrder(member, orderitems);
+        em.persist(order);
+
+
+        //when
+        List<OrderDetailsDto> result = itemRepository.checkOrderDetails(seller.getSellerId());
+
+        //then
+        assertEquals("알록달록한 명품 겟찌 트위드 자켓", result.get(0).getItemName());
+        assertEquals(4, result.get(0).getOrderQuantity());
+        assertEquals("member1", result.get(0).getId());
+        assertEquals(1, result.size());
+    }
+
 }

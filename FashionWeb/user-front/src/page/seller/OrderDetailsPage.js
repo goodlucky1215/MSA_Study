@@ -9,20 +9,20 @@ function OrderDetailsPage() {
     checkOrderDetails(setOrders,setErrorMessage);
   },[]);
 
-  const orderStatusButton = (orderitemId) => {
-    memberOrderitemStatus(orderitemId,setErrorMessage);
-    checkOrderDetails(setOrders,setErrorMessage);
-    getOrderList();
+  const orderStatusButton = async (orderitemId,index) => {
+    await memberOrderitemStatus(orderitemId, orders, setOrders,index);
   };
 
-  const getOrderList = () => {
-    const result = [];
-    result.push(
-
-        <table key={1} border="1" bordercolor="blue" width="1000" height="100">
+  return (
+    <div className="App">
+      <h1>고객 주문 목록</h1>
+      <div>
+        {orders!==undefined && orders.length>0 && 
+        
+        <table border="1" bordercolor="blue" width="1000" height="100">
           
           <tbody>
-            <tr key={2} align = "center" bgcolor="skybule">
+            <tr align = "center" bgcolor="skybule">
               <td  width ="600">상품 이름</td>
               <td  width ="200">아이디</td>
               <td  width ="100">갯수</td>
@@ -33,7 +33,7 @@ function OrderDetailsPage() {
             </tr>
             {
               orders.map((value,index) => (
-                <tr key={index+2} align = "center">
+                <tr key={index} align = "center">
                   <td width ="600">{value.itemName}</td>
                   <td width ="200">{value.id}</td>
                   <td width ="100">{value.orderQuantity}</td>
@@ -42,7 +42,7 @@ function OrderDetailsPage() {
                   <td width ="100">{value.orderStatus}</td>
                   {value.orderStatus==="ORDER" &&
                   <td>
-                    <button onClick={() => orderStatusButton(value.orderitemId)}>확인</button>
+                    <button onClick={() => orderStatusButton(value.orderitemId,index)}>확인</button>
                   </td>
                   }
                 </tr>
@@ -51,14 +51,8 @@ function OrderDetailsPage() {
           </tbody>
           
         </table>
-    )
-    return result;
-  }
-  return (
-    <div className="App">
-      <h1>고객 주문 목록</h1>
-      <div>
-        {orders!==undefined && orders.length>0 && getOrderList()}
+        
+        }
         {errorMessage!==undefined && errorMessage.length>0 && <div>{errorMessage}</div>}
       </div>
     </div>

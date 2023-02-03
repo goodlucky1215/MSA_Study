@@ -33,6 +33,7 @@ public class ItemRepositoryImpl implements ItemRepository{
                 .leftJoin(qOrderitem.item, qItem)
                 .leftJoin(qOrderitem.order, qOrders)
                 .where(likeItemSellerId(sellerId))
+                .orderBy(qOrderitem.orderitemId.desc())
                 .fetch();
         return orderitems;
     }

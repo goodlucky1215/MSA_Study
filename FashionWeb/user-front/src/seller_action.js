@@ -69,7 +69,6 @@ export async function checkOrderDetails(setOrders,setErrorMessage) {
     .get('/seller-service/checkOrderDetails'
     )
     .then(function (response){
-        console.log(response);
         if(response.data.code!=="S") alert(response.data.message+" 주문 목록을 다시 새로고침 해주세요.");
         else if(response.data.data.length===0) setErrorMessage("주문된 상품 목록이 없습니다.");
         else setOrders(response.data.data);
@@ -80,12 +79,16 @@ export async function checkOrderDetails(setOrders,setErrorMessage) {
     });    
 };
 
-export async function memberOrderitemStatus(orderitemId,setErrorMessage) {
+export async function memberOrderitemStatus(orderitemId, orders, setOrders, index) {
     await axios
         .post('/seller-service/memberOrderitemStatus/'+orderitemId)
         .then(function (response){
-            console.log(response);
             if(response.data.code!=="S") alert(response.data.message);
+            else{      
+                let afterOrders = [...orders];
+                afterOrders[index].orderStatus="READY";
+                setOrders(afterOrders);
+            }
         })
         .catch(function (error){
             alert("다시 시도해주세요.");

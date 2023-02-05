@@ -38,6 +38,7 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter # 로그인, 회원가입 외에는 jwt토큰 인증이 필요하다.
+
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
@@ -53,6 +54,23 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: seller-service
+          uri: lb://SELLER-SERVICE
+          predicates:
+            - Path=/seller-service/joinSeller,/seller-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/seller-service/(?<segment>.*), /$\{segment}
+        - id: seller-service
+          uri: lb://SELLER-SERVICE
+          predicates:
+            - Path=/seller-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/seller-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
 token:

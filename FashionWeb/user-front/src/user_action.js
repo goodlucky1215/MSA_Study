@@ -57,7 +57,10 @@ export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
         )
         .then(function (response){
             if(response.data.code !== "S") setErrorMessage(response.data.message);
-            else setNickname(response.data.data.nickname);
+            else {
+                setNickname(response.data.data.nickname);
+                setErrorMessage("");
+            }
         })
         .catch(function (error){
             setErrorMessage("재 로그인 해주세요.");

@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("seller-service")
+@RequestMapping//("seller-service")
 @Slf4j
 public class SellerController {
 

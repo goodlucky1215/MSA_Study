@@ -17,7 +17,7 @@ export async function register(registerUserData,setErrorMessage,navigate) {
 
 export async function login(loginUserData,setErrorMessage,navigate) {
     await axios
-        .post('/login',
+        .post('/seller-service/login',
             loginUserData,
         )
         .then(function (response){

@@ -107,9 +107,9 @@ b. 단위테스트
 - 단위테스트에서는 Repository클래스는 @Mock을 사용한다.  
 - @Mock이 붙은 목객체(repository)를 @InjectMocks(service)이 붙은 객체에 주입시킬 수 있다.
 - 레이어 테스트 시, Dto&Entity 테스트 방법  
-=> when~thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
+=> when ~ thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
 => 그러나 service의 return값은 dto이다.  
-=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when~thenReturn으로 결과값 작성을 해야한다.
+=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when ~ thenReturn으로 결과값 작성을 해야한다.
 - ModelMapper의 when~thenReturn 시, return값이 List라면 배열을 나눠서 return해야한다.  
 => ex)  
    List<Item>  mi = makeItems();  
@@ -129,10 +129,10 @@ b. 단위테스트
 => willThrow(에러 클래스).given(서비스 객체).void메소드();
   
 
-(4) when~thenReturn(Mockito) vs given~willReturn(BDDMockito)   
+(4) when ~ thenReturn(Mockito) vs given ~ willReturn(BDDMockito)   
 - BDDMockito가 제공하는 기능과 Mockito가 제공하는 기능은 별반 다르지 않다.(BDDMockito의 코드를 살펴보면 Mockito을 상속한 클래스)    
-- BDDMockito의 메소드 명을 보면 given~willReturn에서 볼 수 있듯이 Given, When, Then 구조에 더 잘 맞춰진 것이다. 메소드명으로 Given인지 알아보기가 쉽다.  
-=> when~thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.  
+- BDDMockito의 메소드 명을 보면 given ~ willReturn에서 볼 수 있듯이 Given, When, Then 구조에 더 잘 맞춰진 것이다. 메소드명으로 Given인지 알아보기가 쉽다.  
+=> when ~ thenReturn이 given에 있으면 마치 When단계에 있어야하는 거처럼 보인다.  
 - 이 외로도 BDD 기본 패턴의 then에서 사용되는 Mockito에서 제공하는 verify() 도 then().should() 로 대체될 수 있다.  
 
 6. JPA

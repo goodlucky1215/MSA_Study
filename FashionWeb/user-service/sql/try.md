@@ -48,7 +48,7 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 - 대문자 -> 소문자
 
 (4) ModelMapper 사용 시, @setter가 entity에 없다면 변환 안되서 null로 찍히는 문제 발생  
-- 아래와 같이 사용하면 private값에대해서도 @Setter없이도 mapper가 적용된다.  
+- ModelMapper 클래스 생성할 때 아래의 set정보를 넣어주면 private값에대해서도 @Setter없이도 mapper가 적용된다.  
 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
 .setFieldMatchingEnabled(true);
 
@@ -56,12 +56,13 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 - [장점]  
   => 간편하다. 코드량이 줄어든다.
 - [단점]  
-  => 모델이 단순하지 않을 경우 오히려 복잡해진다.  
-  => 수동으로는 오류를 잡을 수 없고 무조건 실행야 오류를 발견할 수 있다. (수동으로 만들면 entity <-> dto 변환 시 컴파일 시 오류 발견하기 좋다.)  
+  => 모델이 단순하지 않을 경우 오히려 복잡해진다. ex) 연관관계  
+  => 수동으로는 오류를 잡을 수 없고 무조건 실행해야 오류(런타임 에러)를 발견할 수 있다. (수동으로 만들면 entity <-> dto 변환 시 컴파일 시 오류(컴파일타임 에러) 발견하기 좋다.)  
   => ModelMapper는 동시성 성능 이슈가 있다. 수천 TPS의 리엑티브 모델에서는 이 부분이 명확하게 병목으로 나왔다. (수천 TPS가 안되는 상황에서는 상관없음.)
 
 (6) builder 패턴 사용하고, JPA Update값(수정)이 있을시 수정이 안되는 문제 발생  
--  더티체크를 위해서 setter를 사용하지 않고, changeXxx 같은 식으로 사용해도 엔티티 내부의 필드 값을 변경하면, 데티체크가 일어나고, 실제 UPDATE 쿼리를 실행시킬 수 있다.
+-  더티체크를 위해서 setter를 사용하지 않고, changeXxx 등 메소드를 만들어서 엔티티 내부의 필드 값을 변경하면, 데티체크가 일어나고, 실제 UPDATE 쿼리를 실행시킬 수 있다.
+   => setter를 되도록 사용하지 말자는거지 아예 쓰지 말라는 것은 아님!! 유연하게 사용하자.  
 -  @Builder(toBuilder = true) 이런식으로 사용하고 save해도 되는데 이는 더티체크가 아닌 새로운 엔티티를 생성하는 것이다.
 
 4. 회원가입, 로그인 암호화 방식 사용
@@ -69,7 +70,7 @@ null로 날리지 않게 값을 정의하는 방식으로 사용할 수 있다.
 (1) BCryptPasswordEncoder  
 - Bcrypt알고리즘으로 암호화 => 랜덤 salt를 부여하여 여러번 Hash를 적용한 암호화 방식
 - 복호화가 불가능한 단방향 알고리즘이다. 현재 사용되는 해시 알고리즘 중에 가장 강력한 암호화 방식  
-- SHA알고리즘은 동일한 평문일 경우 해시값이 같지만, Bcrypt는 동일한 평문도 해시값이 다름 ex)비번1234를 두번 Bcrypt사용 시 해시값이 다른다.  
+- SHA알고리즘은 동일한 평문일 경우 해시값이 같지만, Bcrypt는 동일한 평문도 해시값이 다름 ex)비번1234를 두번 Bcrypt사용 시 해시값이 다르다.  
 - 해시에 의해 암호화된 데이터를 다이제스트(digest)라고 부른다.
 - 반복횟수와 salt를 이용한 것인데, 반복회수는 new BCryptPasswordEncoder(반복횟수 입력 가능 n) 로 해서,
 암호화된 값을 또 암호화 시키는 것을 의미한다. 즉 n번 암호화해서 만들어낸다. 그러나 반복횟수도 결국 해커가 
@@ -84,7 +85,7 @@ a. http.headers().frameOptions().disable(); //X-Frame-OPtions를 비활성화하
 b. http.headers().frameOptions().sameOrigin(); //이걸 사용하면 된다, 동일 도메인에서 iframe 접근이 가능하도록 X-Frame-OPtions을 sameOrigin 한 것이다.  
 c. properties에서 security.headers.frame=false 로 설정해도 된다.
 
-5. test해보기(Junit)  
+5. TDD_test해보기(Junit)  
 
 a. 기초  
 (1) @Mock : 스프링빈에 등록이 안되는 객체
@@ -100,7 +101,7 @@ a. 기초
 b. 단위테스트  
 
 (1) Repository
-- @DataJpaTest를 클래스 위에 붙여서 사용하면 됨 => 그러나 spring data JPA를 쓰는 것이 아닌 내가 만든 repository면 @Autowirde가 안된다.    
+- @DataJpaTest를 클래스 위에 붙여서 사용하면 됨 => 그러나 spring data JPA를 쓰는 것이 아닌 내가 만든 repository면 @Autowierd가 안된다.    
 - 그러므로 만든 Repository일 경우에, Repository는 어차피 내부에 로직이 거의 없고, 기능 대부분을 EntityManager에 의존하기 때문에, @SpringBootTest를 그냥 사용하면 된다.  
   
 (2) Service  
@@ -109,7 +110,7 @@ b. 단위테스트
 - 레이어 테스트 시, Dto&Entity 테스트 방법  
 => when ~ thenReturn으로 Repository결과값을 처리한다고하더라도, entity의 결과값을 뱉어낸다.  
 => 그러나 service의 return값은 dto이다.  
-=>그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when ~ thenReturn으로 결과값 작성을 해야한다.
+=> 그래서 우리가 사이에 mapper를 사용하는데, 이 mapper역시 when ~ thenReturn으로 결과값 작성을 해야한다.
 - ModelMapper의 when~thenReturn 시, return값이 List라면 배열을 나눠서 return해야한다.  
 => ex)  
    List<Item>  mi = makeItems();  
@@ -118,13 +119,12 @@ b. 단위테스트
    when(mapper.map(eq(mi.get(1)),eq(ItemDto.class))).thenReturn(makeItemsDto().get(1));  
 
 (3) Controller  
-
 - @WebMvcTest(컨트롤러 클래스.class)를 사용  
 => 해당 클래스만 실제로 로드하여 테스트를 해준다.  
 => (컨트롤러 클래스.class)를 넣지 않으면, 모든 Controller어노테이션이 들어간 클래스들이 전부 로드 된다.  
 - MockMvc클래스 사용 => 컨트롤러의 api를 테스트하는 용도이다.  
 - Service클래스는 @MockBean을 사용한다.  
-=>WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.
+=> WebMvcTest어노테이션으로 테스트하면, 스프링이 로드하긴한다. 따라서, 컨트롤러 안의 service클래스는 @MockBean으로 가짜 빈을 스프링컨테이너에 넣어서 DI에 사용한다.
 - service가 void return type일 때, Exception Test 해야할 경우(given 넣는 법)  
 => willThrow(에러 클래스).given(서비스 객체).void메소드();
   

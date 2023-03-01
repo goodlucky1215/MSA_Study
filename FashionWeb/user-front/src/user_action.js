@@ -1,4 +1,7 @@
 import axios from 'axios';
+import axiosInstance from './axiosConfig';
+
+axiosInstance.get('http://localhost:3000/user-service/userInfo')
 
 export async function login(loginUserData,setErrorMessage,navigate) {
     await axios

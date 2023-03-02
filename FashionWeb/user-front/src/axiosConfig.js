@@ -1,5 +1,4 @@
 // axiosConfig.js
-import React from 'react';
 import axios from 'axios';
 const axiosInstance = axios.create({
   timeout: 5000,

@@ -1,7 +1,4 @@
 import axios from 'axios';
-import axiosInstance from './axiosConfig';
-
-axiosInstance.get('http://localhost:3000/user-service/userInfo')
 
 export async function login(loginUserData,setErrorMessage,navigate) {
     await axios
@@ -39,6 +36,12 @@ export async function register(registerUserData,setErrorMessage,navigate) {
 export async function userInfo(setNickname,setGrade,setErrorMessage) {
     await axios
         .get('/user-service/userInfo',
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    pkId: localStorage.getItem('pkId')
+                }
+            }
         )
         .then(function (response){
             if(response.data.code !== "S")setErrorMessage(response.data.message);
@@ -56,7 +59,7 @@ export async function userInfo(setNickname,setGrade,setErrorMessage) {
 export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
     await axios
         .post('/user-service/nicknamechange',
-            UserInfoDto
+            UserInfoDto,
         )
         .then(function (response){
             if(response.data.code !== "S") setErrorMessage(response.data.message);

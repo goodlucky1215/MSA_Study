@@ -33,12 +33,15 @@ public class MemberController {
 
     @GetMapping("/userInfo")
     public Result<MemberInfoDto> userInfo(HttpServletRequest request){
+        log.info("userInfo Controller start");
         MemberInfoDto memberInfoDto = userService.getUserInfo(Long.parseLong(request.getHeader("pkId")));
+        log.info("userInfo Controller end");
         return new Result(memberInfoDto, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/nicknamechange")
     public Result<MemberInfoDto> nickNameChange(@Validated @RequestBody MemberInfoDto memberInfoDto, HttpServletRequest request){
+        log.info("nickNameChage Controller");
         MemberInfoDto changeMemberInfoDto = userService.userNicknameChange(memberInfoDto,Long.parseLong(request.getHeader("pkId")));
         return new Result(changeMemberInfoDto,ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
     }

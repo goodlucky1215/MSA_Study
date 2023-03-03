@@ -33,6 +33,7 @@ import reactor.core.publisher.Mono;
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+            log.info("request.getHeaders : {}",request.getHeaders().get(HttpHeaders.AUTHORIZATION));
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "로그인을 다시 해주세요", HttpStatus.UNAUTHORIZED);
             }

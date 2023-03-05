@@ -37,6 +37,12 @@ export async function saveItem(itemRegisterData,setErrorMessage,navigate) {
     await axios
         .post('/seller-service/saveItem',
             itemRegisterData,
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    sellerId: localStorage.getItem('sellerId')
+                }
+            }
         )
         .then(function (response){
             if(response.data.code === "S") navigate("/SellerItemsPage");
@@ -51,6 +57,12 @@ export async function saveItem(itemRegisterData,setErrorMessage,navigate) {
 export async function sellerItems(setOrders, setErrorMessage) {
     await axios
         .get('/seller-service/sellerItems',
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    sellerId: localStorage.getItem('sellerId')
+                }
+            }
         )
         .then(function (response){
             if(response.data.code!=="S") alert(response.data.message+" 주문 목록을 다시 새로고침 해주세요.");
@@ -66,7 +78,13 @@ export async function sellerItems(setOrders, setErrorMessage) {
 
 export async function checkOrderDetails(setOrders,setErrorMessage) {
     await axios
-    .get('/seller-service/checkOrderDetails'
+    .get('/seller-service/checkOrderDetails',
+        {
+            headers:{
+                Authorization: 'Bearer' + localStorage.getItem('token'),
+                sellerId: localStorage.getItem('sellerId')
+            }
+        }
     )
     .then(function (response){
         if(response.data.code!=="S") alert(response.data.message+" 주문 목록을 다시 새로고침 해주세요.");
@@ -81,7 +99,15 @@ export async function checkOrderDetails(setOrders,setErrorMessage) {
 
 export async function memberOrderitemStatus(orderitemId, orders, setOrders, index) {
     await axios
-        .post('/seller-service/memberOrderitemStatus/'+orderitemId)
+        .post('/seller-service/memberOrderitemStatus/'+orderitemId,
+            {},
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    sellerId: localStorage.getItem('sellerId')
+                }
+            }
+        )
         .then(function (response){
             if(response.data.code!=="S") alert(response.data.message);
             else{      
@@ -91,7 +117,7 @@ export async function memberOrderitemStatus(orderitemId, orders, setOrders, inde
             }
         })
         .catch(function (error){
-            alert("다시 시도해주세요.");
+            alert("다시 시도해주세요!");
         });
 };
 
@@ -101,7 +127,7 @@ export async function memberOrderitemStatus(orderitemId, orders, setOrders, inde
 ////////////////////////////로그인 시 토큰 정보 가지고 있기///////////////////////////
 function successfulLoginForJwt(token,sellerid) {
     localStorage.setItem('token', token);
-    localStorage.setItem('sellerid', sellerid);
+    localStorage.setItem('sellerId', sellerid);
     setupAxiosInterceptors();
 };
 
@@ -109,10 +135,10 @@ function setupAxiosInterceptors() {
     axios.interceptors.request.use(
         config => {
             const token = localStorage.getItem('token');
-            const sellerid = localStorage.getItem('sellerid');
+            const sellerid = localStorage.getItem('sellerId');
             if(token  && sellerid){
                 config.headers['Authorization'] = 'Bearer' + token;
-                config.headers['sellerid'] = sellerid;
+                config.headers['sellerId'] = sellerid;
             }
             return config;
         },

@@ -60,6 +60,12 @@ export async function nicknameChange(UserInfoDto,setNickname,setErrorMessage) {
     await axios
         .post('/user-service/nicknamechange',
             UserInfoDto,
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    pkId: localStorage.getItem('pkId')
+                }
+            }
         )
         .then(function (response){
             if(response.data.code !== "S") setErrorMessage(response.data.message);

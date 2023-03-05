@@ -3,6 +3,12 @@ import axios from 'axios';
 export async function itemList(setItems, setItemCounts, setErrorMessage) {
     await axios
         .get('/order-service/itemList',
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    pkId: localStorage.getItem('pkId')
+                }
+            }
         )
         .then(function (response){
             let items = response.data.data;
@@ -23,7 +29,13 @@ export async function itemList(setItems, setItemCounts, setErrorMessage) {
 export async function order(orderItemDto,navigate) {
     await axios
         .post('/order-service/order',
-            orderItemDto
+            orderItemDto,
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    pkId: localStorage.getItem('pkId')
+                }
+            }
         )
         .then(function (response){
             if(response.data.code==="S") navigate("/OrderListPage");
@@ -39,6 +51,12 @@ export async function order(orderItemDto,navigate) {
 export async function orderList(setOrders) {
     await axios
         .get('/order-service/orderList',
+            {
+                headers:{
+                    Authorization: 'Bearer' + localStorage.getItem('token'),
+                    pkId: localStorage.getItem('pkId')
+                }
+            }
         )
         .then(function (response){
             console.log(response);

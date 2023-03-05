@@ -29,7 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/**").permitAll(); //인중절차없이 리소스 접근 허용
         //http.authorizeRequests().antMatchers("/**");
         http.addFilter(getAuthenticationFilter());
-        http.headers().frameOptions().sameOrigin();
+        //http.headers().frameOptions().sameOrigin();
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {

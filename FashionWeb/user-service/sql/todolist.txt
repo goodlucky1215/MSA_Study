@@ -1,4 +1,2 @@
-- 나중에 controller 완성 후, http.headers().frameOptions().sameOrigin(); 이거 있을때 없을 때 시험해보기
-- 스프링 시큐리티 좀 더 보기 => 새로고침시에도 유지 가능하게 하는 법 찾아보기
 - cors 좀 더 보기
 - 성능개선 @RepeatedTest 이용해서 봐보기

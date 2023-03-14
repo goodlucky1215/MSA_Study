@@ -33,7 +33,7 @@ RUN echo 'welcome to my web~~' > /var/www/html/index.html
 # 80포트를 노출
 EXPOSE 80
 
-# RUN, CMD, ENTRYPOINT의 명령어가 실행되는 디렉터리를 설정한다
+# RUN, CMD, ENTRYPOINT의 명령어가 실행되는 디렉터리를 설정한다. 컨테이너 실행 시 기본 경로로 설정된다.
 WORKDIR /var/www/html
 
 # 이미지가 컨테이너로 실행될 때 아파치 서비스를 자동으로 실행되게 한다.

@@ -1,0 +1,10 @@
+1. 리액트
+2. nginx
+3. 자바
+1) apigateway
+2) eurekaservice
+3) user-service
+4) order-service
+5) seller-service
+4. DB_posetgreSQL
+총 8개

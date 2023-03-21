@@ -1,19 +1,14 @@
-FROM python:3.8-alpine
-RUN apk update && \
-        apk add --no-cache \
-        bash
-RUN apk add --update build-base python3-dev py-pip
+FROM node:18-alpine
 
-ENV LIBRARY_PATH=/lib:/usr/lib
-ENV FLASK_APP=py_app
-ENV FLASK_ENV=development
+MAINTAINER "lucky <lucky@com>"
 
-EXPOSE 9000
+LABEL perpose = 'fashionweb frontend' \
+      version = '1.0' \
+      description = 'fashionweb frontend'
 
-WORKDIR /py_app
-COPY ./app/ .
+RUN npm install \
+        react-scripts@3.0.1 -g
 
-RUN pip install -r requirements.txt
+WORKDIR /react_app
 
-ENTRYPOINT ["python"]
-CMD ["py_app.py"]
+CMD ["npm","start"]

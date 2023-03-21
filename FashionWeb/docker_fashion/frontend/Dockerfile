@@ -7,7 +7,7 @@ LABEL perpose = 'fashionweb frontend' \
       description = 'fashionweb frontend'
 
 RUN npm install \
-        react-scripts@3.0.1 -g
+        react-scripts@5.0.1 -g
 
 WORKDIR /react_app
 

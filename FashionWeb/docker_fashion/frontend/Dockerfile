@@ -6,9 +6,8 @@ LABEL perpose = 'fashionweb frontend' \
       version = '1.0' \
       description = 'fashionweb frontend'
 
-RUN npm install \
-        react-scripts@5.0.1 -g
-
 WORKDIR /react_app
+COPY ./user-front/ ./
+RUN npm install
 
 CMD ["npm","start"]

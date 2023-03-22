@@ -1,3 +1,6 @@
+#  nginx:
+#  backend: 도커파일 RUN npm install이 나중에 깔려야하는이유 / node 3000포트 켜지는 거 확인 / 내부 3001포트로 되어있는지 확인
+#  db:
 version: "3"
 services:
   frontend:
@@ -6,6 +9,4 @@ services:
       dockerfile: .
     ports:
       - "3000:3001"
-  nginx:
-  backend:
-  db:
+    restart: always

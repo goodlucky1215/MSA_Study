@@ -7,7 +7,9 @@ LABEL perpose = 'fashionweb frontend' \
       description = 'fashionweb frontend'
 
 WORKDIR /react_app
-COPY ./user-front/ ./
+COPY ./user-front/package.json ./
+COPY ./user-front/package-lock.json ./
+COPY ./user-front ./
 RUN npm install
 
 CMD ["npm","start"]

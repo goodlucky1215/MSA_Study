@@ -1,5 +1,5 @@
 #  nginx:
-#  backend: 도커파일 RUN npm install이 나중에 깔려야하는이유
+#  backend:
 #  db:
 version: "3"
 services:

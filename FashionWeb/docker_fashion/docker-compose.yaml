@@ -28,7 +28,9 @@ services:
     ports:
       - "3000:3000"
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: .
     ports:
       - "80:80"
       - "443:443"

@@ -29,7 +29,7 @@ services:
       - "3000:3000"
   nginx:
     build:
-      context: ./nginx
+      context: ./nginxfile
       dockerfile: .
     ports:
       - "80:80"

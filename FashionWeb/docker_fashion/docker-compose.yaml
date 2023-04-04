@@ -22,12 +22,14 @@
 version: "3"
 services:
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
       dockerfile: .
     ports:
       - "3000:3000"
   nginx:
+    container_name: nginx
     build:
       context: ./nginxfile
       dockerfile: .

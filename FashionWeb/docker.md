@@ -65,3 +65,13 @@
 
 3. Nginx expose port 80 외에도 443을 넣는 이유.  
    => 향후 https를 사용할 수도 있기 때문이다.
+
+4. Nginx - default.conf
+
+```
+upstream frontend {
+  server frontend:3000; //여기서 frontend는 docker-compose에 설정해둔 컨테이너 이름이다.(server ip:포트)
+}
+```
+
+=> server ip:port를 적는 것인데 컨테이너의 ip가 필요하기 때문에 컨테이너 이름을 설정해야한다.

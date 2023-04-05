@@ -37,3 +37,11 @@ services:
       - "80:80"
     depends_on:
       - frontend
+      - backend
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: .
+    ports:
+      - "7500:7500"

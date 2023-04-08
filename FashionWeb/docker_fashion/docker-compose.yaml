@@ -37,11 +37,39 @@ services:
       - "80:80"
     depends_on:
       - frontend
-      - backend
-  backend:
-    container_name: backend
+      - backend_api-gateway
+  backend_api-gateway:
+    container_name: backend_api-gateway
     build:
-      context: ./backend
+      context: ./backend_api-gateway
       dockerfile: .
     ports:
       - "7500:7500"
+  backend_eureka-server:
+    container_name: backend_eureka-server
+    build:
+      context: ./backend_eureka-server
+      dockerfile: .
+    ports:
+      - "8761:8761"
+  backend_user-service:
+    container_name: backend_user-service
+    build:
+      context: ./backend_user-service
+      dockerfile: .
+    ports:
+      - "9600:9600"
+  backend_order-service:
+    container_name: backend_order-service
+    build:
+      context: ./backend_order-service
+      dockerfile: .
+    ports:
+      - "9601:9601"
+  backend_seller-service:
+    container_name: backend_seller-service
+    build:
+      context: ./backend_seller-service
+      dockerfile: .
+    ports:
+      - "9602:9602"

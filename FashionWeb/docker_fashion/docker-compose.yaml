@@ -1,5 +1,3 @@
-#  nginx:
-#  backend:
 #  db:
 
 #version: "3"

@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
-WORKDIR JAR_FILE=fashion-eureka.jar
+ARG JAR_FILE=fashion-eureka.jar
 COPY ${JAR_FILE}  eureka-server.jar
 ENTRYPOINT ["java","-jar","/eureka-server.jar"]

@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=fashion-apigateway.main.jar
-COPY ${JAR_FILE}  fashion-apigateway.jar
-ENTRYPOINT ["java","-jar","/fashion-apigateway.jar"]
+WORKDIR /app
+COPY fashion-apigateway.main.jar  /app/fashion-apigateway.jar
+ENTRYPOINT ["java","-jar","/app/fashion-apigateway.jar"]

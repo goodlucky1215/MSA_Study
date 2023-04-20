@@ -31,6 +31,14 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes["Main-Class"] = "fashion.fashioneureka.FashionEurekaApplication"
+    }
+}
+
 jar{
     enabled=false
 }

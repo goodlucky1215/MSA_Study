@@ -10,6 +10,8 @@
 
 - -d 옵션  
   => 백그라운드에 컨테이너 실행 ex) run -itd OR run -it -d
+  => ex) -d가 있으면, 한 cmd 창에서 다른 명령어(docker ps, docker logs 등)를 사용가능  
+   ex) -d가 없으면, 이 cmd 창에서 켜지기 때문에 다른 명령어를 사용하고 싶다면 새로운 cmd창을 열어야한다.
 - apt-get install -y "패키지"  
   => -y옵션은 설치 시 나타나는 모든 물음에 yes를 허용하겠다는 옵션
 

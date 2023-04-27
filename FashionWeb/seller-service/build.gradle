@@ -1,14 +1,9 @@
-//querydsl 추가
-buildscript {
-    dependencies {
-        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
+    id 'war'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'fashion'
@@ -43,12 +38,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.google.code.gson:gson:2.9.0'
 
-    //querydsl 추가 - test에서 클래스 인식 하기 위해서
-    testImplementation("org.junit.vintage:junit-vintage-engine") {
-        exclude group: "org.hamcrest", module: "hamcrest-core"
-    }
-    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
     //querydsl 추가
     implementation 'com.querydsl:querydsl-jpa'
     //querydsl 추가
@@ -88,26 +77,32 @@ def querydslDir = "$buildDir/generated/querydsl"
 
 // JPA 사용여부 및 사용 경로 설정
 querydsl {
-    library = "com.querydsl:querydsl-apt"
     jpa = true
     querydslSourcesDir = querydslDir
 }
 
 // build시 사용할 sourceSet 추가 설정
 sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java', querydslDir]
-        }
-    }
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
 }
 
 // querydsl 컴파일 시 사용할 옵션 설정
-compileQuerydsl{
+compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
 
-// querydsl이 compileClassPath를 상속하도록 설정
-configurations {
-    querydsl.extendsFrom compileClasspath
+
+
+/** 처음 빌드할 때는 문제가 없는데 다음 빌드부터는 계속 에러가 발생하는 현상이 생김. 아래를 추가하면 해결 됨.
+ * comileQuerydsl.doFirst 추가
+   빌드할 때마다 compileQuerydsl 작업 전에 generated/querydsl package를 삭제하고,
+   다시 컴파일해서 생성하도록 해서 문제는 없어졌습니다.
+ */
+compileQuerydsl.doFirst {
+    if(file(querydslDir).exists() )
+        delete(file(querydslDir))
 }

@@ -2,14 +2,11 @@ plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
-    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'fashion'
 version = '0.0.1'
 sourceCompatibility = '1.8'
-
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 configurations {
     compileOnly {
@@ -36,12 +33,6 @@ dependencies {
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.2'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.google.code.gson:gson:2.9.0'
-
-    //querydsl 추가
-    implementation 'com.querydsl:querydsl-jpa'
-    //querydsl 추가
-    implementation 'com.querydsl:querydsl-apt'
-
     //테스트
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
@@ -55,8 +46,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:4.8.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.8.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-
-    implementation group: 'org.springframework.boot', name: 'spring-boot-maven-plugin'
 }
 
 dependencyManagement {
@@ -67,41 +56,4 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-// querydsl 사용할 경로 지정합니다. 현재 지정한 부분은 .gitignore에 포함되므로 git에 올라가지 않습니다.
-//querydsl 추가
-//def querydslDir = 'src/main/generated'
-def querydslDir = "$buildDir/generated/querydsl"
-
-// JPA 사용여부 및 사용 경로 설정
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-
-// build시 사용할 sourceSet 추가 설정
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
-// querydsl 컴파일 시 사용할 옵션 설정
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-
-
-
-/** 처음 빌드할 때는 문제가 없는데 다음 빌드부터는 계속 에러가 발생하는 현상이 생김. 아래를 추가하면 해결 됨.
- * comileQuerydsl.doFirst 추가
-   빌드할 때마다 compileQuerydsl 작업 전에 generated/querydsl package를 삭제하고,
-   다시 컴파일해서 생성하도록 해서 문제는 없어졌습니다.
- */
-compileQuerydsl.doFirst {
-    if(file(querydslDir).exists() )
-        delete(file(querydslDir))
 }

@@ -1,22 +1,3 @@
-#  db:
-
-#version: "3"
-#services:
-#  frontend:
-#    build:
-#      context: ./frontend
-#      dockerfile: .
-#    ports:
-#      - "3000:3000"
-#  nginx:
-#    build: ./nginx
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    depends_on:
-#      - frontend
-#      - backend
-
 version: "3"
 services:
   frontend:

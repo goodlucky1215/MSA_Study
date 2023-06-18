@@ -77,3 +77,11 @@ upstream frontend {
 ```
 
 => server ip:port를 적는 것인데 컨테이너의 ip가 필요하기 때문에 컨테이너 이름을 설정해야한다.
+
+5. SpringBoot애플리케이션을 jar파일로 빌드할 때 db접속 정보 분리  
+   => 이터베이스 접속 정보를 하드코딩하지 않고 외부 설정으로 관리하는 것이 좋다. 도커 컨테이너를 실행할 때마다 유연하게 다른 데이터베이스 연결 정보를 사용할 수 있기때문이다.
+
+   - Spring Boot는 다음과 같은 우선 순위로 설정 파일을 읽는다.  
+      외부 설정 파일 (application.properties 또는 application.yml) -> 환경변수 (Environment Variables) -> 기본 내장 설정
+
+6.

@@ -20,6 +20,8 @@
   => 컨테이너에 이름 지정 (안하면 랜덤으로 도커가 생성함)
 - --restart=on-faulure  
   => 오류로 인해서 종료 되면 자동 재시작이 된다.
+- docker exec -it [접속할 컨테이너 이름] bash
+  => 켜져있는 컨테이너 접속할 때 쓰는 명령어, 마지막에 bash는 bash shell을 쓰겠다는 의미
 
 [dockerfile]
 

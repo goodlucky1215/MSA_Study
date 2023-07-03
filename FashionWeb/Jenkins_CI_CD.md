@@ -11,3 +11,11 @@
 [ Jenkins Plugin ]
 
 - Deploy to container : 이 플러그인을 설치해야, 패키징한 war파일을 톰캣(was)에 복사해 넣을 수 있다.
+
+[ tomcat ]
+
+- docker에서 tomcat 구동시 404 에러  
+  => 해결 방법  
+   (1) rm webapps  
+   (2) mv webapps.dist webapps  
+  => docker에서 tomcat 생성시 webapps는 빈폴더로 생성되고, webapps.dist가 진짜 사용되는 폴더이다.
